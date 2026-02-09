@@ -36,17 +36,22 @@ class ChineseEmbeddingService:
         self.model_name = getattr(
             settings,
             "CHINESE_EMBEDDING_MODEL",
-            "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+            "BAAI/bge-m3",
         )
-        self.target_dim = 512
+        self.target_dim = getattr(settings, "CHINESE_EMBEDDING_DIM", 1024)
         self.executor = ThreadPoolExecutor(max_workers=2)
         self._initialized = False
+        
+        # Cache for tag embeddings
+        self._tag_embeddings_cache: Dict[str, np.ndarray] = {}
+        self._tag_names_cache: List[str] = []
+        self._tag_matrix_cache: Optional[np.ndarray] = None
 
         # Initialize model if enabled
         if getattr(settings, "USE_CHINESE_EMBEDDINGS", True):
             self._init_model()
 
-def _init_model(self):
+    def _init_model(self):
         """Initialize the sentence transformer model."""
         if not SENTENCE_TRANSFORMERS_AVAILABLE:
             logger.warning("sentence-transformers not available, using fallback mode")
@@ -68,8 +73,8 @@ def _init_model(self):
             )
             
             # Test the model
-            test_embedding = self.model.encode(["测试"], convert_to_numpy=True)
-            self.target_dim = test_embedding.shape[0]
+            test_embedding = self.model.encode(["測試"], convert_to_numpy=True)
+            self.target_dim = test_embedding.shape[1] if len(test_embedding.shape) > 1 else test_embedding.shape[0]
             
             self._initialized = True
             logger.info(f"Chinese embedding model loaded successfully. Embedding dim: {self.target_dim}")
@@ -79,16 +84,15 @@ def _init_model(self):
             self.model = None
             self._initialized = False
 
-        def _cuda_available(self) -> bool:
-                """Check if CUDA is available."""
+    def _cuda_available(self) -> bool:
+        """Check if CUDA is available."""
         try:
             import torch
-
             return torch.cuda.is_available()
         except ImportError:
             return False
 
-        def is_available(self) -> bool:
+    def is_available(self) -> bool:
         """Check if the service is available."""
         return self._initialized and self.model is not None
 
@@ -112,7 +116,6 @@ def _init_model(self):
             embeddings = await loop.run_in_executor(
                 self.executor, self._encode_texts_sync, texts
             )
-
             return embeddings
 
         except Exception as e:
@@ -132,7 +135,6 @@ def _init_model(self):
             batch_size=32,
             show_progress_bar=False,
         )
-
         return embeddings
 
     async def encode_single(self, text: str) -> np.ndarray:
@@ -174,11 +176,11 @@ def _init_model(self):
         """
         Calculate cosine similarity between two texts.
 
-        Args:
-            text1: First text
-            text2: Second text
-
-        Returns:
+                Args:
+                    text1: First text
+                    text2: Second text
+        
+                Returns:
             Cosine similarity score (0-1)
         """
         try:
@@ -189,7 +191,6 @@ def _init_model(self):
 
             # Ensure result is in valid range
             similarity = max(0.0, min(1.0, float(similarity)))
-
             return similarity
 
         except Exception as e:
@@ -243,7 +244,6 @@ def _init_model(self):
                             "index": idx,
                         }
                     )
-
             return results
 
         except Exception as e:
@@ -287,7 +287,6 @@ def _init_model(self):
                 tag_results.append(
                     {"tag": result["text"], "similarity": result["similarity"]}
                 )
-
             return tag_results
 
         except Exception as e:
@@ -303,6 +302,87 @@ def _init_model(self):
             "initialized": self._initialized,
             "available": self.is_available(),
         }
+
+    async def cache_tag_embeddings(self, tags: List[str]):
+        """
+        Pre-compute and cache embeddings for a list of tags.
+        
+        Args:
+            tags: List of tag names to cache
+        """
+        if not self.is_available() or not tags:
+            return
+            
+        try:
+            logger.info(f"Caching embeddings for {len(tags)} tags...")
+            
+            # Filter out empty tags
+            valid_tags = [t for t in tags if t and t.strip()]
+            
+            # Encode all tags in batch
+            embeddings = await self.encode_batch(valid_tags)
+            
+            # Update cache
+            self._tag_embeddings_cache = {}
+            self._tag_names_cache = valid_tags
+            self._tag_matrix_cache = embeddings
+            
+            for i, tag in enumerate(valid_tags):
+                self._tag_embeddings_cache[tag] = embeddings[i]
+                
+            logger.info(f"Successfully cached {len(valid_tags)} tag embeddings")
+            
+        except Exception as e:
+            logger.error(f"Failed to cache tag embeddings: {e}")
+
+    async def search_cached_tags(
+        self, 
+        query: str, 
+        top_k: int = 5, 
+        threshold: float = 0.4
+    ) -> List[Dict[str, Any]]:
+        """
+        Search for tags using cached embeddings (extremely fast).
+        
+        Args:
+            query: Query text/keyword
+            top_k: Number of results
+            threshold: Similarity threshold
+            
+        Returns:
+            List of matches with tag and similarity
+        """
+        if not self._initialized or self._tag_matrix_cache is None:
+            logger.warning("Tag embeddings not cached, falling back to on-the-fly search")
+            return []
+
+        try:
+            # Encode query
+            query_embedding = await self.encode_single(query)
+            
+            # Calculate cosine similarity with matrix multiplication
+            similarities = np.dot(self._tag_matrix_cache, query_embedding)
+            
+            # Get top-k indices
+            if len(similarities) < top_k:
+                top_indices = np.argsort(similarities)[::-1]
+            else:
+                top_indices = np.argpartition(similarities, -top_k)[-top_k:]
+                top_indices = top_indices[np.argsort(similarities[top_indices])[::-1]]
+            
+            results = []
+            for idx in top_indices:
+                score = float(similarities[idx])
+                if score >= threshold:
+                    results.append({
+                        "tag": self._tag_names_cache[idx],
+                        "similarity": score
+                    })
+            return results
+            
+        except Exception as e:
+            logger.error(f"Cached tag search failed: {e}")
+            return []
 
     def __del__(self):
         """Cleanup resources."""

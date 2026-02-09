@@ -91,7 +91,7 @@ class TagRecommenderService:
         library_matches = self.tag_library.match_tags_by_keywords(
             mapped_keywords, min_confidence=0.5
         )
-        logger.info(f"Matched {len(library_matches)} tags from library")
+        logger.info(f"Matched {len(library_matches)} tags from library via string matching")
 
         for tag_name, confidence in library_matches:
             if confidence >= confidence_threshold:
@@ -103,6 +103,39 @@ class TagRecommenderService:
                         reason=f"Matched from VLM analysis: {', '.join(vlm_keywords[:3])}",
                     )
                 )
+
+        # 2.5 Semantic Search Matching (New Optimization)
+        from app.services.chinese_embedding_service import get_chinese_embedding_service
+        embedding_service = get_chinese_embedding_service()
+        
+        if embedding_service.is_available() and len(recommendations) < top_k:
+            logger.info("Performing semantic search matching for additional tags...")
+            
+            # Ensure tag library embeddings are cached (first run will be slow, then fast)
+            if not embedding_service._tag_matrix_cache:
+                all_tags = self.tag_library.get_all_tags()
+                await embedding_service.cache_tag_embeddings(all_tags)
+            
+            for keyword in mapped_keywords:
+                semantic_matches = await embedding_service.search_cached_tags(
+                    keyword, top_k=2, threshold=settings.CHINESE_EMBEDDING_THRESHOLD
+                )
+                
+                for s_match in semantic_matches:
+                    tag_name = s_match["tag"]
+                    similarity = s_match["similarity"]
+                    
+                    # Check if already in recommendations
+                    if not any(r.tag == tag_name for r in recommendations):
+                        recommendations.append(
+                            TagRecommendation(
+                                tag=tag_name,
+                                confidence=safe_confidence(similarity * 0.95), # Slight penalty for semantic match
+                                source="semantic_match",
+                                reason=f"Semantically related to '{keyword}' (score: {similarity:.2f})",
+                            )
+                        )
+                        logger.info(f"Added semantic match: {tag_name} for '{keyword}'")
 
         # 3. Extract tags from RAG matches (always do this, even if VLM fails)
         rag_tags = self._extract_rag_tags(rag_matches, confidence_threshold)

@@ -62,11 +62,10 @@ class Settings(BaseSettings):
     LOG_FORMAT: str = "json"
 
     # Chinese Embedding Settings
-    CHINESE_EMBEDDING_MODEL: str = (
-        "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-    )
+    CHINESE_EMBEDDING_MODEL: str = "BAAI/bge-m3"
+    CHINESE_EMBEDDING_DIM: int = 1024
     USE_CHINESE_EMBEDDINGS: bool = True
-    CHINESE_EMBEDDING_THRESHOLD: float = 0.3
+    CHINESE_EMBEDDING_THRESHOLD: float = 0.4  # Slightly higher for BGE-M3
     CHINESE_EMBEDDING_TOP_K: int = 10
 
     # Hybrid Search Settings

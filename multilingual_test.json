@@ -1,0 +1,17 @@
+{
+  "貓娘": {
+    "count": 3,
+    "top_match": "貓",
+    "score": 0.8064
+  },
+  "蘿莉": {
+    "count": 3,
+    "top_match": "魔物娘",
+    "score": 0.5168
+  },
+  "cat girl": {
+    "count": 3,
+    "top_match": "貓",
+    "score": 0.7727
+  }
+}
