@@ -1,0 +1,70 @@
+{
+  "貓娘": {
+    "count": 5,
+    "top_3": [
+      {
+        "tag": "魔物娘",
+        "similarity": 0.7618
+      },
+      {
+        "tag": "蜘蛛娘",
+        "similarity": 0.7537
+      },
+      {
+        "tag": "蜂娘",
+        "similarity": 0.7531
+      }
+    ]
+  },
+  "蘿莉": {
+    "count": 5,
+    "top_3": [
+      {
+        "tag": "蘿莉",
+        "similarity": 0.7467
+      },
+      {
+        "tag": "低含量蘿莉",
+        "similarity": 0.7432
+      },
+      {
+        "tag": "歌德蘿莉裝",
+        "similarity": 0.7195
+      }
+    ]
+  },
+  "cat girl": {
+    "count": 5,
+    "top_3": [
+      {
+        "tag": "豬女孩",
+        "similarity": 0.7013
+      },
+      {
+        "tag": "狼女孩",
+        "similarity": 0.6823
+      },
+      {
+        "tag": "羊女孩",
+        "similarity": 0.6807
+      }
+    ]
+  },
+  "young girl school uniform": {
+    "count": 5,
+    "top_3": [
+      {
+        "tag": "男生制服",
+        "similarity": 0.671
+      },
+      {
+        "tag": "學校體育服",
+        "similarity": 0.6489
+      },
+      {
+        "tag": "魔法少女",
+        "similarity": 0.6456
+      }
+    ]
+  }
+}

@@ -10,9 +10,18 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
 from app.config import settings
+
+# Try to import sentence-transformers, but handle gracefully if not available
+try:
+    from sentence_transformers import SentenceTransformer
+    SENTENCE_TRANSFORMERS_AVAILABLE = True
+except ImportError as e:
+    logger = logging.getLogger(__name__)
+    logger.warning(f"sentence-transformers not available: {e}")
+    SentenceTransformer = None
+    SENTENCE_TRANSFORMERS_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -37,34 +46,41 @@ class ChineseEmbeddingService:
         if getattr(settings, "USE_CHINESE_EMBEDDINGS", True):
             self._init_model()
 
-    def _init_model(self):
+def _init_model(self):
         """Initialize the sentence transformer model."""
+        if not SENTENCE_TRANSFORMERS_AVAILABLE:
+            logger.warning("sentence-transformers not available, using fallback mode")
+            self.model = None
+            self._initialized = False
+            return
+            
         try:
             logger.info(f"Loading Chinese embedding model: {self.model_name}")
-
+            
             # Load model with appropriate device
             if self.device == "cuda" and not self._cuda_available():
                 logger.warning("CUDA not available, falling back to CPU")
                 self.device = "cpu"
-
-            self.model = SentenceTransformer(self.model_name, device=self.device)
-
+            
+            self.model = SentenceTransformer(
+                self.model_name,
+                device=self.device
+            )
+            
             # Test the model
             test_embedding = self.model.encode(["测试"], convert_to_numpy=True)
             self.target_dim = test_embedding.shape[0]
-
+            
             self._initialized = True
-            logger.info(
-                f"Chinese embedding model loaded successfully. Embedding dim: {self.target_dim}"
-            )
-
+            logger.info(f"Chinese embedding model loaded successfully. Embedding dim: {self.target_dim}")
+            
         except Exception as e:
             logger.error(f"Failed to initialize Chinese embedding model: {e}")
             self.model = None
             self._initialized = False
 
-    def _cuda_available(self) -> bool:
-        """Check if CUDA is available."""
+        def _cuda_available(self) -> bool:
+                """Check if CUDA is available."""
         try:
             import torch
 
@@ -72,7 +88,7 @@ class ChineseEmbeddingService:
         except ImportError:
             return False
 
-    def is_available(self) -> bool:
+        def is_available(self) -> bool:
         """Check if the service is available."""
         return self._initialized and self.model is not None
 
