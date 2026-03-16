@@ -26,12 +26,17 @@ class LMStudioEmbeddingService:
         self.api_key = settings.LM_STUDIO_API_KEY
         self.timeout = settings.REQUEST_TIMEOUT
 
-        # Try to use nomic-embed-text or other embedding model if available
+        # Try to use Qwen3-Embedding or other embedding model if available
         # Fall back to vision model if no dedicated embedding model
         self.model = getattr(
             settings,
             "LM_STUDIO_EMBEDDING_MODEL",
-            "text-embedding-nomic-embed-text-v1.5",
+            "Qwen/Qwen3-Embedding-8B-GGUF",
+        )
+        self.embedding_dim = getattr(
+            settings,
+            "LM_STUDIO_EMBEDDING_DIM",
+            4096,  # Qwen3-Embedding-8B 維度
         )
 
         logger.info(f"LM Studio embedding service initialized")
@@ -59,7 +64,7 @@ class LMStudioEmbeddingService:
             raise ValueError(f"Invalid image data: {e}")
 
     async def generate_embedding(
-        self, image_bytes: bytes, target_dim: int = 512
+        self, image_bytes: bytes, target_dim: int = 4096
     ) -> List[float]:
         """
         Generate embedding for image using LM Studio.
@@ -71,7 +76,7 @@ class LMStudioEmbeddingService:
 
         Args:
             image_bytes: Raw image bytes
-            target_dim: Target embedding dimension (default 512)
+            target_dim: Target embedding dimension (default 4096 for Qwen3-Embedding-8B)
 
         Returns:
             List of floats representing the embedding vector
@@ -189,7 +194,7 @@ class LMStudioEmbeddingService:
         return None
 
     def _adjust_dimension(
-        self, embedding: List[float], target_dim: int = 512
+        self, embedding: List[float], target_dim: int = 4096
     ) -> List[float]:
         """Adjust embedding dimension to target size."""
         current_dim = len(embedding)
@@ -203,7 +208,7 @@ class LMStudioEmbeddingService:
             # Pad with zeros if too small
             return embedding + [0.0] * (target_dim - current_dim)
 
-    def _text_to_embedding(self, text: str, target_dim: int = 512) -> List[float]:
+    def _text_to_embedding(self, text: str, target_dim: int = 4096) -> List[float]:
         """Convert text to deterministic embedding vector."""
         import hashlib
 
@@ -222,7 +227,7 @@ class LMStudioEmbeddingService:
         return embedding.tolist()
 
     def _generate_deterministic_embedding(
-        self, image_bytes: bytes, target_dim: int = 512
+        self, image_bytes: bytes, target_dim: int = 4096
     ) -> List[float]:
         """Generate deterministic embedding from image bytes."""
         import hashlib

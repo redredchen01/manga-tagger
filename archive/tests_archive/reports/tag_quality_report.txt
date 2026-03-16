@@ -1,0 +1,92 @@
+============================================================
+TAG LIBRARY QUALITY REPORT
+============================================================
+
+Total Tags: 100
+Total Issues: 202
+
+Issues by Severity:
+  ERROR: 0
+  WARNING: 107
+  INFO: 95
+
+Category Distribution:
+  character: 4
+  clothing: 1
+  other: 95
+
+Statistics:
+  Average Description Length: 33.2 chars
+  Tags with Keywords: 5 (5.0%)
+  Tags with Conflicts: 2
+
+Issues Found:
+------------------------------------------------------------
+
+WARNING (107):
+  [short_description] 年齡增長
+    Description is too short (7 chars)
+    Suggestion: Extend description to at least 10 characters
+  [no_keywords] 年齡增長
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 年齡回溯
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 返嬰癖
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 小朋友夥伴
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 老太婆
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 斷肢
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 大肌肉
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 身體改造
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+  [no_keywords] 連體
+    Tag has no visual keywords
+    Suggestion: Add at least 2 visual keywords for better matching
+    ... and 97 more
+
+INFO (95):
+  [uncategorized] 年齡增長
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 年齡回溯
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 返嬰癖
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 小朋友夥伴
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 老太婆
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 斷肢
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 大肌肉
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 身體改造
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 連體
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+  [uncategorized] 關節人偶
+    Tag is uncategorized or in 'other' category
+    Suggestion: Assign to appropriate category (character, body, clothing, action, theme)
+    ... and 85 more
+
+============================================================

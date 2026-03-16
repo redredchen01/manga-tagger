@@ -293,10 +293,66 @@ class TagRecommenderService:
                     # Let's remove it to be safe as per user request "not allowed to label wrong".
                     continue
             
-            final_verified_recommendations.append(rec)
-
-        unique_recommendations = final_verified_recommendations
-
+        # Tag frequency-based confidence calibration
+        # Rare tags get boost (harder to match = more specific), common tags get penalty
+        # This helps reduce false positives for over-represented tags
+        TAG_FREQUENCY_CALIBRATION = {
+            # Common tags (penalty) - appear too often in training data
+            "巨乳": 0.95, "貧乳": 0.95, "長髮": 0.98, "短髮": 0.98,
+            "金髮": 0.98, "黑髮": 0.98, "紅髮": 0.98,
+            "正太": 1.05, "獸娘": 1.08, "鯊魚娘": 1.08,
+            "人魚": 1.08, "龍娘": 1.08, "吸血鬼": 1.05, "惡魔": 1.05,
+            # Sensitive tags - need extra scrutiny (penalty to force verification)
+            "肛交": 0.90, "強姦": 0.90, "亂倫": 0.90,
+            "蘿莉": 0.92,  # Extra penalty to ensure verification
+        }
+        
+        for rec in unique_recommendations:
+            if rec.tag in TAG_FREQUENCY_CALIBRATION:
+                calib = TAG_FREQUENCY_CALIBRATION[rec.tag]
+                rec.confidence = rec.confidence * calib
+                if calib < 1.0:
+                    rec.reason += f" (freq penalty: {calib:.2f})"
+                else:
+                    rec.reason += f" (freq boost: {calib:.2f})"
+        
+        # Re-sort after frequency calibration
+        # Cross-validation: VLM tags with semantic RAG siblings get confidence boost
+        if rag_matches:
+            rag_tags = set()
+            for match in rag_matches:
+                rag_tags.update(match.get("tags", []))
+            
+            for rec in unique_recommendations:
+                if rec.source == "vlm" and rec.tag not in rag_tags:
+                    SEMANTIC_SIBLINGS = {
+                        "校服": {"學生", "學園", "學園少女"},
+                        "女僕": {"女僕裝", "執事"},
+                        "泳裝": {"海灘", "夏天"},
+                    }
+                    siblings = SEMANTIC_SIBLINGS.get(rec.tag, set())
+                    if siblings.intersection(rag_tags):
+                        rec.confidence = min(1.0, rec.confidence * 1.03)
+                        rec.reason += " (+semantic)"
+        
+        # Apply confidence decay for tags without RAG support
+        # Tags confirmed by multiple sources get boost, single source gets decay
+        RAG_SUPPORT_DECAY = 0.95  # 5% decay for tags without RAG confirmation
+        RAG_SUPPORT_BOOST = 1.05  # 5% boost for tags with RAG confirmation
+        
+        for rec in unique_recommendations:
+            if "rag" in rec.source.lower():
+                # Has RAG support - apply boost
+                rec.confidence = min(1.0, rec.confidence * RAG_SUPPORT_BOOST)
+                rec.reason += " (+RAG)"
+            elif rec.source == "vlm" or rec.source == "suggested":
+                # No RAG support - apply decay
+                rec.confidence = rec.confidence * RAG_SUPPORT_DECAY
+                rec.reason += " (no-RAG)"
+        
+        # Re-sort after adjustments
+        unique_recommendations.sort(key=lambda x: x.confidence, reverse=True)
+        
         logger.info(f"Returning {len(unique_recommendations)} tag recommendations")
         return unique_recommendations[:top_k]
 

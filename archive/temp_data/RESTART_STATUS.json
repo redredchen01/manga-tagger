@@ -1,0 +1,25 @@
+{
+  "status": "RESTARTED",
+  "components": {
+    "tag_mapper": {
+      "mappings": 90
+    },
+    "vector_store": {
+      "tags": 611
+    }
+  },
+  "tests": {
+    "large_breasts": "巨乳",
+    "loli": "蘿莉",
+    "catgirl": "貓娘"
+  },
+  "vector_search": {
+    "query": "巨乳",
+    "count": 3,
+    "top": [
+      "極乳",
+      "雌小鬼",
+      "大乳頭"
+    ]
+  }
+}

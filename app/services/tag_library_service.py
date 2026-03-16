@@ -265,8 +265,11 @@ class TagLibraryService:
                         len(keyword_lower) / len(tag_lower) if len(tag_lower) > 0 else 0
                     )
                     confidence = 0.8 + (ratio * 0.2)  # 0.8 to 1.0
-                    matches.append((tag_name, min(confidence, 1.0)))
+                    if confidence >= min_confidence:
+                        matches.append((tag_name, min(confidence, 1.0)))
                     continue
+
+                # Partial word match (only for keywords >= 4 chars)
 
                 # Partial word match (only for keywords >= 4 chars)
                 keyword_parts = keyword_lower.split()

@@ -47,7 +47,8 @@ class Settings(BaseSettings):
     CHROMA_DB_PATH: str = "./data/chroma_db"
     CHROMA_COLLECTION_NAME: str = "manga_covers"
     RAG_TOP_K: int = 5
-    RAG_SIMILARITY_THRESHOLD: float = 0.25  # Lower threshold for better recall
+    RAG_SIMILARITY_THRESHOLD: float = 0.50  # Raised for better precision (was 0.25)
+    LEXICAL_MATCH_THRESHOLD: float = 0.6  # Threshold for keyword-to-tag matching
 
     # Tag Library
     TAG_LIBRARY_PATH: str = "./data/tags.json"
@@ -65,7 +66,7 @@ class Settings(BaseSettings):
     CHINESE_EMBEDDING_MODEL: str = "BAAI/bge-m3"
     CHINESE_EMBEDDING_DIM: int = 1024
     USE_CHINESE_EMBEDDINGS: bool = True
-    CHINESE_EMBEDDING_THRESHOLD: float = 0.4  # Slightly higher for BGE-M3
+    CHINESE_EMBEDDING_THRESHOLD: float = 0.50  # Raised for better precision (was 0.4)
     CHINESE_EMBEDDING_TOP_K: int = 10
 
     # Hybrid Search Settings
@@ -77,6 +78,12 @@ class Settings(BaseSettings):
     GLM_BEGIN_TOKEN: str = "<|begin_of_text|>"
     GLM_END_TOKEN: str = "<|end_of_text|>"
     GLM_SPECIAL_TOKENS: list = [GLM_BEGIN_TOKEN, GLM_END_TOKEN]
+
+    # Precision Settings (strict tagging mode)
+    MIN_CONFIDENCE_THRESHOLD: float = (
+        0.55  # Global minimum - tags below this are rejected
+    )
+    USE_STRICT_PRECISION: bool = True  # Enable all precision optimizations
 
     @property
     def chroma_db_path(self) -> Path:

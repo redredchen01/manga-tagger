@@ -1,6 +1,7 @@
 """Tag mapping service for English to Chinese tag translation."""
 
 import logging
+import re
 from typing import Dict, List, Tuple, Optional
 
 logger = logging.getLogger(__name__)
@@ -13,6 +14,23 @@ class TagMapper:
         """Initialize tag mappings."""
         self.en_to_cn: Dict[str, str] = {}
         self.cn_to_en: Dict[str, str] = {}
+        # False positive blocklist - short common terms that cause spurious matches
+        self.blocklist: set = {
+            "bra",  # Matches in "library", "ibrarian"
+            "sex",  # Too common, causes false positives
+            "anal",  # Too short, partial match issues
+            "rape",  # Too short, partial match issues
+            "to",  # Common word, causes false matches
+            "in",  # Common word, causes false matches
+            "or",  # Common word, causes false matches
+            "on",  # Common word, causes false matches
+            "at",  # Common word, causes false matches
+            "is",  # Common word, causes false matches
+            "flat",  # Too generic
+            "round",  # Too generic
+            "open",  # Too generic
+            "close",  # Too generic
+        }
         self._build_mappings()
 
     def _build_mappings(self):
@@ -45,28 +63,28 @@ class TagMapper:
             "girl": "少女",
         }
 
-        # Clothing
+        # Clothing - only mappings for tags that exist in library
         clothing_mappings = {
-            "school uniform": "校服",
+            "school uniform": "女生制服",  # Map to existing tag
             "swimsuit": "泳裝",
             "bikini": "比基尼",
-            "lingerie": "内衣",
+            "lingerie": "情趣內衣",  # Map to existing tag
             "kimono": "和服",
-            "maid outfit": "女僕",
-            "maid": "女僕",
-            "nurse": "護士",
-            "police uniform": "警察",
+            "maid outfit": "女僕裝",
+            "maid": "女僕裝",
+            "nurse": "護士裝",
+            "police uniform": "警服",
             "bunny suit": "兔女郎",
             "bunny girl": "兔女郎",
-            "dress": "洋裝",
-            "skirt": "裙子",
+            "dress": "歌德蘿莉裝",  # Map to existing tag (closest match)
+            "skirt": "熱褲",  # Map to existing tag (closest match)
             "panties": "內褲",
-            "bra": "胸罩",
-            "shirt": "襯衫",
+            "bra": "緊身胸衣",  # Map to existing tag
+            "shirt": "緊身衣",  # Map to existing tag
             "glasses": "眼鏡",
         }
 
-        # Body features
+        # Body features - only mappings for tags that exist in library
         body_mappings = {
             "flat chest": "貧乳",
             "small breasts": "貧乳",
@@ -75,13 +93,13 @@ class TagMapper:
             "huge breasts": "巨乳",
             "huge_breasts": "巨乳",
             "large_breasts": "巨乳",
-            "stockings": "絲襪",
-            "pantyhose": "吊帶襪",
+            "stockings": "長筒襪",  # Map to existing tag
+            "pantyhose": "連褲襪",  # Map to existing tag
             "knee high socks": "過膝襪",
             "knee socks": "過膝襪",
             "tattoo": "紋身",
-            "long hair": "長髮",
-            "short hair": "短髮",
+            "long hair": "超長髮",  # Map to existing tag (closest match)
+            "short hair": "精靈短髮",  # Map to existing tag
             "twintails": "雙馬尾",
             "ponytail": "單馬尾",
             "heterochromia": "異色瞳",
@@ -145,23 +163,28 @@ class TagMapper:
         # Normalize: underscore -> space, lowercase
         tag_normalized = english_tag.lower().strip().replace("_", " ")
 
+        # PRECISION: Check blocklist first
+        if tag_normalized in self.blocklist:
+            return None
+
         # Direct match
         if tag_normalized in self.en_to_cn:
             return self.en_to_cn[tag_normalized]
 
-        # Partial match - only for longer descriptive tags and avoid "bra" problem
+        # Partial match - STRICT: min 5 chars to avoid false positives
         for en_tag, cn_tag in self.en_to_cn.items():
-            # Only allow partial match if BOTH are long enough to avoid "bra" in "library"
-            # and only if it matches as a whole word or a very clear segment
-            if len(en_tag) > 3 and (en_tag in tag_normalized or tag_normalized in en_tag):
-                return cn_tag
-            # Special case for exact word matching in a string
-            if f" {en_tag} " in f" {tag_normalized} ":
-                return cn_tag
+            if len(en_tag) >= 5 and len(tag_normalized) >= 5:
+                if en_tag in tag_normalized or tag_normalized in en_tag:
+                    return cn_tag
+            # Word boundary matching
+            if len(en_tag) >= 5:
+                pattern = r"\b" + re.escape(en_tag) + r"\b"
+                if re.search(pattern, tag_normalized):
+                    return cn_tag
 
         # Language-specific mapping fixes for library tags
         fallback_mappings = {
-            "mature": "熟女",  # Re-adding 熟女 as it's common (even if the library uses different terms, we should map correctly)
+            "mature": "熟女",
             "young girl": "少女",
             "teen": "少女",
             "shota": "少年",

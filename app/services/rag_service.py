@@ -148,9 +148,18 @@ class RAGService:
         Returns:
             List of match dictionaries with id, score, and tags
         """
+        import asyncio
+        
         try:
-            # Generate embedding for query image
-            query_embedding = await self._generate_embedding(image_bytes)
+            # Generate embedding for query image with timeout
+            try:
+                query_embedding = await asyncio.wait_for(
+                    self._generate_embedding(image_bytes), 
+                    timeout=5.0  # 5 second timeout for embedding
+                )
+            except asyncio.TimeoutError:
+                logger.warning("Embedding generation timed out, skipping RAG search")
+                return []
 
             # Search in ChromaDB
             if self.collection is not None and hasattr(self.collection, "query"):

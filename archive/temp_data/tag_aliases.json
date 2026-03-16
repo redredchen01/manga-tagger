@@ -1,0 +1,3573 @@
+{
+  "version": "1.0",
+  "description": "英文到中文標籤的別名映射表，用於 VLM 英文輸出匹配",
+  "aliases": {
+    "catgirl": [
+      "貓娘",
+      "貓耳娘",
+      "貓耳",
+      "cat_ears"
+    ],
+    "nekomusume": [
+      "貓娘",
+      "貓耳娘"
+    ],
+    "doggirl": [
+      "犬娘",
+      "狗娘"
+    ],
+    "foxgirl": [
+      "狐娘",
+      "狐狸娘"
+    ],
+    "kitsune": [
+      "狐娘",
+      "狐狸娘"
+    ],
+    "maiden": [
+      "少女",
+      "少女"
+    ],
+    "loli": [
+      "蘿莉"
+    ],
+    "lolicons": [
+      "蘿莉",
+      "蘿莉控"
+    ],
+    "shota": [
+      "正太"
+    ],
+    "trap": [
+      "偽娘",
+      "人妖"
+    ],
+    "femboy": [
+      "偽娘",
+      "女裝大佬"
+    ],
+    "futa": [
+      "扶他",
+      "雙性人"
+    ],
+    "hermaphrodite": [
+      "雙性人",
+      "扶他"
+    ],
+    "futanari": [
+      "扶他",
+      "雙性人"
+    ],
+    "big_breasts": [
+      "巨乳",
+      "大胸部",
+      "爆乳"
+    ],
+    "oppai": [
+      "巨乳",
+      "胸部"
+    ],
+    "large_breasts": [
+      "巨乳"
+    ],
+    "small_breasts": [
+      "貧乳",
+      "平胸"
+    ],
+    "flat_chest": [
+      "貧乳",
+      "平胸"
+    ],
+    "平乳": [
+      "貧乳"
+    ],
+    "flat": [
+      "貧乳"
+    ],
+    "pubic_hair": [
+      "陰毛",
+      "恥毛"
+    ],
+    "hairless": [
+      "無毛",
+      "光滑"
+    ],
+    "shaved": [
+      "剃毛",
+      "無毛"
+    ],
+    "lingerie": [
+      "內衣",
+      "內衣褲"
+    ],
+    "bra": [
+      "胸罩",
+      "bra"
+    ],
+    "panties": [
+      "內褲"
+    ],
+    "thong": [
+      "丁字褲"
+    ],
+    "stockings": [
+      "絲襪"
+    ],
+    "garter_belt": [
+      "吊帶襪"
+    ],
+    "knee_high_socks": [
+      "過膝襪"
+    ],
+    "loose_socks": [
+      "過膝襪"
+    ],
+    "pantyhose": [
+      "褲襪"
+    ],
+    "tights": [
+      "褲襪",
+      "絲襪"
+    ],
+    "nude": [
+      "裸體",
+      "全裸"
+    ],
+    "naked": [
+      "裸體",
+      "裸露"
+    ],
+    "nudity": [
+      "裸露",
+      "裸體"
+    ],
+    "censored": [
+      "有碼",
+      "馬賽克"
+    ],
+    "uncensored": [
+      "無碼"
+    ],
+    "mosaic_censoring": [
+      "有碼",
+      "馬賽克"
+    ],
+    "swimsuit": [
+      "泳裝",
+      "泳衣"
+    ],
+    "bikini": [
+      "比基尼"
+    ],
+    "school_uniform": [
+      "校服",
+      "學校泳裝"
+    ],
+    "sailor_uniform": [
+      "水手服",
+      "水手校服"
+    ],
+    "gym_uniform": [
+      "體操服"
+    ],
+    "sportswear": [
+      "運動服"
+    ],
+    "cheerleader": [
+      "啦啦隊",
+      "啦啦隊制服"
+    ],
+    "maid": [
+      "女僕",
+      "女僕裝"
+    ],
+    "servant": [
+      "女僕"
+    ],
+    "waitress": [
+      "女服務生"
+    ],
+    "nurse": [
+      "護士"
+    ],
+    "doctor": [
+      "醫生"
+    ],
+    "police": [
+      "警察",
+      "警官"
+    ],
+    "officer": [
+      "警官"
+    ],
+    "teacher": [
+      "老師",
+      "教師"
+    ],
+    "student": [
+      "學生"
+    ],
+    "glasses": [
+      "眼鏡"
+    ],
+    "eyeglasses": [
+      "眼鏡"
+    ],
+    "meganekko": [
+      "眼鏡娘"
+    ],
+    "blindfold": [
+      "眼罩",
+      "遮掩布"
+    ],
+    "bandage": [
+      "繃帶",
+      "包紮"
+    ],
+    "scar": [
+      "疤痕",
+      "傷疤"
+    ],
+    "tattoo": [
+      "紋身"
+    ],
+    "piercing": [
+      "穿孔"
+    ],
+    "hair_color": [
+      "髮色",
+      "頭髮顏色"
+    ],
+    "blonde": [
+      "金髮",
+      " blonde"
+    ],
+    "brown_hair": [
+      "棕髮",
+      " brown"
+    ],
+    "black_hair": [
+      "黑髮"
+    ],
+    "white_hair": [
+      "白髮",
+      "銀髮"
+    ],
+    "silver_hair": [
+      "銀髮",
+      "白髮"
+    ],
+    "red_hair": [
+      "紅髮",
+      "赤髮"
+    ],
+    "blue_hair": [
+      "藍髮"
+    ],
+    "green_hair": [
+      "綠髮"
+    ],
+    "pink_hair": [
+      "粉紅髮"
+    ],
+    "purple_hair": [
+      "紫髮"
+    ],
+    "orange_hair": [
+      "橙髮"
+    ],
+    "grey_hair": [
+      "灰髮"
+    ],
+    "multicolored_hair": [
+      "多彩髮",
+      "漸層髮"
+    ],
+    "long_hair": [
+      "長髮"
+    ],
+    "short_hair": [
+      "短髮"
+    ],
+    "medium_hair": [
+      "中長髮"
+    ],
+    "very_long_hair": [
+      "超長髮"
+    ],
+    "twintails": [
+      "雙馬尾"
+    ],
+    "ponytail": [
+      "馬尾"
+    ],
+    "braided_hair": [
+      "辮子"
+    ],
+    "ahoge": [
+      "呆毛"
+    ],
+    "melt": [
+      "融化"
+    ],
+    "stuffed_toy": [
+      "布娃娃",
+      "玩具"
+    ],
+    "cum": [
+      "精液",
+      " cum",
+      "射精"
+    ],
+    "cum_in_pussy": [
+      "中出",
+      "體內射精"
+    ],
+    "creampie": [
+      "中出",
+      " creampie",
+      "內射"
+    ],
+    "anal": [
+      "肛交",
+      " anal",
+      "肛門"
+    ],
+    "vaginal": [
+      "陰道",
+      "陰道交",
+      "穴"
+    ],
+    "sex": [
+      "性交",
+      "做愛"
+    ],
+    "intercourse": [
+      "性交"
+    ],
+    "handjob": [
+      "手淫",
+      "打手槍",
+      "手交"
+    ],
+    "blowjob": [
+      "口交",
+      "口內射精"
+    ],
+    "fellatio": [
+      "口交"
+    ],
+    "deepthroat": [
+      "深喉",
+      "深喉嚨"
+    ],
+    "threesome": [
+      "三人行"
+    ],
+    "mmf": [
+      "3P",
+      "兩男一女"
+    ],
+    "fffm": [
+      "3P",
+      "兩女一男"
+    ],
+    "orgy": [
+      "群交",
+      "濫交"
+    ],
+    "gangbang": [
+      "輪姦",
+      "多人輪流"
+    ],
+    "double_penetration": [
+      "雙穴",
+      "二穴"
+    ],
+    "nipples": [
+      "乳頭"
+    ],
+    "breast_feeding": [
+      "哺乳",
+      "母乳"
+    ],
+    "lactation": [
+      "哺乳"
+    ],
+    "milking": [
+      "擠奶"
+    ],
+    "pregnant": [
+      "懷孕",
+      "孕婦"
+    ],
+    "pregnancy": [
+      "懷孕"
+    ],
+    "belly": [
+      "腹部",
+      "肚子"
+    ],
+    "cervix": [
+      "子宮頸"
+    ],
+    "stretching": [
+      "拉伸"
+    ],
+    "inflation": [
+      "膨脹",
+      "腹部腫脹"
+    ],
+    "stomach_bulge": [
+      "腹部腫脹"
+    ],
+    "vore": [
+      "吞噬",
+      "体內"
+    ],
+    "unbirth": [
+      " unbirth",
+      "子宫内",
+      "胎內回歸"
+    ],
+    "maw": [
+      "嘴巴"
+    ],
+    "cockvore": [
+      "鸡鸡吞噬"
+    ],
+    "balls": [
+      "睾丸",
+      "蛋蛋"
+    ],
+    "testicles": [
+      "睾丸"
+    ],
+    "penis": [
+      "陰莖",
+      "雞雞"
+    ],
+    "dick": [
+      "陰莖",
+      "鸡鸡"
+    ],
+    "cock": [
+      "陰莖"
+    ],
+    "clitoris": [
+      "陰蒂",
+      "小豆豆"
+    ],
+    "vagina": [
+      "陰道",
+      "穴"
+    ],
+    "pussy": [
+      "陰道",
+      "穴"
+    ],
+    "ass": [
+      "屁股",
+      "臀部"
+    ],
+    "butt": [
+      "臀部"
+    ],
+    "anus": [
+      "肛門"
+    ],
+    "butthole": [
+      "肛門"
+    ],
+    "ejaculation": [
+      "射精"
+    ],
+    "cumflation": [
+      "精液膨脹"
+    ],
+    "muscle": [
+      "肌肉",
+      "肌肉發達"
+    ],
+    "big_ass": [
+      "大屁股",
+      "巨臀"
+    ],
+    "thick": [
+      "豐滿",
+      "胖"
+    ],
+    "skinny": [
+      "瘦",
+      "纖細"
+    ],
+    "skinnies": [
+      "纖細"
+    ],
+    "fat": [
+      "胖",
+      "豐滿"
+    ],
+    "chubby": [
+      "微胖",
+      "豐滿"
+    ],
+    "curvy": [
+      "曲線",
+      "豐滿"
+    ],
+    "hourglass": [
+      "沙漏型身材"
+    ],
+    "slim": [
+      "苗條"
+    ],
+    "thick_thighs": [
+      "粗大腿",
+      "大腿"
+    ],
+    "legs": [
+      "腿",
+      "美腿"
+    ],
+    "feet": [
+      "腳",
+      "足"
+    ],
+    "footjob": [
+      "足交"
+    ],
+    "toes": [
+      "腳趾"
+    ],
+    "armpit": [
+      "腋窩",
+      "腋下"
+    ],
+    "armpits": [
+      "腋窩"
+    ],
+    "stomach": [
+      "腹部",
+      "肚子"
+    ],
+    "belly_button": [
+      "肚臍"
+    ],
+    "navel": [
+      "肚臍"
+    ],
+    "jeans": [
+      "牛仔褲"
+    ],
+    "shorts": [
+      "短褲"
+    ],
+    "skirt": [
+      "裙子"
+    ],
+    "dress": [
+      "連衣裙",
+      "洋裝"
+    ],
+    "jacket": [
+      "夾克",
+      "外套"
+    ],
+    "coat": [
+      "外套",
+      "大衣"
+    ],
+    "hoodie": [
+      "連帽衫"
+    ],
+    "sweater": [
+      "毛衣"
+    ],
+    "tshirt": [
+      "T恤"
+    ],
+    "t_shirt": [
+      "T恤"
+    ],
+    "pants": [
+      "褲子"
+    ],
+    "leotard": [
+      "緊身衣"
+    ],
+    "bodysuit": [
+      "緊身衣",
+      "連體衣"
+    ],
+    "latex": [
+      "乳膠",
+      "乳膠衣"
+    ],
+    "rubber": [
+      "乳膠"
+    ],
+    "leather": [
+      "皮革",
+      "皮衣"
+    ],
+    "pvc": [
+      "PVC",
+      "膠衣"
+    ],
+    "lace": [
+      "蕾絲"
+    ],
+    "ribbons": [
+      "緞帶",
+      "絲帶"
+    ],
+    "bow": [
+      "蝴蝶結"
+    ],
+    "hairband": [
+      "髮帶"
+    ],
+    "hair_bow": [
+      "蝴蝶結髮夾"
+    ],
+    "headband": [
+      "頭帶"
+    ],
+    "cat_ears": [
+      "貓耳"
+    ],
+    "fox_ears": [
+      "狐耳"
+    ],
+    "dog_ears": [
+      "犬耳"
+    ],
+    "wolf_ears": [
+      "狼耳"
+    ],
+    "wolf_girl": [
+      "狼娘",
+      "狼女孩"
+    ],
+    "wolf_tail": [
+      "狼尾"
+    ],
+    "tail": [
+      "尾巴"
+    ],
+    "wings": [
+      "翅膀"
+    ],
+    "feather": [
+      "羽毛"
+    ],
+    "angel_wings": [
+      "天使翅膀"
+    ],
+    "demon_wings": [
+      "惡魔翅膀"
+    ],
+    "bat_wings": [
+      "蝙蝠翅膀"
+    ],
+    "dragon_wings": [
+      "龍翅膀"
+    ],
+    "furry": [
+      "毛絨",
+      "毛絨角色",
+      "福瑞"
+    ],
+    "yiff": [
+      "獸交",
+      "獸人"
+    ],
+    "anthro": [
+      "擬人化",
+      "獸人"
+    ],
+    "feral": [
+      "野獸",
+      "獸類"
+    ],
+    "monster_girl": [
+      "魔物娘",
+      "怪物娘"
+    ],
+    "gargoyle": [
+      "石像鬼"
+    ],
+    "demon": [
+      "惡魔"
+    ],
+    "devil": [
+      "惡魔"
+    ],
+    "devil_girl": [
+      "惡魔娘"
+    ],
+    "angel": [
+      "天使"
+    ],
+    "angel_girl": [
+      "天使娘"
+    ],
+    "fairy": [
+      "妖精",
+      "仙女"
+    ],
+    "elf": [
+      "精靈"
+    ],
+    "mermaid": [
+      "人魚",
+      "魚尾娘",
+      "美人魚"
+    ],
+    "mermaid_girl": [
+      "人魚娘"
+    ],
+    "ghost": [
+      "幽靈",
+      "鬼"
+    ],
+    "spirit": [
+      "幽靈"
+    ],
+    "skeleton": [
+      "骨骼",
+      "骷髏"
+    ],
+    "bone": [
+      "骨頭"
+    ],
+    "bones": [
+      "骨骼"
+    ],
+    "skull": [
+      "頭骨",
+      "骷髅"
+    ],
+    "undead": [
+      "不死族",
+      "殭屍"
+    ],
+    "zombie": [
+      "殭屍",
+      "喪屍"
+    ],
+    "zombie_girl": [
+      "喪屍娘"
+    ],
+    "robot": [
+      "機器人",
+      "機械人"
+    ],
+    "cyborg": [
+      "生化人",
+      "半機械人"
+    ],
+    "android": [
+      "安卓",
+      "機械人"
+    ],
+    "mecha": [
+      "機甲",
+      "機器人"
+    ],
+    "giantess": [
+      "巨乳孃",
+      "巨大女性",
+      "女巨人",
+      "巨大化"
+    ],
+    "giant": [
+      "巨人",
+      "巨大",
+      "巨大化"
+    ],
+    "growth": [
+      "成長",
+      "巨大化"
+    ],
+    "shrinking": [
+      "縮小",
+      "變小"
+    ],
+    "shrink": [
+      "縮小"
+    ],
+    "giant_girl": [
+      "巨大女性",
+      "巨乳娘"
+    ],
+    "breast_enlargement": [
+      "乳房膨脹"
+    ],
+    "breast_expansion": [
+      "乳房膨脹"
+    ],
+    "breast_shrink": [
+      "乳房縮小"
+    ],
+    "nipple_pussy": [
+      "乳交",
+      "乳穴交"
+    ],
+    "squirting": [
+      "潮吹"
+    ],
+    "female_ejaculation": [
+      "女性射精",
+      "潮吹"
+    ],
+    "scent": [
+      "香味",
+      "體香"
+    ],
+    "smell": [
+      "氣味"
+    ],
+    "fart": [
+      "放屁"
+    ],
+    "shit": [
+      "大便",
+      "糞便"
+    ],
+    "scat": [
+      "糞便",
+      " scat"
+    ],
+    "urination": [
+      "排尿",
+      "尿"
+    ],
+    "watersports": [
+      "尿",
+      " watersports",
+      "水上運動"
+    ],
+    "pee": [
+      "尿",
+      "小便"
+    ],
+    "diaper": [
+      "尿布",
+      "紙尿褲"
+    ],
+    "abdl": [
+      "成人尿布",
+      " abdl"
+    ],
+    "bondage": [
+      "綁縛",
+      "束縛"
+    ],
+    "tie": [
+      "綁",
+      "領帶"
+    ],
+    "restraint": [
+      "束縛",
+      "拘束"
+    ],
+    "cuffed": [
+      "手銬"
+    ],
+    "handcuffs": [
+      "手銬"
+    ],
+    "rope": [
+      "繩子",
+      "繩索"
+    ],
+    "shibari": [
+      "繩縛",
+      "日本綁縛"
+    ],
+    "suspension": [
+      "懸吊"
+    ],
+    "gag": [
+      "口球",
+      "塞口"
+    ],
+    "ball_gag": [
+      "口球"
+    ],
+    "dildo": [
+      "按摩棒",
+      "假陰莖"
+    ],
+    "sex_toy": [
+      "性玩具"
+    ],
+    "vibrator": [
+      "震動棒"
+    ],
+    "butt_plug": [
+      "肛塞"
+    ],
+    "anal_beads": [
+      "肛珠"
+    ],
+    "chastity": [
+      "貞操帶"
+    ],
+    "collar": [
+      "項圈"
+    ],
+    "leash": [
+      "牽繩"
+    ],
+    "pet_play": [
+      "寵物扮演"
+    ],
+    "petgirl": [
+      "寵物娘"
+    ],
+    "puppy_girl": [
+      "小狗娘"
+    ],
+    "pony_girl": [
+      "小馬娘"
+    ],
+    "horse_girl": [
+      "馬娘"
+    ],
+    "slave": [
+      "奴隸"
+    ],
+    "pet": [
+      "寵物"
+    ],
+    "master": [
+      "主人"
+    ],
+    "domination": [
+      "支配"
+    ],
+    "subordination": [
+      "服從",
+      "奴隸"
+    ],
+    "dom": [
+      "支配者"
+    ],
+    "sub": [
+      "服從者"
+    ],
+    "cbt": [
+      "陰莖折磨",
+      " cbt"
+    ],
+    "cock_and_ball_torture": [
+      "陰莖折磨"
+    ],
+    "ball_busting": [
+      "睾丸折磨"
+    ],
+    "pain": [
+      "疼痛",
+      "痛苦"
+    ],
+    "torture": [
+      "折磨"
+    ],
+    "guro": [
+      "殘忍",
+      "暴力"
+    ],
+    "blood": [
+      "血",
+      "血液"
+    ],
+    "gore": [
+      "血腥"
+    ],
+    "death": [
+      "死亡"
+    ],
+    "cannibalism": [
+      "食人"
+    ],
+    "incest": [
+      "亂倫"
+    ],
+    "rape": [
+      "強姦"
+    ],
+    "non_consensual": [
+      "非自願",
+      "強姦"
+    ],
+    "dubious_consent": [
+      "可疑同意"
+    ],
+    "sleep": [
+      "睡眠",
+      "睡覺"
+    ],
+    "sleeping": [
+      "睡眠",
+      "睡覺"
+    ],
+    "unconscious": [
+      "無意識"
+    ],
+    "drugs": [
+      "藥物",
+      "毒品"
+    ],
+    "mind_control": [
+      "精神控制"
+    ],
+    "hypnosis": [
+      "催眠"
+    ],
+    "brainwashing": [
+      "洗腦"
+    ],
+    "transformation": [
+      "變身",
+      "轉換"
+    ],
+    "tf": [
+      "變身"
+    ],
+    "age_progression": [
+      "年齡增長"
+    ],
+    "age_regression": [
+      "年齡回溯"
+    ],
+    "mental_corruption": [
+      "心智腐蝕"
+    ],
+    "memory_loss": [
+      "記憶喪失"
+    ],
+    "amnesia": [
+      "失憶"
+    ],
+    "xray": [
+      "透視"
+    ],
+    "anus_peeking": [
+      "肛門窺視"
+    ],
+    "armpit_fetish": [
+      "腋窩戀"
+    ],
+    "armpit_sex": [
+      "腋交",
+      "腋下交"
+    ],
+    "ass_job": [
+      "屁股交"
+    ],
+    "auto_fellatio": [
+      "自我口交"
+    ],
+    "bastard": [
+      "私生子"
+    ],
+    "bdsm": [
+      " BDSM",
+      "調教"
+    ],
+    "blackmail": [
+      "勒索"
+    ],
+    "breast_job": [
+      "乳交"
+    ],
+    "breast_sucking": [
+      "吸乳"
+    ],
+    "bukkake": [
+      "顏射",
+      "口內射精"
+    ],
+    "cheating": [
+      "出軌"
+    ],
+    "cheating_wife": [
+      "人妻出軌"
+    ],
+    "chikan": [
+      "痴漢"
+    ],
+    "cuckold": [
+      "綠帽",
+      "牛頭人"
+    ],
+    "cuckoldry": [
+      "綠帽"
+    ],
+    "cunnilingus": [
+      "舔陰"
+    ],
+    "daughter": [
+      "女兒"
+    ],
+    "defloration": [
+      "處女",
+      "破處"
+    ],
+    "dp": [
+      "雙穴"
+    ],
+    "drunk": [
+      "醉酒",
+      "酒醉"
+    ],
+    "electro": [
+      "電擊"
+    ],
+    "exhibitionism": [
+      "露陰癖"
+    ],
+    "exposed": [
+      "暴露"
+    ],
+    "face_sitting": [
+      "顏面騎乘",
+      "坐臉"
+    ],
+    "facials": [
+      "顏射"
+    ],
+    "facial": [
+      "顏射"
+    ],
+    "femdom": [
+      "女性支配"
+    ],
+    "fisting": [
+      "拳交"
+    ],
+    "foot_fetish": [
+      "戀足"
+    ],
+    "gay": [
+      "男同"
+    ],
+    "glory_hole": [
+      "洞口窺視"
+    ],
+    "harem": [
+      "後宮"
+    ],
+    "hentai": [
+      "變態",
+      " Hentai"
+    ],
+    "huge_dick": [
+      "巨根",
+      "巨屌"
+    ],
+    "huge_insertion": [
+      "巨大插入"
+    ],
+    "humiliation": [
+      "羞辱"
+    ],
+    "impregnation": [
+      "懷孕"
+    ],
+    "impregnated": [
+      "受孕"
+    ],
+    "infidelity": [
+      "出軌"
+    ],
+    "insect": [
+      "昆蟲"
+    ],
+    "insertion": [
+      "插入"
+    ],
+    "kissing": [
+      "親吻"
+    ],
+    "licking": [
+      "舔"
+    ],
+    "lovemuscle": [
+      "肌肉戀"
+    ],
+    "masturbation": [
+      "自慰"
+    ],
+    "menstruation": [
+      "月經"
+    ],
+    "midget": [
+      "矮子",
+      "小人"
+    ],
+    "milf": [
+      "熟女",
+      "人妻"
+    ],
+    "mother": [
+      "母親",
+      "媽媽"
+    ],
+    "mother_and_son": [
+      "母子"
+    ],
+    "multiple_penetration": [
+      "多洞"
+    ],
+    "naked_apron": [
+      "裸體圍裙"
+    ],
+    "navel_fetish": [
+      "肚臍戀"
+    ],
+    "navel_licking": [
+      "舔肚臍"
+    ],
+    "nc": [
+      "非自願"
+    ],
+    "netorare": [
+      " NTR",
+      "人妻共享",
+      "NTR"
+    ],
+    "netori": [
+      "人妻"
+    ],
+    "nipple": [
+      "乳頭"
+    ],
+    "ntr": [
+      " NTR",
+      "人妻共享"
+    ],
+    "oil": [
+      "油脂",
+      "塗油"
+    ],
+    "oiled": [
+      "塗油",
+      "潤滑"
+    ],
+    "oppai_loli": [
+      "巨乳蘿莉"
+    ],
+    "orgasm": [
+      "高潮"
+    ],
+    "paizuri": [
+      "乳交"
+    ],
+    "peeing": [
+      "撒尿"
+    ],
+    "petting": [
+      "愛撫"
+    ],
+    "pillory": [
+      "枷鎖"
+    ],
+    "pissing": [
+      "小便"
+    ],
+    "pregnant_sex": [
+      "孕婦性交"
+    ],
+    "prostate_massage": [
+      "前列缐按摩",
+      "前列腺按摩"
+    ],
+    "prostate": [
+      "前列缐"
+    ],
+    "prostitution": [
+      "賣淫"
+    ],
+    "public": [
+      "公共場所",
+      "戶外"
+    ],
+    "public_sex": [
+      "公共性愛"
+    ],
+    "pussy_juice": [
+      "愛液"
+    ],
+    "rimjob": [
+      "舔肛",
+      "舔屁眼"
+    ],
+    "rimming": [
+      "舔肛"
+    ],
+    "school_girl": [
+      "學生",
+      "學校的"
+    ],
+    "sex_toys": [
+      "性玩具"
+    ],
+    "shaved_pussy": [
+      "剃毛陰部"
+    ],
+    "shower": [
+      "淋浴"
+    ],
+    "sister": [
+      "姐妹"
+    ],
+    "skirt_lift": [
+      "裙子掀起"
+    ],
+    "slime": [
+      "史萊姆"
+    ],
+    "slow_ejaculation": [
+      "延遲射精"
+    ],
+    "small_tits": [
+      "小胸部",
+      "貧乳"
+    ],
+    "sons_and_mothers": [
+      "母子"
+    ],
+    "spanking": [
+      "打屁股"
+    ],
+    "speculum": [
+      "擴陰器"
+    ],
+    "sperm": [
+      "精液"
+    ],
+    "spitroast": [
+      "口爆"
+    ],
+    "ssbbw": [
+      "超級大胖女人"
+    ],
+    "stew": [
+      "燉"
+    ],
+    "strap_on": [
+      "假陽具"
+    ],
+    "strappado": [
+      "吊綁"
+    ],
+    "striptease": [
+      "脫衣舞"
+    ],
+    "swallowing": [
+      "吞精"
+    ],
+    "swallowing_sperm": [
+      "吞精"
+    ],
+    "sweat": [
+      "汗水"
+    ],
+    "sweating": [
+      "出汗"
+    ],
+    "swimming": [
+      "游泳"
+    ],
+    "syringe": [
+      "注射器"
+    ],
+    "tall": [
+      "高"
+    ],
+    "teeth": [
+      "牙齒"
+    ],
+    "tentacles": [
+      "觸手"
+    ],
+    "thick_shaft": [
+      "粗陰莖"
+    ],
+    "tomgirl": [
+      "偽娘"
+    ],
+    "tooth": [
+      "牙齒"
+    ],
+    "topless": [
+      "上空"
+    ],
+    "towel": [
+      "毛巾"
+    ],
+    "tracking": [
+      "跟蹤"
+    ],
+    "tribadism": [
+      "女女互磨",
+      "磨豆腐"
+    ],
+    "tribbing": [
+      "互磨"
+    ],
+    "twerking": [
+      "扭屁股"
+    ],
+    "underwear": [
+      "內衣"
+    ],
+    "undressing": [
+      "脫衣"
+    ],
+    "unmarried_mother": [
+      "未婚媽媽"
+    ],
+    "virgin": [
+      "處女"
+    ],
+    "voyeurism": [
+      "窺視癖"
+    ],
+    "voyeur": [
+      "窺視",
+      "窺視癖"
+    ],
+    "wank": [
+      "手淫"
+    ],
+    "water_sports": [
+      "水上運動",
+      "尿"
+    ],
+    "wet": [
+      "濕"
+    ],
+    "wetting": [
+      "尿濕"
+    ],
+    "widow": [
+      "寡婦"
+    ],
+    "wife": [
+      "妻子"
+    ],
+    "wrestling": [
+      "摔跤"
+    ],
+    "yaoi": [
+      " BL",
+      "男同",
+      "BL"
+    ],
+    "yuri": [
+      "百合",
+      "女同"
+    ],
+    "zoo": [
+      "獸交"
+    ],
+    "infantilism": [
+      "返嬰癖"
+    ],
+    "children_friend": [
+      "小朋友夥伴"
+    ],
+    "old_lady": [
+      "老太婆"
+    ],
+    "amputee": [
+      "斷肢"
+    ],
+    "huge_muscles": [
+      "大肌肉"
+    ],
+    "body_modification": [
+      "身體改造"
+    ],
+    "conjoined": [
+      "連體"
+    ],
+    "joint_doll": [
+      "關節人偶"
+    ],
+    "transparent": [
+      "透明"
+    ],
+    "extra_arms": [
+      "多臂"
+    ],
+    "extra_breasts": [
+      "多胸部"
+    ],
+    "muscle_hypertrophy": [
+      "肌肥大"
+    ],
+    "flattened": [
+      "平面化"
+    ],
+    "tail_sex": [
+      "尾交"
+    ],
+    "wing_sex": [
+      "翼交"
+    ],
+    "absorption": [
+      "吸收"
+    ],
+    "futanari_conversion": [
+      "扶他化"
+    ],
+    "petrified": [
+      "石化"
+    ],
+    "alien_girl": [
+      "外星女"
+    ],
+    "bat_girl": [
+      "蝙蝠女"
+    ],
+    "bear_girl": [
+      "熊女"
+    ],
+    "bee_girl": [
+      "蜂娘"
+    ],
+    "bird_girl": [
+      "鳥娘"
+    ],
+    "bunny_girl_costume": [
+      "兔女郎"
+    ],
+    "centaur": [
+      "半人馬"
+    ],
+    "corpse": [
+      "屍體"
+    ],
+    "cow_girl": [
+      "牛女孩"
+    ],
+    "deer_girl": [
+      "鹿女孩"
+    ],
+    "dog_girl": [
+      "狗女孩"
+    ],
+    "draenei": [
+      "德莱尼"
+    ],
+    "elephant_girl": [
+      "大象女"
+    ],
+    "frog_girl": [
+      "青蛙娘"
+    ],
+    "giraffe_girl": [
+      "長頸鹿娘"
+    ],
+    "goblin": [
+      "哥布林"
+    ],
+    "harpy": [
+      "鳥人"
+    ],
+    "hedgehog_girl": [
+      "刺蝟娘"
+    ],
+    "inter_species": [
+      "人毛交"
+    ],
+    "hyena_girl": [
+      "鬣狗女"
+    ],
+    "insect_girl": [
+      "昆蟲娘"
+    ],
+    "kangaroo_girl": [
+      "袋鼠女"
+    ],
+    "kappa": [
+      "河童"
+    ],
+    "lizard_girl": [
+      "蜥蜴娘"
+    ],
+    "monkey_girl": [
+      "猴子女"
+    ],
+    "moth_girl": [
+      "飛蛾娘"
+    ],
+    "mouse_girl": [
+      "老鼠娘"
+    ],
+    "necrophilia_act": [
+      "屍姦"
+    ],
+    "oni": [
+      "鬼怪"
+    ],
+    "orc": [
+      "半獸人"
+    ],
+    "otter_girl": [
+      "水獺女"
+    ],
+    "panda_girl": [
+      "熊貓娘"
+    ],
+    "pig_girl": [
+      "豬女孩"
+    ],
+    "plant_girl": [
+      "植物娘"
+    ],
+    "raccoon_girl": [
+      "浣熊女"
+    ],
+    "rhino_girl": [
+      "犀牛女"
+    ],
+    "shark_girl": [
+      "鯊魚娘"
+    ],
+    "sheep_girl": [
+      "羊女孩"
+    ],
+    "slime_girl": [
+      "史萊姆娘"
+    ],
+    "snail_girl": [
+      "蝸牛女"
+    ],
+    "snake_girl": [
+      "蛇娘"
+    ],
+    "spider_girl": [
+      "蜘蛛娘"
+    ],
+    "squid_girl": [
+      "烏賊娘"
+    ],
+    "squirrel_girl": [
+      "松鼠娘"
+    ],
+    "skunk_girl": [
+      "臭鼬娘"
+    ],
+    "vampire": [
+      "吸血鬼"
+    ],
+    "animal_sex": [
+      "動物交"
+    ],
+    "furry_sex": [
+      "獸毛交"
+    ],
+    "bear": [
+      "熊",
+      "熊🐻"
+    ],
+    "camel": [
+      "駱駝"
+    ],
+    "cat": [
+      "貓"
+    ],
+    "cow": [
+      "牛"
+    ],
+    "crab": [
+      "螃蟹"
+    ],
+    "deer": [
+      "鹿"
+    ],
+    "dinosaur": [
+      "恐龍"
+    ],
+    "dog": [
+      "狗"
+    ],
+    "dolphin": [
+      "海豚"
+    ],
+    "dwarf": [
+      "侏儒"
+    ],
+    "mini_girl": [
+      "迷你女孩"
+    ],
+    "tall_girl": [
+      "高個女"
+    ],
+    "albino": [
+      "白化"
+    ],
+    "bite_mark": [
+      "咬痕"
+    ],
+    "body_writing": [
+      "身體寫字"
+    ],
+    "body_painting": [
+      "身體彩繪"
+    ],
+    "dark_skin": [
+      "黑肉"
+    ],
+    "ruler_marking": [
+      "刻度標記"
+    ],
+    "freckles": [
+      "雀斑"
+    ],
+    "gyaru": [
+      "辣妹"
+    ],
+    "full_tattoo": [
+      "全身紋身"
+    ],
+    "lipstick_mark": [
+      "口紅印"
+    ],
+    "skin_suit": [
+      "人皮衣"
+    ],
+    "tan_line": [
+      "曬痕"
+    ],
+    "skinny_boned": [
+      "皮包骨"
+    ],
+    "moe_blob": [
+      "棉花糖女孩"
+    ],
+    "michelin_girl": [
+      "米其林女孩"
+    ],
+    "weight_gain": [
+      "體重增加"
+    ],
+    "ahegao": [
+      "阿嘿顏"
+    ],
+    "beauty_mark": [
+      "美人痣"
+    ],
+    "brain_fuck": [
+      "腦交"
+    ],
+    "cock_slapping": [
+      "屌打"
+    ],
+    "crown": [
+      "王冠",
+      "皇冠"
+    ],
+    "ear_fuck": [
+      "耳交"
+    ],
+    "beard": [
+      "鬍子"
+    ],
+    "gas_mask": [
+      "防毒面具"
+    ],
+    "halo": [
+      "光環"
+    ],
+    "headless": [
+      "無頭"
+    ],
+    "hood": [
+      "帽兜"
+    ],
+    "horn": [
+      "角"
+    ],
+    "animal_ears": [
+      "獸耳"
+    ],
+    "animal_pajamas": [
+      "動物連體睡衣"
+    ],
+    "makeup": [
+      "畫妝"
+    ],
+    "mask": [
+      "假面"
+    ],
+    "face_mask": [
+      "口罩"
+    ],
+    "thick_eyebrows": [
+      "濃眉"
+    ],
+    "afro": [
+      "爆炸頭"
+    ],
+    "bald": [
+      "禿頭"
+    ],
+    "spiral_bangs": [
+      "螺旋辮"
+    ],
+    "long_bangs": [
+      "長瀏海"
+    ],
+    "bun": [
+      "丸子頭"
+    ],
+    "hair_sex": [
+      "髮絲交"
+    ],
+    "elf_short": [
+      "精靈短髮"
+    ],
+    "hair_grab": [
+      "抓握髮"
+    ],
+    "shaved_head": [
+      "光頭"
+    ],
+    "body_swap": [
+      "換身"
+    ],
+    "aphrodisiac": [
+      "迷藥"
+    ],
+    "corruption": [
+      "墮落"
+    ],
+    "frigid": [
+      "性冷淡"
+    ],
+    "brainwash": [
+      "洗腦"
+    ],
+    "moral_corruption": [
+      "道德敗壞"
+    ],
+    "parasite": [
+      "寄生"
+    ],
+    "soul_eject": [
+      "人格排泄"
+    ],
+    "possession": [
+      "附身"
+    ],
+    "sensory_share": [
+      "感官共享"
+    ],
+    "extra_eyes": [
+      "多眼"
+    ],
+    "closed_eyes": [
+      "閉眼"
+    ],
+    "tears": [
+      "流淚"
+    ],
+    "cum_in_eye": [
+      "眼射"
+    ],
+    "dark_sclera": [
+      "深色眼白"
+    ],
+    "eye_fuck": [
+      "眼交"
+    ],
+    "eye_mask": [
+      "眼部面具"
+    ],
+    "eye_patch": [
+      "眼罩"
+    ],
+    "heterochromia": [
+      "異色瞳"
+    ],
+    "one_eye": [
+      "獨眼"
+    ],
+    "sunglasses": [
+      "太陽眼鏡"
+    ],
+    "weird_pupil": [
+      "異瞳孔"
+    ],
+    "nose_fuck": [
+      "鼻交"
+    ],
+    "nose_hook": [
+      "鼻吊鉤"
+    ],
+    "mouth_elsewhere": [
+      "畸位口"
+    ],
+    "big_lips": [
+      "大嘴唇"
+    ],
+    "blowjob_face": [
+      "口交顏"
+    ],
+    "braces": [
+      "牙套"
+    ],
+    "burp": [
+      "打嗝"
+    ],
+    "eat_shit": [
+      "吃屎"
+    ],
+    "two_dick_one_hole": [
+      "兩屌一洞"
+    ],
+    "foot_lick": [
+      "舔腳"
+    ],
+    "gagged": [
+      "堵嘴"
+    ],
+    "drink_cum": [
+      "喝精液"
+    ],
+    "kiss": [
+      "接吻"
+    ],
+    "long_tongue": [
+      "長舌"
+    ],
+    "multi_mouth_bj": [
+      "多嘴口交"
+    ],
+    "drink_piss": [
+      "喝尿"
+    ],
+    "saliva": [
+      "唾液"
+    ],
+    "smoking": [
+      "吸菸"
+    ],
+    "forked_tongue": [
+      "分叉舌"
+    ],
+    "teeth_brushing": [
+      "刷牙"
+    ],
+    "abnormal_teeth": [
+      "異齒"
+    ],
+    "vomit": [
+      "嘔吐"
+    ],
+    "swallow": [
+      "吞食"
+    ],
+    "choke": [
+      "窒息"
+    ],
+    "hanging": [
+      "絞刑"
+    ],
+    "dog_chain": [
+      "狗鍊"
+    ],
+    "armpit_lick": [
+      "腋下舔"
+    ],
+    "armpit_hair": [
+      "腋毛"
+    ],
+    "finger_fuck": [
+      "指交"
+    ],
+    "gloves": [
+      "手套"
+    ],
+    "multi_handjob": [
+      "多重打手槍"
+    ],
+    "big_areola": [
+      "大乳暈"
+    ],
+    "big_tits": [
+      "巨乳"
+    ],
+    "breast_enlarge": [
+      "乳房膨脹"
+    ],
+    "huge_tits": [
+      "極乳"
+    ],
+    "super_tits": [
+      "超乳"
+    ],
+    "breast_milk": [
+      "母乳"
+    ],
+    "multi_paizuri": [
+      "多重乳交"
+    ],
+    "clothed_paizuri": [
+      "穿衣乳交"
+    ],
+    "big_nipple": [
+      "大乳頭"
+    ],
+    "dark_nipple": [
+      "深色乳頭"
+    ],
+    "penis_nipple": [
+      "陰莖乳頭"
+    ],
+    "inverted_nipple": [
+      "乳頭內凹"
+    ],
+    "extra_nipples": [
+      "多乳頭"
+    ],
+    "nipple_birth": [
+      "乳頭產出"
+    ],
+    "nipple_enlarge": [
+      "乳頭膨脹"
+    ],
+    "nipple_piercing": [
+      "乳頭穿孔"
+    ],
+    "nipple_stimulate": [
+      "乳頭刺激"
+    ],
+    "cum_inflation": [
+      "精液膨脹"
+    ],
+    "navel_birth": [
+      "肚臍產出"
+    ],
+    "navel_fuck": [
+      "肚臍姦"
+    ],
+    "stomach_deform": [
+      "腹部變形"
+    ],
+    "shemale_no_balls": [
+      "無蛋人妖"
+    ],
+    "chastity_belt": [
+      "貞操帶"
+    ],
+    "love_line": [
+      "淫紋"
+    ],
+    "futanari_with_balls": [
+      "有蛋扶他"
+    ],
+    "genital_piercing": [
+      "性器穿孔"
+    ],
+    "hairy": [
+      "多毛"
+    ],
+    "dry_orgasm": [
+      "乾高潮"
+    ],
+    "multi_orgasm": [
+      "連續高潮"
+    ],
+    "underwear_sex": [
+      "內褲交"
+    ],
+    "pubic_stubble": [
+      "陰毛渣"
+    ],
+    "urethra_insert": [
+      "尿道插入"
+    ],
+    "penis_elsewhere": [
+      "畸位陰莖"
+    ],
+    "testicle_play": [
+      "睪丸愛撫"
+    ],
+    "testicle_grow": [
+      "睾丸生長"
+    ],
+    "testicle_suck": [
+      "睾丸吸允"
+    ],
+    "ball_job": [
+      "球交"
+    ],
+    "big_balls": [
+      "大睪丸"
+    ],
+    "big_dick": [
+      "大屌",
+      "巨屌"
+    ],
+    "penis_swallow": [
+      "陰莖吞食"
+    ],
+    "chastity_ring": [
+      "鎖精環"
+    ],
+    "penis_rub": [
+      "陰莖摩擦"
+    ],
+    "horse_dick": [
+      "馬屌"
+    ],
+    "knot": [
+      "龜頭球"
+    ],
+    "multi_dick": [
+      "多支屌"
+    ],
+    "penis_birth": [
+      "陰莖產出"
+    ],
+    "penis_bump": [
+      "陰莖凸起"
+    ],
+    "penis_grow": [
+      "陰莖生長"
+    ],
+    "penis_shrink": [
+      "陰莖縮小"
+    ],
+    "phimosis": [
+      "包莖"
+    ],
+    "retractable_penis": [
+      "可伸縮陰莖"
+    ],
+    "smegma": [
+      "陰垢"
+    ],
+    "vagina_elsewhere": [
+      "畸位陰道"
+    ],
+    "big_clit": [
+      "大陰蒂"
+    ],
+    "big_vagina": [
+      "大陰道"
+    ],
+    "cervix_inside": [
+      "子宮凸入"
+    ],
+    "uterus_prolapse": [
+      "子宮脫出"
+    ],
+    "clit_grow": [
+      "陰蒂生長"
+    ],
+    "clit_insert": [
+      "陰蒂插入"
+    ],
+    "clit_stimulate": [
+      "陰蒂刺激"
+    ],
+    "lick_clit": [
+      "舔陰蒂"
+    ],
+    "multi_vagina": [
+      "多陰道"
+    ],
+    "vagina_birth": [
+      "陰道產出"
+    ],
+    "anal_insert": [
+      "肛門插入"
+    ],
+    "anal_birth": [
+      "肛門出產"
+    ],
+    "anal_sex": [
+      "肛交"
+    ],
+    "anal_swallow": [
+      "肛門吞食"
+    ],
+    "anal_prolapse": [
+      "脫肛"
+    ],
+    "ass_enlarge": [
+      "臀部膨脹"
+    ],
+    "ass_sex": [
+      "屁股交"
+    ],
+    "anal_plug": [
+      "肛塞"
+    ],
+    "enema": [
+      "灌腸"
+    ],
+    "multi_ass_job": [
+      "多重屁股交"
+    ],
+    "multi_tail": [
+      "多尾巴"
+    ],
+    "demon_girl": [
+      "惡魔娘"
+    ],
+    "dragon": [
+      "龍"
+    ],
+    "unicorn": [
+      "獨角獸"
+    ],
+    "pegasus": [
+      "天馬"
+    ],
+    "fish": [
+      "魚"
+    ],
+    "eel": [
+      "鰻魚"
+    ],
+    "whale": [
+      "鯨魚"
+    ],
+    "worm": [
+      "蠕蟲"
+    ],
+    "slug": [
+      "蛞蝓"
+    ],
+    "turtle": [
+      "烏龜"
+    ],
+    "tiger": [
+      "老虎"
+    ],
+    "leopard": [
+      "豹"
+    ],
+    "lion": [
+      "獅子"
+    ],
+    "monkey": [
+      "猴子"
+    ],
+    "rat": [
+      "老鼠"
+    ],
+    "shrimp": [
+      "蛆"
+    ],
+    "ostrich": [
+      "鴕鳥"
+    ],
+    "zebra": [
+      "斑馬"
+    ],
+    "sheep": [
+      "綿羊"
+    ],
+    "goat": [
+      "山羊"
+    ],
+    "horse": [
+      "馬"
+    ],
+    "donkey": [
+      "驢子"
+    ],
+    "pig": [
+      "豬"
+    ],
+    "rabbit": [
+      "兔"
+    ],
+    "spider": [
+      "蜘蛛"
+    ],
+    "snake": [
+      "蛇"
+    ],
+    "shark": [
+      "鯊魚"
+    ],
+    "elephant": [
+      "大象"
+    ],
+    "fox": [
+      "狐狸"
+    ],
+    "frog": [
+      "青蛙"
+    ],
+    "gorilla": [
+      "大猩猩"
+    ],
+    "kangaroo": [
+      "袋鼠"
+    ],
+    "octopus": [
+      "章魚"
+    ],
+    "reptile": [
+      "爬蟲"
+    ],
+    "rhino": [
+      "犀牛"
+    ],
+    "wolf": [
+      "狼"
+    ],
+    "testicle_growth": [
+      "睪丸生長"
+    ],
+    "tail_swallow": [
+      "尾巴吞食"
+    ],
+    "egg_laying": [
+      "產卵"
+    ],
+    "gaping": [
+      "裂開"
+    ],
+    "big_toy": [
+      "大玩具"
+    ],
+    "prolapse": [
+      "脫出"
+    ],
+    "knee_job": [
+      "膝下交"
+    ],
+    "flat_tits": [
+      "貧乳"
+    ],
+    "huge_ass": [
+      "巨臀"
+    ],
+    "small_dick": [
+      "小雞雞"
+    ],
+    "big_pussy": [
+      "大陰道"
+    ],
+    "teen": [
+      "青少年"
+    ],
+    "thigh_highs": [
+      "過膝襪"
+    ],
+    "brunette": [
+      "棕髮"
+    ],
+    "bunny": [
+      "兔"
+    ],
+    "bird": [
+      "鳥"
+    ],
+    "squirt": [
+      "潮吹"
+    ],
+    "golden_shower": [
+      "尿"
+    ],
+    "submission": [
+      "服從"
+    ],
+    "toys": [
+      "玩具"
+    ],
+    "strapon": [
+      "假陽具"
+    ],
+    "monster": [
+      "怪物"
+    ],
+    "alien": [
+      "外星人"
+    ],
+    "molestation": [
+      "痴漢"
+    ],
+    "upskirt": [
+      "裙底"
+    ],
+    "peek": [
+      "窺視"
+    ],
+    "exhibition": [
+      "露陰癖"
+    ],
+    "solo": [
+      "單獨"
+    ],
+    "strip": [
+      "脫衣"
+    ],
+    "undress": [
+      "脫衣"
+    ],
+    "bare": [
+      "裸露"
+    ],
+    "bath": [
+      "沐浴"
+    ],
+    "bed": [
+      "床"
+    ],
+    "outdoor": [
+      "戶外"
+    ],
+    "classroom": [
+      "教室"
+    ],
+    "office": [
+      "辦公室"
+    ],
+    "cafe": [
+      "咖啡廳"
+    ],
+    "beach": [
+      "海灘"
+    ],
+    "pool": [
+      "泳池"
+    ],
+    "gym": [
+      "健身房"
+    ],
+    "prison": [
+      "監獄"
+    ],
+    "dungeon": [
+      "地牢"
+    ],
+    "castle": [
+      "城堡"
+    ],
+    "forest": [
+      "森林"
+    ],
+    "cave": [
+      "洞穴"
+    ],
+    "space": [
+      "太空"
+    ],
+    "dream": [
+      "夢"
+    ],
+    "nightmare": [
+      "夢魘"
+    ],
+    "fantasy": [
+      "奇幻"
+    ],
+    "sci-fi": [
+      "科幻"
+    ],
+    "magic": [
+      "魔法"
+    ],
+    "supernatural": [
+      "超自然"
+    ],
+    "isekai": [
+      "異世界"
+    ],
+    " reincarnation": [
+      "轉生"
+    ],
+    "time_travel": [
+      "時空跳躍"
+    ],
+    "apocalypse": [
+      "末日"
+    ],
+    "war": [
+      "戰爭"
+    ],
+    "battle": [
+      "戰鬥"
+    ],
+    "adventure": [
+      "冒險"
+    ],
+    "comedy": [
+      "喜劇"
+    ],
+    "drama": [
+      "劇情"
+    ],
+    "horror": [
+      "恐怖"
+    ],
+    "mystery": [
+      "懸疑"
+    ],
+    "romance": [
+      "戀愛"
+    ],
+    "slice_of_life": [
+      "日常"
+    ],
+    "sports": [
+      "運動"
+    ],
+    "music": [
+      "音樂"
+    ],
+    "art": [
+      "藝術"
+    ],
+    "food": [
+      "美食"
+    ],
+    "animal": [
+      "動物"
+    ],
+    "color": [
+      "顏色"
+    ],
+    "white": [
+      "白色"
+    ],
+    "black": [
+      "黑色"
+    ],
+    "red": [
+      "紅色"
+    ],
+    "blue": [
+      "藍色"
+    ],
+    "green": [
+      "綠色"
+    ],
+    "yellow": [
+      "黃色"
+    ],
+    "pink": [
+      "粉紅"
+    ],
+    "purple": [
+      "紫色"
+    ],
+    "orange": [
+      "橙色"
+    ],
+    "brown": [
+      "棕色"
+    ],
+    "grey": [
+      "灰色"
+    ],
+    "rainbow": [
+      "彩虹"
+    ],
+    "gradient": [
+      "漸層"
+    ],
+    "stripe": [
+      "條紋"
+    ],
+    "pattern": [
+      "花紋"
+    ],
+    "flower": [
+      "花"
+    ],
+    "star": [
+      "星星"
+    ],
+    "heart": [
+      "愛心"
+    ],
+    "ribbon": [
+      "緞帶"
+    ],
+    "frill": [
+      "皺褶"
+    ],
+    "button": [
+      "鈕扣"
+    ],
+    "zipper": [
+      "拉鍊"
+    ],
+    "belt": [
+      "腰帶"
+    ],
+    "sash": [
+      "腰帶"
+    ],
+    "necklace": [
+      "項鍊"
+    ],
+    "bracelet": [
+      "手鐲"
+    ],
+    "earring": [
+      "耳環"
+    ],
+    "ring": [
+      "戒指"
+    ],
+    "tiara": [
+      "頭冠"
+    ],
+    "hat": [
+      "帽子"
+    ],
+    "cap": [
+      "棒球帽"
+    ],
+    "helmet": [
+      "頭盔"
+    ],
+    "bandana": [
+      "頭巾"
+    ],
+    "scarf": [
+      "圍巾"
+    ],
+    "boots": [
+      "靴子"
+    ],
+    "shoes": [
+      "鞋子"
+    ],
+    "sandals": [
+      "涼鞋"
+    ],
+    "sneakers": [
+      "運動鞋"
+    ],
+    "heels": [
+      "高跟鞋"
+    ],
+    "pumps": [
+      "高跟鞋"
+    ],
+    "loafers": [
+      "皮鞋"
+    ],
+    "barefoot": [
+      "赤腳"
+    ],
+    "socks": [
+      "襪子"
+    ],
+    "suspenders": [
+      "吊襪帶"
+    ],
+    "garter": [
+      "吊襪帶"
+    ],
+    "apron": [
+      "圍裙"
+    ],
+    "overall": [
+      "吊帶褲"
+    ],
+    "jumpsuit": [
+      "連身褲"
+    ],
+    "wetsuit": [
+      "潛水衣"
+    ],
+    "armor": [
+      "鎧甲"
+    ],
+    "costume": [
+      " costume"
+    ],
+    "uniform": [
+      "制服"
+    ],
+    "casual": [
+      "休閒"
+    ],
+    "formal": [
+      "正式"
+    ],
+    "business": [
+      "商務"
+    ],
+    "casual_wear": [
+      "休閒服"
+    ],
+    "sleepwear": [
+      "睡衣"
+    ],
+    "swimwear": [
+      "泳裝"
+    ],
+    "outerwear": [
+      "外套"
+    ],
+    "vest": [
+      "背心"
+    ],
+    "shirt": [
+      "襯衫"
+    ],
+    "blouse": [
+      "女上衣"
+    ],
+    "tank_top": [
+      "背心"
+    ],
+    "polo": [
+      "Polo衫"
+    ],
+    "slacks": [
+      "西裝褲"
+    ],
+    "miniskirt": [
+      "迷你裙"
+    ],
+    "gown": [
+      "禮服"
+    ],
+    "kimono": [
+      "和服"
+    ],
+    "yukata": [
+      "浴衣"
+    ],
+    "sari": [
+      "紗麗"
+    ],
+    "hanbok": [
+      "韓服"
+    ],
+    "cheongsam": [
+      "旗袍"
+    ],
+    "suit": [
+      "西裝"
+    ],
+    "tuxedo": [
+      "晚禮服"
+    ],
+    "wedding": [
+      "婚禮"
+    ],
+    "bridal": [
+      "新娘"
+    ],
+    "groom": [
+      "新郎"
+    ],
+    "bridesmaid": [
+      "伴娘"
+    ],
+    "bestman": [
+      "伴郎"
+    ],
+    "waiter": [
+      "服務生"
+    ],
+    "bartender": [
+      "調酒師"
+    ],
+    "chef": [
+      "廚師"
+    ],
+    "baker": [
+      "麵包師"
+    ],
+    "farmer": [
+      "農夫"
+    ],
+    "fisherman": [
+      "漁夫"
+    ],
+    "hunter": [
+      "獵人"
+    ],
+    "warrior": [
+      "戰士"
+    ],
+    "knight": [
+      "騎士"
+    ],
+    "mage": [
+      "魔法師"
+    ],
+    "wizard": [
+      "巫師"
+    ],
+    "witch": [
+      "女巫"
+    ],
+    "priest": [
+      "牧師"
+    ],
+    "nun": [
+      "修女"
+    ],
+    "monk": [
+      "僧侶"
+    ],
+    "samurai": [
+      "武士"
+    ],
+    "ninja": [
+      "忍者"
+    ],
+    "pirate": [
+      "海盜"
+    ],
+    "sailor": [
+      "水手"
+    ],
+    "captain": [
+      "船長"
+    ],
+    "pilot": [
+      "飛行員"
+    ],
+    "astronaut": [
+      "太空人"
+    ],
+    "scientist": [
+      "科學家"
+    ],
+    "dentist": [
+      "牙醫"
+    ],
+    "veterinarian": [
+      "獸醫"
+    ],
+    "professor": [
+      "教授"
+    ],
+    "principal": [
+      "校長"
+    ],
+    "coach": [
+      "教練"
+    ],
+    "athlete": [
+      "運動員"
+    ],
+    "player": [
+      "選手"
+    ],
+    "fighter": [
+      "拳擊手"
+    ],
+    "boxer": [
+      "拳擊手"
+    ],
+    "wrestler": [
+      "摔角手"
+    ],
+    "sumo": [
+      "相撲"
+    ],
+    "martial_arts": [
+      "武術"
+    ],
+    "karate": [
+      "空手道"
+    ],
+    "judo": [
+      "柔道"
+    ],
+    "taekwondo": [
+      "跆拳道"
+    ],
+    "kung_fu": [
+      "功夫"
+    ],
+    "tennis": [
+      "網球"
+    ],
+    "baseball": [
+      "棒球"
+    ],
+    "basketball": [
+      "籃球"
+    ],
+    "football": [
+      "足球"
+    ],
+    "soccer": [
+      "足球"
+    ],
+    "golf": [
+      "高爾夫"
+    ],
+    "diving": [
+      "跳水"
+    ],
+    "surfing": [
+      "衝浪"
+    ],
+    "skiing": [
+      "滑雪"
+    ],
+    "snowboarding": [
+      "單板滑雪"
+    ],
+    "climbing": [
+      "攀岩"
+    ],
+    "hiking": [
+      "登山"
+    ],
+    "camping": [
+      "露營"
+    ],
+    "fishing": [
+      "釣魚"
+    ],
+    "cycling": [
+      "自行車"
+    ],
+    "motorcycle": [
+      "摩托車"
+    ],
+    "car": [
+      "汽車"
+    ],
+    "train": [
+      "火車"
+    ],
+    "bus": [
+      "公車"
+    ],
+    "airplane": [
+      "飛機"
+    ],
+    "ship": [
+      "船"
+    ],
+    "boat": [
+      "小船"
+    ],
+    "submarine": [
+      "潛水艇"
+    ],
+    "rocket": [
+      "火箭"
+    ],
+    "spaceship": [
+      "太空船"
+    ],
+    "ufo": [
+      "幽浮"
+    ],
+    "lolicon": [
+      "蘿莉",
+      "蘿莉控"
+    ],
+    "small_girl": [
+      "小女孩",
+      "少女"
+    ],
+    "big_girl": [
+      "成熟女性",
+      "大人"
+    ],
+    "onee_sama": [
+      "姐姐",
+      "大小姐"
+    ],
+    "oneesan": [
+      "姐姐",
+      "大姐姐"
+    ],
+    "senpai": [
+      "前輩",
+      "學長"
+    ],
+    "kouhai": [
+      "後輩",
+      "學弟"
+    ],
+    "baba": [
+      "老太婆",
+      "婆婆"
+    ],
+    "grandma": [
+      "奶奶",
+      "婆婆"
+    ],
+    "grandpa": [
+      "爺爺",
+      "爺"
+    ],
+    "ojiisan": [
+      "爺爺",
+      "叔叔"
+    ],
+    "aqua_hair": [
+      "水藍髮",
+      "淺藍髮"
+    ],
+    "red_eyes": [
+      "紅眼",
+      "赤紅雙眸"
+    ],
+    "blue_eyes": [
+      "藍眼",
+      "碧眼"
+    ],
+    "green_eyes": [
+      "綠眼",
+      "翠綠雙眸"
+    ],
+    "purple_eyes": [
+      "紫眼",
+      "紫羅蘭雙眸"
+    ],
+    "golden_eyes": [
+      "金眼",
+      "金色雙眸"
+    ],
+    "amber_eyes": [
+      "琥珀眼",
+      "棕色雙眸"
+    ],
+    "small_ass": [
+      "小屁股"
+    ],
+    "muscular": [
+      "肌肉",
+      "健美"
+    ],
+    "tan": [
+      "曬黑",
+      "小麥色"
+    ],
+    "pale": [
+      "白皙",
+      "蒼白"
+    ],
+    "tanlines": [
+      "曬痕"
+    ],
+    "blazer": [
+      "西裝外套",
+      "外套"
+    ],
+    "hairclip": [
+      "髮夾",
+      "髮飾"
+    ],
+    "earrings": [
+      "耳環",
+      "耳飾"
+    ],
+    "contact_lenses": [
+      "隱形眼鏡"
+    ],
+    "bunny_ears": [
+      "兔耳",
+      "兔娘"
+    ],
+    "bear_ears": [
+      "熊耳",
+      "熊娘"
+    ],
+    " horns": [
+      "角",
+      "惡魔角"
+    ],
+    "standing": [
+      "站立",
+      "站姿"
+    ],
+    "sitting": [
+      "坐著",
+      "坐姿"
+    ],
+    "lying": [
+      "躺著",
+      "臥姿"
+    ],
+    "kneeling": [
+      "跪著",
+      "跪姿"
+    ],
+    "walking": [
+      "走路",
+      "行走"
+    ],
+    "running": [
+      "跑步",
+      "奔跑"
+    ],
+    "jumping": [
+      "跳躍",
+      "跳起"
+    ],
+    "flying": [
+      "飛行",
+      "飛翔"
+    ],
+    "dancing": [
+      "跳舞",
+      "舞蹈"
+    ],
+    "eating": [
+      "吃東西",
+      "進食"
+    ],
+    "drinking": [
+      "喝水",
+      "飲用"
+    ],
+    "crying": [
+      "哭泣",
+      "哭"
+    ],
+    "laughing": [
+      "笑",
+      "大笑"
+    ],
+    "smiling": [
+      "微笑",
+      "笑容"
+    ],
+    "angry": [
+      "生氣",
+      "憤怒"
+    ],
+    "sad": [
+      "悲傷",
+      "憂鬱"
+    ],
+    "surprised": [
+      "驚訝",
+      "吃驚"
+    ],
+    "scared": [
+      "害怕",
+      "恐怖"
+    ],
+    "shy": [
+      "害羞",
+      "靦腆"
+    ],
+    "embarrassed": [
+      "尷尬",
+      "窘迫"
+    ],
+    "confused": [
+      "困惑",
+      "疑惑"
+    ],
+    "injured": [
+      "受傷",
+      "傷口"
+    ],
+    "tied_up": [
+      "被綁",
+      "束縛"
+    ],
+    "shackles": [
+      "鐐銬",
+      "鎖鏈"
+    ],
+    "chained": [
+      "被鎖",
+      "鎖鏈"
+    ],
+    "blindfolded": [
+      "蒙眼",
+      "遮眼"
+    ],
+    "muffled": [
+      "被堵嘴"
+    ],
+    "teased": [
+      "調戲",
+      "戲弄"
+    ],
+    "tickling": [
+      "搔癢",
+      "痒痒"
+    ],
+    "bedroom": [
+      "臥室",
+      "房間"
+    ],
+    "bathroom": [
+      "浴室",
+      "廁所"
+    ],
+    "kitchen": [
+      "廚房"
+    ],
+    "living_room": [
+      "客廳",
+      "起居室"
+    ],
+    "garden": [
+      "花園",
+      "庭院"
+    ],
+    "mountain": [
+      "山",
+      "山脈"
+    ],
+    "city": [
+      "城市",
+      "都市"
+    ],
+    "village": [
+      "村莊",
+      "鄉村"
+    ],
+    "temple": [
+      "寺廟",
+      "神社"
+    ],
+    "shrine": [
+      "神社",
+      "廟"
+    ],
+    "school": [
+      "學校",
+      "學園"
+    ],
+    "hospital": [
+      "醫院",
+      "診所"
+    ],
+    "store": [
+      "商店",
+      "店鋪"
+    ],
+    "restaurant": [
+      "餐廳",
+      "飯店"
+    ],
+    "bar": [
+      "酒吧",
+      "酒館"
+    ],
+    "club": [
+      "俱樂部",
+      "夜店"
+    ],
+    "street": [
+      "街道",
+      "路上"
+    ],
+    "park": [
+      "公園"
+    ],
+    "morning": [
+      "早晨",
+      "早上"
+    ],
+    "afternoon": [
+      "下午",
+      "正午"
+    ],
+    "evening": [
+      "傍晚",
+      "黃昏"
+    ],
+    "night": [
+      "夜晚",
+      "晚上"
+    ],
+    "sunset": [
+      "日落",
+      "夕陽"
+    ],
+    "sunrise": [
+      "日出",
+      "晨曦"
+    ],
+    "rain": [
+      "下雨",
+      "雨天"
+    ],
+    "snow": [
+      "下雪",
+      "雪天"
+    ],
+    "storm": [
+      "暴風雨",
+      "風暴"
+    ],
+    "cloudy": [
+      "多雲",
+      "陰天"
+    ],
+    "sunny": [
+      "晴天",
+      "陽光"
+    ],
+    "book": [
+      "書",
+      "書籍"
+    ],
+    "phone": [
+      "手機",
+      "電話"
+    ],
+    "computer": [
+      "電腦",
+      "計算機"
+    ],
+    "laptop": [
+      "筆電",
+      "筆記本"
+    ],
+    "tablet": [
+      "平板",
+      "平板電腦"
+    ],
+    "tv": [
+      "電視",
+      "電視機"
+    ],
+    "game": [
+      "遊戲",
+      "電玩"
+    ],
+    "controller": [
+      "手把",
+      "控制器"
+    ],
+    "weapon": [
+      "武器",
+      "兵器"
+    ],
+    "sword": [
+      "劍",
+      "刀"
+    ],
+    "gun": [
+      "槍",
+      "槍械"
+    ],
+    "wand": [
+      "魔杖",
+      "棒"
+    ],
+    "potion": [
+      "藥水",
+      "魔藥"
+    ],
+    "drink": [
+      "飲料",
+      "飲品"
+    ],
+    "cake": [
+      "蛋糕",
+      "糕點"
+    ],
+    "ice_cream": [
+      "冰淇淋",
+      "雪糕"
+    ],
+    "coffee": [
+      "咖啡",
+      "奶茶"
+    ],
+    "tea": [
+      "茶",
+      "茶水"
+    ],
+    "alcohol": [
+      "酒",
+      "酒精"
+    ],
+    "wine": [
+      "葡萄酒",
+      "紅酒"
+    ],
+    "beer": [
+      "啤酒",
+      "麥酒"
+    ],
+    "juice": [
+      "果汁"
+    ],
+    "water": [
+      "水",
+      "礦泉水"
+    ],
+    "happy": [
+      "快樂",
+      "幸福"
+    ],
+    "shocked": [
+      "震驚",
+      "吃驚"
+    ],
+    "excited": [
+      "興奮",
+      "激動"
+    ],
+    "relaxed": [
+      "放鬆",
+      "悠閒"
+    ],
+    "nervous": [
+      "緊張",
+      "不安"
+    ],
+    "confident": [
+      "自信",
+      "有自信"
+    ],
+    "proud": [
+      "自豪",
+      "驕傲"
+    ],
+    "lonely": [
+      "孤單",
+      "寂寞"
+    ],
+    "love": [
+      "戀愛",
+      "相愛"
+    ],
+    "hate": [
+      "討厭",
+      "憎恨"
+    ],
+    "couple": [
+      "情侶",
+      "戀人"
+    ],
+    "friends": [
+      "朋友",
+      "友人"
+    ],
+    "siblings": [
+      "兄妹",
+      "兄弟姊妹"
+    ],
+    "twins": [
+      "雙胞胎",
+      "孿生"
+    ],
+    "father": [
+      "爸爸",
+      "父親"
+    ],
+    "brother": [
+      "哥哥",
+      "弟弟"
+    ],
+    "son": [
+      "兒子",
+      "兒子"
+    ],
+    "husband": [
+      "丈夫",
+      "老公"
+    ],
+    "girlfriend": [
+      "女朋友",
+      "女友"
+    ],
+    "boyfriend": [
+      "男朋友",
+      "男友"
+    ],
+    "cute": [
+      "可愛",
+      "萌"
+    ],
+    "beautiful": [
+      "美麗",
+      "漂亮"
+    ],
+    "pretty": [
+      "美麗",
+      "可愛"
+    ],
+    "ugly": [
+      "醜",
+      "醜陋"
+    ],
+    "sexy": [
+      "性感",
+      "辣"
+    ],
+    "erotic": [
+      "性感",
+      "情色"
+    ],
+    "gorgeous": [
+      "華麗",
+      "艷麗"
+    ],
+    "elegant": [
+      "優雅",
+      "高貴"
+    ],
+    "cool": [
+      "酷",
+      "帥氣"
+    ],
+    "funny": [
+      "有趣",
+      "搞笑"
+    ],
+    "scary": [
+      "可怕",
+      "恐怖"
+    ],
+    "creepy": [
+      "詭異",
+      "毛骨悚然"
+    ],
+    "sweet": [
+      "甜蜜",
+      "甜美"
+    ],
+    "bitter": [
+      "苦",
+      "辛苦"
+    ],
+    "sour": [
+      "酸",
+      "酸味"
+    ],
+    "spicy": [
+      "辣",
+      "辛辣"
+    ],
+    "salty": [
+      "鹹",
+      "鹹味"
+    ],
+    "delicious": [
+      "美味",
+      "好吃"
+    ],
+    "tasty": [
+      "美味",
+      "好吃"
+    ]
+  }
+}

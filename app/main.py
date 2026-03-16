@@ -1,10 +1,13 @@
 """Main FastAPI application for Manga Cover Auto-Tagger."""
 
 import logging
+import uuid
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from app.config import settings
 from app.api.routes_v2 import router
@@ -15,6 +18,16 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
+
+
+# 效能優化: 添加請求 ID 中間件
+class RequestIDMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        request_id = str(uuid.uuid4())
+        request.state.request_id = request_id
+        response = await call_next(request)
+        response.headers["X-Request-ID"] = request_id
+        return response
 
 
 @asynccontextmanager
@@ -62,11 +75,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# 效能優化: GZip 壓縮回應
+app.add_middleware(GZipMiddleware, minimum_size=500)
+
+# 效能優化: 請求 ID 追蹤
+app.add_middleware(RequestIDMiddleware)
+
+
 # Include API routes
 app.include_router(router, prefix="/api/v1")
-
-# Also mount routes at root for convenience
-app.include_router(router, prefix="")
 
 
 @app.get("/")

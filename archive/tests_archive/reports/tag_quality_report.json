@@ -1,0 +1,1432 @@
+{
+  "total_tags": 100,
+  "issues_count": 202,
+  "issues_by_severity": {
+    "warning": 107,
+    "info": 95
+  },
+  "category_distribution": {
+    "other": 95,
+    "character": 4,
+    "clothing": 1
+  },
+  "avg_description_length": 33.2,
+  "tags_with_keywords": 5,
+  "tags_with_conflicts": 2,
+  "issues": [
+    {
+      "tag": "年齡增長",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (7 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "年齡增長",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "年齡增長",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "年齡回溯",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "年齡回溯",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "返嬰癖",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "返嬰癖",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "小朋友夥伴",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "小朋友夥伴",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "老太婆",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "老太婆",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "斷肢",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "斷肢",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "大肌肉",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "大肌肉",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "身體改造",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "身體改造",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "連體",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "連體",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "關節人偶",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "關節人偶",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "擬人化",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "擬人化",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "腹部腫脹",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "腹部腫脹",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "透明",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "透明",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "多臂",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "多臂",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "多胸部",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "多胸部",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "肌肉",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "肌肉",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "肌肥大",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (8 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "肌肥大",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "肌肥大",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "平面化",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "平面化",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "拉伸",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "拉伸",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "尾交",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (9 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "尾交",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "尾交",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "翼交",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (9 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "翼交",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "翼交",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "翅膀",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "翅膀",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "吸收",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "吸收",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "扶他化",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "扶他化",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "石化",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "石化",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "變身",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "變身",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "外星女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "外星女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "蝙蝠女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "蝙蝠女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "熊女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "熊女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "蜂娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "蜂娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "鳥娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "鳥娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "半人馬",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "半人馬",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "屍體",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "屍體",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "牛女孩",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "牛女孩",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "鹿女孩",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "鹿女孩",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "惡魔娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "惡魔娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "狗女孩",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "狗女孩",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "德莱尼",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "德莱尼",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "大象女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "大象女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "仙女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "仙女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "青蛙娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "青蛙娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "狐狸娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "狐狸娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "福瑞",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "福瑞",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "長頸鹿娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "長頸鹿娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "幽靈",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "幽靈",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "哥布林",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "哥布林",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "鳥人",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (9 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "鳥人",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "鳥人",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "刺蝟娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "刺蝟娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "馬娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "馬娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "人毛交",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "人毛交",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "鬣狗女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "鬣狗女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "昆蟲娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "昆蟲娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "袋鼠女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "袋鼠女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "河童",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "河童",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "蜥蜴娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "蜥蜴娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "美人魚",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "美人魚",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "猴子女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "猴子女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "魔物娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "魔物娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "飛蛾娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "飛蛾娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "老鼠娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "老鼠娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "屍姦",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "屍姦",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "鬼怪",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "鬼怪",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "半獸人",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "半獸人",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "水獺女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "水獺女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "熊貓娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "熊貓娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "豬女孩",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "豬女孩",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "植物娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "植物娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "浣熊女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "浣熊女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "犀牛女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "犀牛女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "機器人",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (6 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "機器人",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "機器人",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "鯊魚娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "鯊魚娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "羊女孩",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "羊女孩",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "骷髏",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "骷髏",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "史萊姆",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "史萊姆",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "史萊姆娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "史萊姆娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "蝸牛女",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "蝸牛女",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "蛇娘",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (9 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "蛇娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "蛇娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "蜘蛛娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "蜘蛛娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "烏賊娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "烏賊娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "松鼠娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "松鼠娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "臭鼬娘",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "臭鼬娘",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "觸手",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "觸手",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "吸血鬼",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "吸血鬼",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "狼女孩",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "狼女孩",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "殭屍",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "殭屍",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "動物交",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (6 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "動物交",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "動物交",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "獸毛交",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "獸毛交",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "熊🐻",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (7 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "熊🐻",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "熊🐻",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "獸交",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "獸交",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "駱駝",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "駱駝",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "貓",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (9 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "貓",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "貓",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "牛",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (9 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "牛",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "牛",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "螃蟹",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "螃蟹",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "鹿",
+      "type": "short_description",
+      "severity": "warning",
+      "message": "Description is too short (7 chars)",
+      "suggestion": "Extend description to at least 10 characters"
+    },
+    {
+      "tag": "鹿",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "鹿",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    },
+    {
+      "tag": "恐龍",
+      "type": "no_keywords",
+      "severity": "warning",
+      "message": "Tag has no visual keywords",
+      "suggestion": "Add at least 2 visual keywords for better matching"
+    },
+    {
+      "tag": "恐龍",
+      "type": "uncategorized",
+      "severity": "info",
+      "message": "Tag is uncategorized or in 'other' category",
+      "suggestion": "Assign to appropriate category (character, body, clothing, action, theme)"
+    }
+  ]
+}

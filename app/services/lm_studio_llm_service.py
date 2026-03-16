@@ -89,7 +89,22 @@ Vision Analysis Results:
             else:
                 available_tags_section += f"- {tag}\n"
 
-        # Build system prompt - ULTRA MINIMALIST JSON ENGINE WITH EXAMPLES
+        # Build system prompt - PRECISION FOCUSED
+        system_prompt = """You are a PRECISE tag synthesis engine.
+
+CRITICAL RULES:
+1. Only select tags with VISUAL EVIDENCE in the description
+2. When unsure, prefer NO TAG over uncertain tag
+3. Less accurate tags = worse results
+
+STRICT SAFETY RULES:
+- Tag 'loli' ONLY if character is OBVIOUSLY prepubescent (child body)
+- Tag 'anal' ONLY if EXPLICIT visual act shown
+- Do NOT infer tags from posture or implied context
+
+Output format:
+RESULT_JSON:
+{"tags": [{"tag": "tag_name", "confidence": 0.95, "reason": "visual evidence found"}]}"""
         system_prompt = """You are a precise JSON tag synthesis engine.
 
 Rules:
@@ -180,7 +195,7 @@ Return ONLY the final JSON results verified against visual evidence."""
         rag_matches: List[Dict[str, Any]],
         candidate_tags: List[str] = None,
         top_k: int = 5,
-        confidence_threshold: float = 0.5,
+        confidence_threshold: float = 0.6,  # Raised for better precision
     ) -> List[TagResult]:
         """
         Synthesize final tags from VLM metadata and RAG matches using LM Studio.
@@ -207,13 +222,30 @@ Return ONLY the final JSON results verified against visual evidence."""
                 final_text = content if content else reasoning
                 
                 logger.debug(f"Raw LLM synthesis response length: {len(final_text)}")
+                logger.debug(f"LLM response content: {final_text[:300]}...")
                 if reasoning and not content:
                     logger.debug("Using reasoning_content as fallback")
                 
                 tags = self._parse_synthesis_response(final_text, confidence_threshold, top_k)
 
                 logger.info(f"LM Studio LLM synthesis produced {len(tags)} tags")
-                return tags[:top_k]
+                
+                if tags:
+                    return tags[:top_k]
+                else:
+                    # LLM produced no valid tags — fall back to candidate tags
+                    logger.warning("LLM synthesis produced 0 tags after parsing, returning candidate-based fallback")
+                    if candidate_tags:
+                        return [
+                            TagResult(
+                                tag=t,
+                                confidence=safe_confidence(0.6),
+                                source="llm_fallback",
+                                reason="LLM synthesis failed to parse, kept from initial matching",
+                            )
+                            for t in candidate_tags[:top_k]
+                        ]
+                    return self._fallback_tags(rag_matches, confidence_threshold)[:top_k]
             else:
                 logger.error("No response content from LM Studio")
                 return self._fallback_tags(rag_matches, confidence_threshold)[:top_k]

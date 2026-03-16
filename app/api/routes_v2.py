@@ -94,6 +94,15 @@ async def health_check():
     vlm = get_vlm_service()
     llm = get_llm_service()
     rag = get_rag_service()
+    
+    # Get tag library count - safe access with fallback
+    total_tags = 0
+    try:
+        tag_lib = get_tag_library()
+        if tag_lib and hasattr(tag_lib, 'tag_names'):
+            total_tags = len(tag_lib.tag_names) if tag_lib.tag_names else 0
+    except Exception as e:
+        logger.warning(f"Could not get tag library count: {e}")
 
     models_dict: Dict[str, Any] = {
         "vlm": settings.LM_STUDIO_VISION_MODEL if vlm else "Disabled",
@@ -268,9 +277,11 @@ async def tag_cover(
                 if vlm_analysis
                 else {},
                 "rag_matches": rag_matches if isinstance(rag_matches, list) else [],
-                "library_tags_available": len(tag_recommender.tag_library.tag_names)
-                if tag_recommender
-                else 0,
+                "library_tags_available": (
+                    len(tag_recommender.tag_library.tag_names) 
+                    if tag_recommender and hasattr(tag_recommender, 'tag_library') and tag_recommender.tag_library and tag_recommender.tag_library.tag_names
+                    else 0
+                ),
             }
 
         logger.info(

@@ -1,0 +1,143 @@
+{
+    "conflict_groups": [
+        {
+            "id": "age_shift",
+            "tags": [
+                "年齡增長",
+                "年齡回溯",
+                "返嬰癖"
+            ],
+            "description": "Age transformation and regression are mutually exclusive"
+        },
+        {
+            "id": "breast_size",
+            "tags": [
+                "巨乳",
+                "貧乳",
+                "平胸",
+                "小胸部",
+                "大胸部",
+                "超大乳"
+            ],
+            "description": "Character can only have one breast size"
+        },
+        {
+            "id": "body_type",
+            "tags": [
+                "大肌肉",
+                "肌肉",
+                "纖細",
+                "瘦",
+                "肥胖",
+                "皮包骨",
+                "棉花糖女孩"
+            ],
+            "description": "Contradictory body types"
+        },
+        {
+            "id": "skin_color",
+            "tags": [
+                "黑肉",
+                "白化",
+                "皮膚異色"
+            ],
+            "description": "Skin color conflicts"
+        },
+        {
+            "id": "clothing_state",
+            "tags": [
+                "全裸",
+                "裸體",
+                "穿衣",
+                "內衣",
+                "泳裝"
+            ],
+            "description": "Mutually exclusive clothing states"
+        },
+        {
+            "id": "age_group",
+            "tags": [
+                "蘿莉",
+                "正太",
+                "少女",
+                "熟女",
+                "老太婆",
+                "御姐",
+                "人妻"
+            ],
+            "description": "Mutually exclusive age groups (outer appearance)"
+        },
+        {
+            "id": "species",
+            "tags": [
+                "人類",
+                "貓娘",
+                "犬娘",
+                "福瑞",
+                "精靈",
+                "天使",
+                "惡魔娘",
+                "半獸人",
+                "機器人",
+                "半人馬",
+                "美人魚",
+                "史萊萊娘",
+                "蜘蛛娘",
+                "蛇娘"
+            ],
+            "description": "Primary species/race group"
+        },
+        {
+            "id": "gender",
+            "tags": [
+                "男",
+                "女",
+                "女性",
+                "男性",
+                "扶他",
+                "雙性人",
+                "偽娘"
+            ],
+            "description": "Gender identity conflicts"
+        },
+        {
+            "id": "virginity",
+            "tags": [
+                "處女",
+                "非處女",
+                "人妻"
+            ],
+            "description": "Virginity status"
+        }
+    ],
+    "complementary_exclusions": [
+        [
+            "處女",
+            "人妻"
+        ],
+        [
+            "近親",
+            "無血緣"
+        ],
+        [
+            "教師",
+            "學生"
+        ],
+        [
+            "純愛",
+            "凌辱"
+        ],
+        [
+            "純愛",
+            "強姦"
+        ],
+        [
+            "純愛",
+            "輪姦"
+        ],
+        [
+            "純愛",
+            "NTR"
+        ]
+    ]
+}

@@ -4,6 +4,9 @@ Streamlit Frontend for Manga Tagger System
 A web interface for uploading and tagging manga covers.
 """
 
+import os
+import socket
+import re
 import streamlit as st
 import requests
 import json
@@ -13,8 +16,106 @@ import io
 import base64
 from typing import Dict, List, Any
 
-# Configuration
-API_BASE_URL = "http://localhost:8000"
+# ============================================
+# 動態 API 地址配置
+# ============================================
+# 優先級:
+# 1. Streamlit 會話狀態中的 URL (用戶可在 UI 中修改)
+# 2. EXTERNAL_URL / API_BASE_URL 環境變量 (完整 URL)
+# 3. SERVER_IP 環境變量 (僅 IP，會自動拼接)
+# 4. 自動檢測本機 IP 地址
+# 5. 預設 127.0.0.1 (僅本地調試用)
+
+def is_private_ip(ip: str) -> bool:
+    """檢查 IP 是否為內網/私有 IP"""
+    try:
+        parts = ip.split('.')
+        if len(parts) != 4:
+            return False
+        first = int(parts[0])
+        second = int(parts[1])
+        # 10.x.x.x
+        if first == 10:
+            return True
+        # 172.16.x.x - 172.31.x.x
+        if first == 172 and 16 <= second <= 31:
+            return True
+        # 192.168.x.x
+        if first == 192 and second == 168:
+            return True
+        # 127.x.x.x (localhost)
+        if first == 127:
+            return True
+        return False
+    except:
+        return False
+
+def get_local_ip() -> str:
+    """自動檢測本機 IP 地址"""
+    try:
+        # 創建一個 UDP socket 連接到外部地址（不實際發送數據）
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        print(f"[DEBUG get_local_ip] 檢測到本機 IP: {local_ip}")
+        return local_ip
+    except Exception as e:
+        print(f"[DEBUG get_local_ip] IP 檢測失敗: {e}")
+        return "127.0.0.1"
+
+def get_api_base_url() -> str:
+    """動態獲取 API 基地址"""
+    print("[DEBUG get_api_base_url] 開始獲取 API URL...")
+    
+    # 1. 優先使用 Streamlit 會話狀態中的 URL（用戶可在 UI 中配置）
+    if "api_base_url" in st.session_state and st.session_state.api_base_url:
+        url = st.session_state.api_base_url
+        print(f"[DEBUG get_api_base_url] 使用會話狀態 URL: {url}")
+        return url
+    
+    # 2. 檢查環境變量 - 多種名稱支持
+    # EXTERNAL_URL / API_BASE_URL: 完整 URL
+    # SERVER_IP: 僅 IP 地址，會自動拼接
+    env_url = os.environ.get("EXTERNAL_URL") or os.environ.get("API_BASE_URL") or os.environ.get("STREAMLIT_API_URL")
+    if env_url:
+        print(f"[DEBUG get_api_base_url] 使用環境變量 URL: {env_url}")
+        return env_url
+    
+    # 3. 檢查 SERVER_IP 環境變量
+    server_ip = os.environ.get("SERVER_IP")
+    if server_ip:
+        url = f"http://{server_ip}:8000/api/v1"
+        print(f"[DEBUG get_api_base_url] 使用 SERVER_IP: {url}")
+        return url
+    
+    # 4. 自動檢測本機 IP
+    local_ip = get_local_ip()
+    print(f"[DEBUG get_api_base_url] 自動檢測 IP: {local_ip}")
+    
+    # 警告：如果檢測到內網 IP，提示用戶可能需要手動配置
+    if is_private_ip(local_ip):
+        print(f"[WARNING] 檢測到內網 IP ({local_ip})，遠程用戶可能無法訪問！")
+        print(f"[WARNING] 請設置 EXTERNAL_URL 或 SERVER_IP 環境變量")
+    
+    # 如果檢測到的 IP 不是 localhost，則使用該 IP
+    if local_ip != "127.0.0.1" and local_ip != "localhost":
+        url = f"http://{local_ip}:8000/api/v1"
+        print(f"[DEBUG get_api_base_url] 使用自動檢測 IP: {url}")
+        return url
+    
+    # 5. 預設 localhost（本地調試用）
+    url = "http://127.0.0.1:8000/api/v1"
+    print(f"[DEBUG get_api_base_url] 使用預設 localhost: {url}")
+    return url
+
+# 初始化 API BASE URL
+API_BASE_URL = get_api_base_url()
+
+# 調試日誌：記錄實際使用的 API 地址
+print(f"[Streamlit] API_BASE_URL: {API_BASE_URL}")
+print(f"[Streamlit] Local IP: {get_local_ip()}")
+print(f"[Streamlit] ENV: STREAMLIT_API_URL={os.environ.get('STREAMLIT_API_URL', 'NOT_SET')}")
 
 
 def set_page_config():
@@ -27,10 +128,17 @@ def set_page_config():
     )
 
 
+def update_api_url(new_url: str):
+    """更新 API URL 並保存到會話狀態"""
+    st.session_state.api_base_url = new_url
+    print(f"[Streamlit] API URL updated to: {new_url}")
+
+
 def check_api_connection() -> bool:
     """Check if API server is running."""
     try:
-        response = requests.get(f"{API_BASE_URL}/health", timeout=5)
+        api_url = get_api_base_url()
+        response = requests.get(f"{api_url}/health", timeout=15)
         return response.status_code == 200
     except:
         return False
@@ -39,7 +147,8 @@ def check_api_connection() -> bool:
 def get_api_health() -> Dict[str, Any]:
     """Get API health information."""
     try:
-        response = requests.get(f"{API_BASE_URL}/health", timeout=5)
+        api_url = get_api_base_url()
+        response = requests.get(f"{api_url}/health", timeout=15)
         if response.status_code == 200:
             return response.json()
     except:
@@ -50,7 +159,8 @@ def get_api_health() -> Dict[str, Any]:
 def get_tags_list() -> List[Dict[str, Any]]:
     """Get list of available tags."""
     try:
-        response = requests.get(f"{API_BASE_URL}/tags", timeout=5)
+        api_url = get_api_base_url()
+        response = requests.get(f"{api_url}/tags", timeout=15)
         if response.status_code == 200:
             data = response.json()
             return data.get("tags", [])
@@ -62,7 +172,8 @@ def get_tags_list() -> List[Dict[str, Any]]:
 def get_rag_stats() -> Dict[str, Any]:
     """Get RAG database statistics."""
     try:
-        response = requests.get(f"{API_BASE_URL}/rag/stats", timeout=5)
+        api_url = get_api_base_url()
+        response = requests.get(f"{api_url}/rag/stats", timeout=5)
         if response.status_code == 200:
             return response.json()
     except:
@@ -75,6 +186,7 @@ def tag_image(
 ) -> Dict[str, Any]:
     """Tag an image using the API."""
     try:
+        api_url = get_api_base_url()
         files = {"file": ("image.jpg", image_bytes, "image/jpeg")}
         data = {
             "top_k": top_k,
@@ -83,7 +195,7 @@ def tag_image(
         }
 
         response = requests.post(
-            f"{API_BASE_URL}/tag-cover", files=files, data=data, timeout=30
+            f"{api_url}/tag-cover", files=files, data=data, timeout=60
         )
 
         if response.status_code == 200:
@@ -98,6 +210,7 @@ def tag_image(
 def add_to_rag(image_bytes: bytes, tags: List[str]) -> Dict[str, Any]:
     """Add an image to RAG database."""
     try:
+        api_url = get_api_base_url()
         files = {"file": ("image.jpg", image_bytes, "image/jpeg")}
         data = {
             "tags": json.dumps(tags, ensure_ascii=False),
@@ -105,7 +218,7 @@ def add_to_rag(image_bytes: bytes, tags: List[str]) -> Dict[str, Any]:
         }
 
         response = requests.post(
-            f"{API_BASE_URL}/rag/add", files=files, data=data, timeout=30
+            f"{api_url}/rag/add", files=files, data=data, timeout=60
         )
 
         if response.status_code == 200:
@@ -121,6 +234,49 @@ def render_sidebar():
     """Render sidebar with controls and information."""
     with st.sidebar:
         st.header("⚙️ 設置")
+
+        # API URL Configuration
+        st.subheader("🌐 API 連接")
+        
+        # 顯示當前 API URL
+        current_url = get_api_base_url()
+        
+        # 檢測是否使用內網 IP
+        # 嘗試從 URL 中提取 IP
+        import re
+        ip_match = re.search(r'http://([^:/]+)', current_url)
+        detected_ip = ip_match.group(1) if ip_match else None
+        is_private = detected_ip and is_private_ip(detected_ip)
+        
+        if is_private:
+            st.warning("⚠️ 檢測到內網 IP，遠程用戶可能無法訪問！")
+            st.caption("請設置 SERVER_IP 或 EXTERNAL_URL 環境變量")
+        
+        st.write(f"**當前 API:** `{current_url}`")
+        
+        # 允許用戶自定義 API URL
+        with st.expander("🔧 修改 API 地址"):
+            st.caption("""
+            **設置方式（按優先級）：**
+            
+            1. **環境變量**（推薦伺服器管理員使用）：
+               - `EXTERNAL_URL`: 完整 URL (如 http://your-server:8000/api/v1)
+               - `SERVER_IP`: 僅 IP (會自動拼接為 http://IP:8000/api/v1)
+            
+            2. **Streamlit 會話狀態**（單次使用）：
+               - 在下方輸入框直接輸入
+            """)
+            new_api_url = st.text_input(
+                "API Base URL",
+                value=current_url,
+                help="例如: http://192.168.1.100:8000/api/v1 或 http://your-domain.com:8000/api/v1"
+            )
+            if new_api_url != current_url:
+                if st.button("更新 API 地址", type="secondary"):
+                    update_api_url(new_api_url)
+                    st.rerun()
+        
+        st.divider()
 
         # API Status
         st.subheader("🔌 API 狀態")
@@ -218,7 +374,7 @@ def render_tagger_tab(top_k: int, confidence_threshold: float):
         col1, col2 = st.columns([2, 1])
 
         with col1:
-            st.image(image, caption="上傳的圖片", use_column_width=True)
+            st.image(image, caption="上傳的圖片", use_container_width=True)
 
         with col2:
             # Image info

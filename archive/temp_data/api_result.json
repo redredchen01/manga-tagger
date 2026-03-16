@@ -1,0 +1,16 @@
+{
+  "tags": [],
+  "metadata": {
+    "processing_time": 5.25,
+    "vlm_description": "\n<|begin_of_box|><|end_of_box|>",
+    "vlm_analysis": {
+      "character_types": [],
+      "clothing": [],
+      "body_features": [],
+      "actions": [],
+      "themes": []
+    },
+    "rag_matches": 1,
+    "library_tags_available": 611
+  }
+}

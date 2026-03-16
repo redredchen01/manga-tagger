@@ -1,0 +1,26 @@
+{
+  "conflict_system": {
+    "version": "2.0",
+    "learning_enabled": true,
+    "cache_enabled": true,
+    "auto_save_interval": 100
+  },
+  "dashboard": {
+    "host": "localhost",
+    "port": 8501,
+    "theme": "light",
+    "auto_refresh": true
+  },
+  "api": {
+    "host": "0.0.0.0",
+    "port": 8001,
+    "rate_limit": 100,
+    "cors_enabled": true
+  },
+  "performance": {
+    "max_cache_size": 10000,
+    "cache_ttl": 3600,
+    "parallel_processing": true,
+    "gpu_acceleration": false
+  }
+}
