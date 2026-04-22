@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import mimetypes
 import statistics
 import sys
 import time
@@ -27,10 +28,11 @@ SENSITIVE_SET = {
 
 
 def tag_image(api_base: str, image_path: Path) -> Dict[str, Any]:
+    mime = mimetypes.guess_type(image_path.name)[0] or "application/octet-stream"
     with open(image_path, "rb") as f:
         r = requests.post(
             f"{api_base}/tag-cover",
-            files={"file": (image_path.name, f, "image/jpeg")},
+            files={"file": (image_path.name, f, mime)},
             data={"top_k": "10", "confidence_threshold": "0.3"},
             timeout=240,
         )
@@ -42,14 +44,13 @@ def metrics(actual_tags: List[str], expected: Dict[str, List[str]]) -> Dict[str,
     actual = set(actual_tags)
     must_have = set(expected.get("must_have", []))
     must_not = set(expected.get("must_not_have", []))
+    nice = set(expected.get("nice_to_have", []))
 
     tp = len(actual & must_have)
     fp = len(actual & must_not)
     fn = len(must_have - actual)
-
-    sensitive_actual = actual & SENSITIVE_SET
-    sensitive_must_not = must_not & SENSITIVE_SET
-    sensitive_fp = len(sensitive_actual & sensitive_must_not)
+    nice_hits = len(actual & nice)
+    sensitive_fp = len(actual & must_not & SENSITIVE_SET)
 
     precision = tp / max(tp + fp, 1)
     recall = tp / max(tp + fn, 1)
@@ -57,6 +58,7 @@ def metrics(actual_tags: List[str], expected: Dict[str, List[str]]) -> Dict[str,
 
     return {
         "tp": tp, "fp": fp, "fn": fn,
+        "nice_hits": nice_hits,
         "precision": round(precision, 3),
         "recall": round(recall, 3),
         "f1": round(f1, 3),
@@ -101,15 +103,35 @@ def main():
         print(f"{image_name}  P={m['precision']} R={m['recall']} F1={m['f1']} "
               f"sens_fp={m['sensitive_fp']} {latency:.1f}s")
 
-    summary = {
-        "n": len(per_image),
-        "median_latency_s": round(statistics.median(latencies), 1) if latencies else None,
-        "mean_precision": round(statistics.mean(m["precision"] for m in per_image if "precision" in m), 3) if per_image else 0,
-        "mean_recall": round(statistics.mean(m["recall"] for m in per_image if "recall" in m), 3) if per_image else 0,
-        "mean_f1": round(statistics.mean(m["f1"] for m in per_image if "f1" in m), 3) if per_image else 0,
-        "total_sensitive_fp": sum(m.get("sensitive_fp", 0) for m in per_image),
-        "sensitive_fp_per_image": round(sum(m.get("sensitive_fp", 0) for m in per_image) / max(len(per_image), 1), 3),
-    }
+    scored = [m for m in per_image if "precision" in m]
+    errored = [m for m in per_image if "error" in m]
+
+    if scored:
+        summary = {
+            "n_total": len(per_image),
+            "n_scored": len(scored),
+            "n_errored": len(errored),
+            "median_latency_s": round(statistics.median(latencies), 1) if latencies else None,
+            "mean_precision": round(statistics.mean(m["precision"] for m in scored), 3),
+            "mean_recall": round(statistics.mean(m["recall"] for m in scored), 3),
+            "mean_f1": round(statistics.mean(m["f1"] for m in scored), 3),
+            "total_sensitive_fp": sum(m.get("sensitive_fp", 0) for m in scored),
+            "sensitive_fp_per_scored_image": round(
+                sum(m.get("sensitive_fp", 0) for m in scored) / len(scored), 3
+            ),
+        }
+    else:
+        summary = {
+            "n_total": len(per_image),
+            "n_scored": 0,
+            "n_errored": len(errored),
+            "median_latency_s": None,
+            "mean_precision": 0.0,
+            "mean_recall": 0.0,
+            "mean_f1": 0.0,
+            "total_sensitive_fp": 0,
+            "sensitive_fp_per_scored_image": 0.0,
+        }
 
     out = {"summary": summary, "per_image": per_image}
     out_path = Path(args.out)
@@ -118,6 +140,10 @@ def main():
     print("\n=== SUMMARY ===")
     print(json.dumps(summary, indent=2))
     print(f"\nWrote {out_path}")
+
+    if not scored:
+        print(f"\nERROR: no scored rows ({len(errored)} errored). Eval failed.", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
