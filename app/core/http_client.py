@@ -11,7 +11,7 @@ async def get_http_client() -> httpx.AsyncClient:
         _http_client = httpx.AsyncClient(
             timeout=httpx.Timeout(
                 connect=30.0,
-                read=120.0,
+                read=300.0,  # Phase 1: glm-4.6v + large prompt can take 2-3min; Tasks 5/6 will tighten prompt
                 write=30.0,
                 pool=30.0,
             ),

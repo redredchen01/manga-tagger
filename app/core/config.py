@@ -129,8 +129,8 @@ class Settings(BaseSettings):
 
     # Performance tuning for Python 3.12+
     MAX_IMAGE_SIZE_MB: int = 10
-    VLM_TIMEOUT_SECONDS: int = 180  # Increased for larger models or busy LM Studio
-    RAG_TIMEOUT_SECONDS: int = 15
+    VLM_TIMEOUT_SECONDS: int = 300  # Phase 1: glm-4.6v + 2048-token prompt; tighten in Tasks 5/6
+    RAG_TIMEOUT_SECONDS: int = 60
     TAG_RECOMMENDATION_TIMEOUT_SECONDS: int = 20
     MAX_CONCURRENT_VLM_CALLS: int = 1  # Reduce concurrency to ensure stability on consumer GPUs
     MAX_CONCURRENT_RAG_CALLS: int = 10
