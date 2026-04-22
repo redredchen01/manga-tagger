@@ -1,0 +1,12 @@
+# Re-export from app.core.metrics for backward compatibility
+from app.core.metrics import REQUEST_COUNT  # noqa: F401
+from app.core.metrics import REQUEST_LATENCY  # noqa: F401
+from app.core.metrics import VLM_REQUEST_COUNT  # noqa: F401
+from app.core.metrics import VLM_LATENCY  # noqa: F401
+from app.core.metrics import RAG_REQUEST_COUNT  # noqa: F401
+from app.core.metrics import RAG_LATENCY  # noqa: F401
+from app.core.metrics import TAG_RECOMMENDATION_COUNT  # noqa: F401
+from app.core.metrics import TAG_RECOMMENDATION_LATENCY  # noqa: F401
+from app.core.metrics import CACHE_HITS  # noqa: F401
+from app.core.metrics import CACHE_MISSES  # noqa: F401
+from app.core.metrics import ACTIVE_REQUESTS  # noqa: F401

@@ -1,24 +1,26 @@
 # FastAPI & Web Framework
-fastapi>=0.115.0
-uvicorn[standard]>=0.32.0
-streamlit>=1.40.0
-python-multipart>=0.0.17
-pydantic>=2.9.0
-pydantic-settings>=2.6.0
+fastapi>=0.135.0
+uvicorn[standard]>=0.34.0
+streamlit>=1.49.0
+python-multipart>=0.0.22
+pydantic>=2.10.0
+pydantic-settings>=2.7.0
+
+# Python 3.12+ Performance Monitoring
+memory-profiler>=0.61.0
+py-spy>=0.3.14
+psutil>=6.1.0
 
 # Deep Learning & Models
-torch>=2.0.0
-torchvision>=0.15.0
-transformers>=4.30.0
-
-# CLIP & Embeddings
-open-clip-torch>=2.20.0
+torch>=2.10.0
+torchvision>=0.20.0
+transformers>=4.53.0
 
 # ChromaDB for RAG
-chromadb>=0.4.0
+chromadb>=0.5.0
 
 # OpenAI
-openai>=1.0.0
+openai>=1.58.0
 
 # Note: For production, install additional dependencies separately:
 # accelerate>=1.1.0
@@ -28,13 +30,19 @@ openai>=1.0.0
 # qwen-vl-utils>=0.0.8
 # sentence-transformers>=3.3.0
 # llama-cpp-python>=0.3.0
+# open-clip-torch>=2.20.0  # Not used - using LM Studio instead
 
 # Image Processing
-Pillow>=11.0.0
-opencv-python>=4.10.0
+Pillow>=12.1.1
+opencv-python>=4.11.0
+
+# Redis for caching and background tasks
+redis>=5.0.0
+aioredis>=2.0.0
+rq>=1.16.0
 
 # Utilities
-numpy>=1.26.0
+numpy>=2.2.0
 pandas>=2.2.0
 tqdm>=4.67.0
 python-dotenv>=1.0.0
@@ -42,7 +50,10 @@ httpx>=0.28.0
 aiofiles>=24.1.0
 
 # Logging
-structlog>=24.4.0
+structlog>=25.0.0
+
+# Metrics
+prometheus-client>=0.20.0
 
 # Optional: LangChain (for future extensions)
 # langchain>=0.3.0

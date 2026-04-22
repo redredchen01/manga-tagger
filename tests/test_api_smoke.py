@@ -12,7 +12,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from app.api import routes_v2
 from app.main import app
 
-
+# Use TestClient as context manager to trigger lifespan (populates app.state)
 client = TestClient(app)
 
 

@@ -14,7 +14,7 @@ import requests
 def check_api_server():
     """Check if API server is running."""
     try:
-        response = requests.get("http://localhost:8000/health", timeout=5)
+        response = requests.get("http://localhost:8000/api/v1/health", timeout=5)
         return response.status_code == 200
     except:
         return False
@@ -43,6 +43,7 @@ def main():
     print("Starting Streamlit frontend...")
     print("Frontend URL: http://localhost:8501")
     print("API Docs: http://localhost:8000/docs")
+    print("API Health: http://localhost:8000/api/v1/health")
     print("")
     print("Press Ctrl+C to stop server")
     print("=" * 50)

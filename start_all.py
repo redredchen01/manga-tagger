@@ -18,8 +18,6 @@ api_process = subprocess.Popen(
         "--port",
         "8000",
     ],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
 )
 
 # Wait for API to start
@@ -28,7 +26,8 @@ time.sleep(3)
 # Start Streamlit with environment variable for remote API access
 print("[2] Starting Streamlit on port 8501...")
 streamlit_env = os.environ.copy()
-streamlit_env["STREAMLIT_API_URL"] = "http://25.8.89.95:8000/api/v1"  # Hamachi IP
+# Use localhost as default, or override via env var
+streamlit_env["STREAMLIT_API_URL"] = os.getenv("STREAMLIT_API_URL", "http://localhost:8000/api/v1")
 streamlit_process = subprocess.Popen(
     [
         sys.executable,
@@ -41,16 +40,14 @@ streamlit_process = subprocess.Popen(
         "--server.address",
         "0.0.0.0",  # Allow remote access to Streamlit
     ],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
     env=streamlit_env,
 )
 
 print("\nServices started!")
-print("API Server: http://0.0.0.0:8000 (accessible via Hamachi: http://25.8.89.95:8000)")
-print("Streamlit: http://0.0.0.0:8501 (accessible via Hamachi: http://25.8.89.95:8501)")
-print("\nNOTE: Both services are now accessible from remote machines!")
-print("Press Ctrl+C to stop...")
+print("API Server: http://localhost:8000")
+print("Streamlit:  http://localhost:8501")
+print("API Docs:   http://localhost:8000/docs")
+print("\nPress Ctrl+C to stop...")
 
 try:
     # Keep running

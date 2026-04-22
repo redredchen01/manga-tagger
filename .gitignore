@@ -82,3 +82,14 @@ models/
 
 # Data files (user-specific)
 data/
+
+# HuggingFace model cache (do not commit weights)
+$hfDir/
+.no_exist/
+hf-cache/
+
+# Stray Windows redirect files
+null
+
+# Eval reports (gitignored from Phase 0 onward)
+eval_reports/

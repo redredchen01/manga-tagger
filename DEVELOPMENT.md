@@ -61,13 +61,13 @@ python test_api.py
 
 ```bash
 # 健康檢查
-curl http://localhost:8000/health
+curl http://localhost:8000/api/v1/health
 
 # 獲取標籤列表
-curl http://localhost:8000/tags
+curl http://localhost:8000/api/v1/tags
 
 # 標記圖片（需要真實圖片文件）
-curl -X POST "http://localhost:8000/tag-cover" \
+curl -X POST "http://localhost:8000/api/v1/tag-cover" \
   -F "file=@test_image.jpg" \
   -F "top_k=5" \
   -F "confidence_threshold=0.5"
@@ -142,7 +142,7 @@ RAG_SIMILARITY_THRESHOLD=0.7
 python scripts/init_rag.py --dataset-path data/rag_dataset
 
 # 添加參考圖片到 RAG
-curl -X POST "http://localhost:8000/rag/add" \
+curl -X POST "http://localhost:8000/api/v1/rag/add" \
   -F "file=@reference.jpg" \
   -F "tags=[\"貓娘\",\"蘿莉\"]"
 ```

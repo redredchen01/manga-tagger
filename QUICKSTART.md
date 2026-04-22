@@ -31,7 +31,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1
 ### 標記漫畫封面
 
 ```bash
-curl -X POST "http://localhost:8000/tag-cover" \
+curl -X POST "http://localhost:8000/api/v1/tag-cover" \
   -F "file=@cover.jpg" \
   -F "top_k=5" \
   -F "confidence_threshold=0.5"
@@ -40,13 +40,13 @@ curl -X POST "http://localhost:8000/tag-cover" \
 ### 查看所有標籤
 
 ```bash
-curl "http://localhost:8000/tags"
+curl "http://localhost:8000/api/v1/tags"
 ```
 
 ### 健康檢查
 
 ```bash
-curl "http://localhost:8000/health"
+curl "http://localhost:8000/api/v1/health"
 ```
 
 ## 初始化 RAG 資料集

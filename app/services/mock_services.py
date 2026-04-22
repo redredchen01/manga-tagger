@@ -2,23 +2,32 @@
 
 import asyncio
 import uuid
-from typing import List, Dict, Any, Optional
-from app.models import VLMMetadata, TagResult
+from typing import Any, Dict, List, Optional
+
+from app.models import VLMMetadata
 
 
 class MockVLMService:
     """Mock VLM service for testing."""
 
-    async def extract_metadata(self, image_bytes: bytes) -> VLMMetadata:
-        """Mock metadata extraction."""
+    async def extract_metadata(self, image_bytes: bytes):
+        """Mock metadata extraction.
+
+        Returns a dict to match what the pipeline expects.
+        """
         await asyncio.sleep(0.1)  # Simulate processing time
-        return VLMMetadata(
-            description="Mock analysis of manga cover image",
-            characters=["mock_character"],
-            themes=["mock_theme"],
-            art_style="mock_style",
-            genre_indicators=["mock_genre"],
-        )
+        # Return a dict (not Pydantic model) to match pipeline expectations
+        return {
+            "description": "Mock analysis of manga cover image",
+            "character_types": ["mock_character"],
+            "clothing": ["school_uniform"],
+            "body_features": [],
+            "actions": [],
+            "themes": ["mock_theme"],
+            "art_style": "mock_style",
+            "genre_indicators": ["mock_genre"],
+            "raw_keywords": ["catgirl", "school_uniform"],
+        }
 
 
 class MockLLMService:
@@ -37,9 +46,7 @@ class MockRAGService:
         """Initialize mock RAG service."""
         self.documents = []
 
-    async def search_similar(
-        self, image_bytes: bytes, top_k: int = 5
-    ) -> List[Dict[str, Any]]:
+    async def search_similar(self, image_bytes: bytes, top_k: int = 5) -> List[Dict[str, Any]]:
         """Mock similarity search."""
         await asyncio.sleep(0.1)  # Simulate processing time
         return [
