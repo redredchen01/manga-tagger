@@ -1,0 +1,107 @@
+{
+  "test_anime.jpg": {
+    "description": "Synthetic cartoon-style stick-figure drawing: round face with blonde hair split into two yellow triangular points, blue eyes, smile, torso shown as white rectangle with red triangle and blue trapezoidal skirt/pants. Pink background. Crude placeholder art, not a real manga cover. The yellow triangles on top could be read as either animal ears or a crown — genuinely ambiguous, so neither is placed in must_have.",
+    "must_have": [],
+    "must_not_have": [
+      "蘿莉",
+      "正太",
+      "嬰兒",
+      "強制",
+      "強姦",
+      "亂倫",
+      "獵奇",
+      "肛交",
+      "觸手",
+      "綁縛",
+      "輪姦",
+      "獸交",
+      "中出",
+      "顏射",
+      "口交",
+      "乳交",
+      "自慰"
+    ],
+    "nice_to_have": [
+      "雙馬尾",
+      "獸耳",
+      "王冠",
+      "寶冠",
+      "尾巴"
+    ]
+  },
+  "test_anime_detailed.jpg": {
+    "description": "Synthetic cartoon-style drawing very similar to test_anime.jpg: round face, blue eyes, rosy cheeks, smile, blonde hair, and two yellow triangular points sitting on top of a horizontal yellow band on the head. The horizontal band strongly suggests a crown (王冠/寶冠) rather than animal ears. Same white-rectangle torso with red triangle and blue skirt/pants, pink background. Still crude placeholder art, not a real manga cover.",
+    "must_have": [],
+    "must_not_have": [
+      "蘿莉",
+      "正太",
+      "嬰兒",
+      "強制",
+      "強姦",
+      "亂倫",
+      "獵奇",
+      "肛交",
+      "觸手",
+      "綁縛",
+      "輪姦",
+      "獸交",
+      "中出",
+      "顏射",
+      "口交",
+      "乳交",
+      "自慰"
+    ],
+    "nice_to_have": [
+      "王冠",
+      "寶冠"
+    ]
+  },
+  "test_image.jpg": {
+    "description": "Solid red square. Contains no recognizable subject, characters, objects, or scenes. The correct pipeline output is effectively empty — no tag should confidently apply.",
+    "must_have": [],
+    "must_not_have": [
+      "蘿莉",
+      "正太",
+      "嬰兒",
+      "強制",
+      "強姦",
+      "亂倫",
+      "獵奇",
+      "肛交",
+      "觸手",
+      "綁縛",
+      "輪姦",
+      "獸交",
+      "中出",
+      "顏射",
+      "口交",
+      "乳交",
+      "自慰"
+    ],
+    "nice_to_have": []
+  },
+  "test_real_image.jpg": {
+    "description": "Random RGB noise (static-like pixelated multicolor pattern). Contains no recognizable subject, characters, objects, or scenes. The correct pipeline output is effectively empty — no tag should confidently apply.",
+    "must_have": [],
+    "must_not_have": [
+      "蘿莉",
+      "正太",
+      "嬰兒",
+      "強制",
+      "強姦",
+      "亂倫",
+      "獵奇",
+      "肛交",
+      "觸手",
+      "綁縛",
+      "輪姦",
+      "獸交",
+      "中出",
+      "顏射",
+      "口交",
+      "乳交",
+      "自慰"
+    ],
+    "nice_to_have": []
+  }
+}
