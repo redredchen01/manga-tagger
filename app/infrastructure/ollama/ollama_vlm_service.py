@@ -12,14 +12,12 @@ from app.core.cache import cache_manager
 from app.core.config import settings
 from app.core.metrics import CACHE_HITS, CACHE_MISSES, VLM_LATENCY, VLM_REQUEST_COUNT
 from app.core.http_client import get_http_client
-from app.domain.prompts import get_optimized_prompt
+from app.domain.prompts import get_structured_prompt
 from app.domain.tag.parser import (
-    extract_tags_from_description,
-    extract_tags_from_reasoning,
     get_fallback_metadata,
     get_mock_metadata,
-    parse_response,
 )
+from app.infrastructure.lm_studio.vlm_service import parse_vlm_json
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +96,11 @@ class OllamaVLMService:
 
         # Try VLM but with short timeout
         try:
-            prompt = get_optimized_prompt()
+            from app.domain.tag.allowed_list import build_prompt_fragment
+            from app.domain.tag.library import get_tag_library_service
+            tag_lib = get_tag_library_service()
+            allowed_fragment = build_prompt_fragment(tag_lib.tags)
+            prompt = get_structured_prompt(allowed_fragment)
 
             # Ollama uses /api/generate with images array
             payload = {
@@ -128,17 +130,38 @@ class OllamaVLMService:
 
             # Ollama returns { "response": "..." }
             content = result.get("response", "")
+            parsed = parse_vlm_json(content) if content else None
+            if parsed is not None:
+                logger.info(f"Ollama VLM succeeded: {len(parsed['tags'])} tags from JSON")
+                parsed["source"] = "vlm_json"
+                await cache_manager.set(cache_key, parsed)
+                return parsed
 
-            if content and len(content.strip()) > 5:
-                logger.info(f"VLM succeeded: {content[:100]}...")
+            logger.warning("Ollama VLM JSON parse failed; retrying once with temperature=0.0")
+            payload["options"]["temperature"] = 0.0
+            payload["prompt"] += (
+                "\n\nIMPORTANT: previous attempt did not return valid JSON. "
+                "Output ONLY the JSON object."
+            )
+            response2 = await client.post(
+                f"{self.base_url}/api/generate", headers=headers, json=payload, timeout=self.timeout,
+            )
+            response2.raise_for_status()
+            content2 = response2.json().get("response", "")
+            parsed2 = parse_vlm_json(content2)
+            if parsed2 is not None:
+                logger.info(f"Ollama VLM retry succeeded: {len(parsed2['tags'])} tags")
+                parsed2["source"] = "vlm_json_retry"
+                await cache_manager.set(cache_key, parsed2)
+                return parsed2
 
-                # Parse the response and clean up junk
-                parsed_metadata = parse_response(content)
-
-                # Cache successful result
-                await cache_manager.set(cache_key, parsed_metadata)
-
-                return parsed_metadata
+            logger.error("Ollama VLM JSON parse failed after retry")
+            return {
+                "description": "",
+                "tags": [],
+                "source": "vlm_parse_fail",
+                "error": "VLM_PARSE_FAIL",
+            }
 
         except httpx.TimeoutException:
             logger.warning(f"Ollama VLM call timed out after {self.timeout}s")

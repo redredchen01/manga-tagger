@@ -2,7 +2,9 @@
 
 import base64
 import io
+import json
 import logging
+import re
 import time
 from typing import Any, Dict, List, Optional
 
@@ -12,16 +14,68 @@ from app.core.cache import cache_manager
 from app.core.config import settings
 from app.core.metrics import CACHE_HITS, CACHE_MISSES, VLM_LATENCY, VLM_REQUEST_COUNT
 from app.core.http_client import get_http_client
-from app.domain.prompts import get_optimized_prompt
+from app.domain.prompts import get_structured_prompt
 from app.domain.tag.parser import (
-    extract_tags_from_description,
-    extract_tags_from_reasoning,
     get_fallback_metadata,
     get_mock_metadata,
-    parse_response,
 )
 
 logger = logging.getLogger(__name__)
+
+
+_JSON_FENCE_RE = re.compile(r"^\s*```(?:json)?\s*\n?(.*?)\n?```\s*$", re.DOTALL | re.IGNORECASE)
+_JSON_OBJECT_RE = re.compile(r"\{.*\}", re.DOTALL)
+
+
+def parse_vlm_json(raw: str) -> dict | None:
+    """Parse a VLM response into our canonical dict shape.
+
+    Handles markdown fences and leading prose. Returns None if no valid
+    JSON object can be extracted. Drops `tags` entries missing the `tag`
+    field. Always returns at least {"description": ..., "tags": [...]}.
+    """
+    if not raw or not raw.strip():
+        return None
+
+    fenced = _JSON_FENCE_RE.match(raw)
+    if fenced:
+        raw = fenced.group(1)
+
+    obj_match = _JSON_OBJECT_RE.search(raw)
+    if not obj_match:
+        return None
+
+    try:
+        data = json.loads(obj_match.group(0))
+    except json.JSONDecodeError:
+        return None
+
+    if not isinstance(data, dict):
+        return None
+
+    description = data.get("description", "")
+    if not isinstance(description, str):
+        description = ""
+
+    raw_tags = data.get("tags", [])
+    if not isinstance(raw_tags, list):
+        raw_tags = []
+
+    cleaned_tags = []
+    for t in raw_tags:
+        if not isinstance(t, dict):
+            continue
+        tag_name = t.get("tag")
+        if not isinstance(tag_name, str) or not tag_name.strip():
+            continue
+        cleaned_tags.append({
+            "tag": tag_name.strip(),
+            "category": t.get("category", ""),
+            "confidence": float(t.get("confidence", 0.0)) if isinstance(t.get("confidence"), (int, float)) else 0.0,
+            "evidence": t.get("evidence", ""),
+        })
+
+    return {"description": description, "tags": cleaned_tags}
 
 
 class LMStudioVLMService:
@@ -99,7 +153,11 @@ class LMStudioVLMService:
 
         # Try VLM but with very short timeout
         try:
-            prompt = get_optimized_prompt()
+            from app.domain.tag.allowed_list import build_prompt_fragment
+            from app.domain.tag.library import get_tag_library_service
+            tag_lib = get_tag_library_service()
+            allowed_fragment = build_prompt_fragment(tag_lib.tags)
+            prompt = get_structured_prompt(allowed_fragment)
             messages = [
                 {
                     "role": "user",
@@ -140,30 +198,48 @@ class LMStudioVLMService:
                 message = result["choices"][0]["message"]
                 content = message.get("content", "")
                 reasoning = message.get("reasoning_content", "")
-
-                # GLM models put analysis in reasoning_content
+                # GLM-class models put analysis in reasoning_content if content is empty
                 effective_content = content if content else reasoning
 
-                if effective_content and len(effective_content.strip()) > 5:
-                    logger.info(f"VLM succeeded: {effective_content[:100]}...")
+                parsed = parse_vlm_json(effective_content) if effective_content else None
+                if parsed is not None:
+                    logger.info(f"VLM succeeded: {len(parsed['tags'])} tags from JSON")
+                    parsed["source"] = "vlm_json"
+                    await cache_manager.set(cache_key, parsed)
+                    return parsed
 
-                    # Parse the response and clean up junk
-                    parsed_metadata = parse_response(effective_content)
+                # Parse failed — retry once with temperature=0.0 and a stricter system reminder
+                logger.warning("VLM JSON parse failed; retrying once with temperature=0.0")
+                payload["temperature"] = 0.0
+                payload["messages"][0]["content"][0]["text"] += (
+                    "\n\nIMPORTANT: previous attempt did not return valid JSON. "
+                    "Output ONLY the JSON object, starting with { and ending with }. "
+                    "No prose, no markdown."
+                )
+                response2 = await client.post(
+                    f"{self.base_url}/chat/completions",
+                    headers=headers,
+                    json=payload,
+                )
+                response2.raise_for_status()
+                result2 = response2.json()
+                if "choices" in result2 and result2["choices"]:
+                    msg2 = result2["choices"][0]["message"]
+                    content2 = msg2.get("content", "") or msg2.get("reasoning_content", "")
+                    parsed2 = parse_vlm_json(content2)
+                    if parsed2 is not None:
+                        logger.info(f"VLM retry succeeded: {len(parsed2['tags'])} tags")
+                        parsed2["source"] = "vlm_json_retry"
+                        await cache_manager.set(cache_key, parsed2)
+                        return parsed2
 
-                    # If reasoning content had interesting bullet points, blend them in
-                    if reasoning and reasoning != content:
-                        reasoning_tags = extract_tags_from_reasoning(reasoning)
-                        if reasoning_tags:
-                            # Merge with raw_keywords and deduplicate
-                            current_tags = parsed_metadata.get("raw_keywords", [])
-                            combined = list(set(current_tags + reasoning_tags))
-                            parsed_metadata["raw_keywords"] = combined
-                            logger.info(f"Enriched with {len(reasoning_tags)} tags from reasoning")
-
-                    # Cache successful result
-                    await cache_manager.set(cache_key, parsed_metadata)
-
-                    return parsed_metadata
+                logger.error("VLM JSON parse failed after retry; returning empty result")
+                return {
+                    "description": "",
+                    "tags": [],
+                    "source": "vlm_parse_fail",
+                    "error": "VLM_PARSE_FAIL",
+                }
 
         except Exception as e:
             logger.warning(f"VLM call failed ({type(e).__name__}): {e}")
