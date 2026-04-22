@@ -54,6 +54,26 @@ async def lifespan(app: FastAPI):
     else:
         app.state.vlm_service = LMStudioVLMService()
         logger.info("VLM backend: LM Studio")
+
+        # Fail-fast: confirm LM Studio is up and the vision model is loaded
+        import httpx
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                r = await client.get(f"{settings.LM_STUDIO_BASE_URL.rstrip('/')}/models")
+                r.raise_for_status()
+                models = {m["id"] for m in r.json().get("data", [])}
+                if settings.LM_STUDIO_VISION_MODEL not in models:
+                    raise RuntimeError(
+                        f"Vision model {settings.LM_STUDIO_VISION_MODEL} not loaded. "
+                        f"Available: {sorted(models)}"
+                    )
+                logger.info(f"LM Studio reachable, model {settings.LM_STUDIO_VISION_MODEL} available")
+        except Exception as e:
+            logger.error(f"LM Studio probe failed: {e}")
+            raise RuntimeError(
+                f"LM Studio at {settings.LM_STUDIO_BASE_URL} is required when USE_OLLAMA=false. "
+                f"Either start LM Studio with the vision model loaded, or set USE_OLLAMA=true."
+            ) from e
     app.state.llm_service = LMStudioLLMService()
     app.state.rag_service = RAGService()
     app.state.tag_library = get_tag_library_service()
