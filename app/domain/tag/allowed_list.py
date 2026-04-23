@@ -63,3 +63,41 @@ def build_prompt_fragment(library: List[Dict]) -> str:
                 out_lines.append(f"- {name}")
         out_lines.append("")  # blank line between sections
     return "\n".join(out_lines).strip()
+
+
+def build_compact_prompt_fragment(library: List[Dict]) -> str:
+    """Build a compact allowed-tag fragment: tag names only, grouped by category.
+
+    Format:
+        ### 角色
+        蘿莉, 貓娘, 狐娘, ...
+
+        ### 服裝
+        女生制服, 男生制服, ...
+
+    For the 611-tag library this emits ~3,500 chars (vs ~14,675 for the
+    verbose build_prompt_fragment). The verbose descriptions drop out;
+    the VLM's pretrained knowledge covers semantics, only tag names
+    matter for library matching.
+    """
+    grouped = group_by_category(library)
+    out_lines: List[str] = []
+    for cat in CATEGORY_ORDER:
+        entries = grouped.get(cat, [])
+        if not entries:
+            continue
+        # Use the Chinese portion of the category label only — drop the
+        # parenthesised English to save tokens.
+        label_zh = CATEGORY_LABEL_ZH[cat].split(" (")[0]
+        out_lines.append(f"### {label_zh}")
+        names = []
+        seen_names = set()
+        for e in entries:
+            name = (e.get("tag_name") or "").strip()
+            if not name or name in seen_names:
+                continue
+            names.append(name)
+            seen_names.add(name)
+        out_lines.append(", ".join(names))
+        out_lines.append("")  # blank line between sections
+    return "\n".join(out_lines).strip()
