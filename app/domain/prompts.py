@@ -189,5 +189,8 @@ def get_structured_prompt(allowed_list_fragment: str) -> str:
 
 只輸出 JSON 物件，不要任何 markdown 註解、解釋文字、開場白、結語。
 從 `{{` 開始，以 `}}` 結束。
+不要先思考再答——直接輸出 JSON。
+
+/no_think
 
 Response:"""

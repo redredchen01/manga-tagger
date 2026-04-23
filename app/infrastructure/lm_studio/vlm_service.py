@@ -25,33 +25,89 @@ logger = logging.getLogger(__name__)
 
 _JSON_FENCE_RE = re.compile(r"^\s*```(?:json)?\s*\n?(.*?)\n?```\s*$", re.DOTALL | re.IGNORECASE)
 _JSON_OBJECT_RE = re.compile(r"\{.*\}", re.DOTALL)
+_FENCED_JSON_ANYWHERE_RE = re.compile(r"```(?:json)?\s*\n?(\{.*?\})\n?```", re.DOTALL | re.IGNORECASE)
+
+
+def _find_brace_balanced_objects(text: str) -> list[str]:
+    """Return every top-level brace-balanced `{...}` substring in text order.
+
+    Non-greedy and depth-aware — avoids the `{.*}` greedy trap where prose
+    with a lone `{` earlier in the text pulls in everything up to the last
+    `}` hundreds of lines later. When the VLM emits reasoning prose before
+    a final JSON block, the JSON is usually the last balanced object.
+    """
+    results: list[str] = []
+    depth = 0
+    start = -1
+    for i, ch in enumerate(text):
+        if ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}":
+            if depth > 0:
+                depth -= 1
+                if depth == 0 and start != -1:
+                    results.append(text[start : i + 1])
+                    start = -1
+    return results
 
 
 def parse_vlm_json(raw: str) -> dict | None:
     """Parse a VLM response into our canonical dict shape.
 
-    Handles markdown fences and leading prose. Returns None if no valid
-    JSON object can be extracted. Drops `tags` entries missing the `tag`
-    field. Always returns at least {"description": ..., "tags": [...]}.
+    Handles markdown fences, leading prose, and reasoning-mode output
+    where the model emits analysis before a final JSON block. Returns
+    None if no valid JSON object can be extracted. Drops `tags` entries
+    missing the `tag` field. Always returns at least
+    {"description": ..., "tags": [...]}.
     """
     if not raw or not raw.strip():
         return None
 
+    # Fast path: the whole string is a fenced code block
     fenced = _JSON_FENCE_RE.match(raw)
     if fenced:
-        raw = fenced.group(1)
+        candidate = fenced.group(1).strip()
+        try:
+            data = json.loads(candidate)
+            if isinstance(data, dict):
+                return _normalize_vlm_dict(data)
+        except json.JSONDecodeError:
+            pass  # fall through to more permissive strategies
 
-    obj_match = _JSON_OBJECT_RE.search(raw)
-    if not obj_match:
-        return None
+    # Reasoning-mode path: look for fenced ```json``` blocks anywhere
+    # (model reasoning often has multiple; prefer the LAST that parses
+    # and has a tags key — that's the committed answer).
+    fenced_matches = _FENCED_JSON_ANYWHERE_RE.findall(raw)
+    for candidate in reversed(fenced_matches):
+        try:
+            data = json.loads(candidate)
+            if isinstance(data, dict) and "tags" in data:
+                return _normalize_vlm_dict(data)
+        except json.JSONDecodeError:
+            continue
 
-    try:
-        data = json.loads(obj_match.group(0))
-    except json.JSONDecodeError:
-        return None
+    # Last-resort: scan every brace-balanced {...} substring, try the
+    # last one first. This also catches models that emit the JSON
+    # without any markdown fence at the tail of their reasoning.
+    for candidate in reversed(_find_brace_balanced_objects(raw)):
+        try:
+            data = json.loads(candidate)
+            if isinstance(data, dict) and "tags" in data:
+                return _normalize_vlm_dict(data)
+        except json.JSONDecodeError:
+            continue
 
-    if not isinstance(data, dict):
-        return None
+    return None
+
+
+def _normalize_vlm_dict(data: dict) -> dict:
+    """Given a parsed dict, coerce into the canonical shape.
+
+    Pulled out so the multiple entry paths in parse_vlm_json share one
+    implementation of the per-field validation.
+    """
 
     description = data.get("description", "")
     if not isinstance(description, str):
@@ -76,6 +132,9 @@ def parse_vlm_json(raw: str) -> dict | None:
         })
 
     return {"description": description, "tags": cleaned_tags}
+
+
+
 
 
 class LMStudioVLMService:
