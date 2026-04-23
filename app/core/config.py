@@ -115,6 +115,7 @@ class Settings(BaseSettings):
     CHINESE_EMBEDDING_TOP_K: int = 10
     SEMANTIC_FALLBACK_TRIGGER_COUNT: int = 3  # only run semantic if VLM gave fewer than this
     SEMANTIC_FALLBACK_MAX_ADDITIONS: int = 2  # cap how many semantic tags to add
+    RAG_INFLUENCE_ENABLED: bool = False  # Phase 1: RAG library too small to trust for scoring
 
     HYBRID_SEARCH_IMAGE_WEIGHT: float = 0.7
     HYBRID_SEARCH_TEXT_WEIGHT: float = 0.3

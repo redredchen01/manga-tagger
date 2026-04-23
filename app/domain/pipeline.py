@@ -208,10 +208,16 @@ async def run_tagging_pipeline(
 
     recommendations: List[TagRecommendation] = []
 
+    # Phase 1: RAG influence on scoring is gated by config.
+    # When disabled, the recommender sees an empty list (no RAG -> tags),
+    # but the API response still reports what RAG found in metadata for
+    # visibility/debugging.
+    rag_matches_for_scoring = rag_matches if settings.RAG_INFLUENCE_ENABLED else []
+
     if vlm_analysis:
         recommendations = await tag_recommender.recommend_tags(
             vlm_analysis=vlm_analysis,
-            rag_matches=rag_matches,
+            rag_matches=rag_matches_for_scoring,
             top_k=top_k,
             confidence_threshold=confidence_threshold,
             vlm_service=vlm_service,
