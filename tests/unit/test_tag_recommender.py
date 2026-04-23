@@ -21,6 +21,16 @@ from app.services import tag_recommender_service
 class TestTagRecommenderService:
     """Test TagRecommenderService functionality."""
 
+    # Parametrize decorator for SENSITIVE_TAGS format testing
+    SENSITIVE_TAGS_FORMATS = pytest.mark.parametrize(
+        "sensitive_tags_format",
+        [
+            "set",      # Current test format: both as sets
+            "string",   # Production format: SENSITIVE_TAGS as string, sensitive_tags as set
+        ],
+        ids=["format_set", "format_string"]
+    )
+
     @pytest.fixture
     def mock_settings(self):
         """Mock settings to avoid external dependencies."""
@@ -143,21 +153,34 @@ class TestTagRecommenderService:
         assert isinstance(keywords, list)
         assert len(keywords) > 0
 
+    @SENSITIVE_TAGS_FORMATS
     @pytest.mark.asyncio
-    async def test_sensitive_tags_with_string_format(self):
-        """Test _verify_and_calibrate with SENSITIVE_TAGS as production string format.
+    async def test_sensitive_tags_with_string_format(self, sensitive_tags_format):
+        """Test _verify_and_calibrate with different SENSITIVE_TAGS formats.
 
         This test catches the str-vs-set asymmetry bug that normal mocking hides.
         In production, SENSITIVE_TAGS is a comma-separated string; settings.sensitive_tags
-        is a @computed_field set derived from it. Line 581 should use the set, not the string.
+        is a @computed_field set derived from it. The code should use the set, not the string.
+
+        Parametrized to run with both:
+        - format_set: Both SENSITIVE_TAGS and sensitive_tags as sets (test format)
+        - format_string: SENSITIVE_TAGS as string, sensitive_tags as set (production format)
         """
         with patch("app.services.tag_recommender_service.settings") as mock:
             mock.USE_MOCK_SERVICES = True
             mock.USE_LM_STUDIO = False
-            # Production format: SENSITIVE_TAGS as comma-separated string
-            mock.SENSITIVE_TAGS = "蘿莉,正太,嬰兒,強制,強姦,亂倫,獵奇,肛交,觸手,綁縛"
-            # Corresponding set (what @computed_field produces)
-            mock.sensitive_tags = {"蘿莉", "正太", "嬰兒", "強制", "強姦", "亂倫", "獵奇", "肛交", "觸手", "綁縛"}
+
+            # Set SENSITIVE_TAGS and sensitive_tags based on format
+            if sensitive_tags_format == "set":
+                # Test format: both as sets
+                mock.SENSITIVE_TAGS = {"蘿莉", "正太", "嬰兒", "強制", "強姦", "亂倫", "獵奇", "肛交", "觸手", "綁縛"}
+                mock.sensitive_tags = {"蘿莉", "正太", "嬰兒", "強制", "強姦", "亂倫", "獵奇", "肛交", "觸手", "綁縛"}
+            else:  # "string"
+                # Production format: SENSITIVE_TAGS as comma-separated string
+                mock.SENSITIVE_TAGS = "蘿莉,正太,嬰兒,強制,強姦,亂倫,獵奇,肛交,觸手,綁縛"
+                # Corresponding set (what @computed_field produces)
+                mock.sensitive_tags = {"蘿莉", "正太", "嬰兒", "強制", "強姦", "亂倫", "獵奇", "肛交", "觸手", "綁縛"}
+
             mock.SENSITIVE_SUBSTRING_FILTER_ENABLED = True
             mock.EXACT_MATCH_BOOST = 1.1
             mock.PARTIAL_MATCH_BOOST = 1.0

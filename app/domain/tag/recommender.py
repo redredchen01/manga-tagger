@@ -578,7 +578,7 @@ class TagRecommenderService:
         verified = []
 
         for rec in recommendations:
-            exact_sensitive = rec.tag in settings.SENSITIVE_TAGS
+            exact_sensitive = rec.tag in settings.sensitive_tags
             substring_sensitive = (
                 not exact_sensitive
                 and settings.SENSITIVE_SUBSTRING_FILTER_ENABLED
