@@ -74,6 +74,12 @@ class TestSensitiveTags:
             elif "SENSITIVE_TAGS" in os.environ:
                 del os.environ["SENSITIVE_TAGS"]
 
+    def test_sensitive_substring_filter_enabled_default(self):
+        """The substring post-filter flag defaults to True."""
+        from app.core.config import Settings
+        s = Settings()
+        assert s.SENSITIVE_SUBSTRING_FILTER_ENABLED is True
+
 
 class TestConcurrencyDefaults:
     """Test concurrency configuration defaults."""

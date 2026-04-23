@@ -177,6 +177,10 @@ class Settings(BaseSettings):
     def sensitive_tags(self) -> set[str]:
         return {t.strip() for t in self.SENSITIVE_TAGS.split(",") if t.strip()}
 
+    # Drop substring-sensitive compound tags (e.g. 巨乳蘿莉) unless
+    # verify_sensitive_tag confirms. Rollback by flipping default to False.
+    SENSITIVE_SUBSTRING_FILTER_ENABLED: bool = True
+
     # Tag matching constants - reference domain constants
     TAG_FREQUENCY_CALIBRATION: dict[str, float] = Field(
         default_factory=lambda: TAG_FREQUENCY_CALIBRATION.copy()
