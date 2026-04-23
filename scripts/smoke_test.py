@@ -57,7 +57,7 @@ def main() -> int:
     )
     results.append(check("non-image rejected", bad_type.status_code == 400, bad_type.json().get("detail", "")))
 
-    tag_image = PROJECT_ROOT / "test_real_image.jpg"
+    tag_image = PROJECT_ROOT / "tests" / "golden" / "images" / "test_real_image.jpg"
     if tag_image.exists():
         with tag_image.open("rb") as fh:
             tagged = client.post(

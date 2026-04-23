@@ -68,7 +68,7 @@ curl http://localhost:8000/api/v1/tags
 
 # 標記圖片（需要真實圖片文件）
 curl -X POST "http://localhost:8000/api/v1/tag-cover" \
-  -F "file=@test_image.jpg" \
+  -F "file=@tests/golden/images/test_image.jpg" \
   -F "top_k=5" \
   -F "confidence_threshold=0.5"
 ```
