@@ -79,12 +79,22 @@ class TestRAGServiceInit:
         assert rag is not None
         assert hasattr(rag, "_embedding_cache")
 
-    def test_embedding_cache_initialized(self):
-        """Test that embedding cache is initialized."""
+    def test_embedding_cache_initialized(self, monkeypatch):
+        """Test that embedding cache is initialized as an EmbeddingCache.
+
+        Resets the module-level singleton so we observe the size RAGService
+        actually requests (500), not whatever a prior test locked it to.
+        """
+        from app.core import embedding_cache as ec_mod
+        from app.core.embedding_cache import EmbeddingCache
+
+        monkeypatch.setattr(ec_mod, "_embedding_cache", None)
+
         rag = rag_service.RAGService()
         assert rag._embedding_cache is not None
-        assert isinstance(rag._embedding_cache, dict)
-        assert rag._embedding_cache_max_size == 100
+        assert isinstance(rag._embedding_cache, EmbeddingCache)
+        # RAGService constructs the shared cache with max_size=500
+        assert rag._embedding_cache._max_size == 500
 
 
 class TestEmbeddingCache:
@@ -102,10 +112,11 @@ class TestEmbeddingCache:
                 yield rag
 
     def test_cache_key_generation(self, mock_rag_service):
-        """Test cache key generation."""
-        key1 = mock_rag_service._get_cache_key(b"image1")
-        key2 = mock_rag_service._get_cache_key(b"image1")
-        key3 = mock_rag_service._get_cache_key(b"image2")
+        """Test cache key generation (delegated to EmbeddingCache)."""
+        cache = mock_rag_service._embedding_cache
+        key1 = cache.get_cache_key(b"image1")
+        key2 = cache.get_cache_key(b"image1")
+        key3 = cache.get_cache_key(b"image2")
 
         assert key1 == key2
         assert key1 != key3
@@ -127,13 +138,18 @@ class TestEmbeddingCache:
 
     def test_cache_eviction(self, mock_rag_service):
         """Test that cache evicts oldest entries when full."""
+        cache = mock_rag_service._embedding_cache
+        # Reset shared singleton so prior tests don't skew size
+        cache.clear()
+        max_size = cache._max_size
+
         # Fill cache beyond max size
-        for i in range(105):
+        for i in range(max_size + 5):
             embedding = np.random.rand(512).astype(np.float32)
             mock_rag_service._cache_embedding(f"image_{i}".encode(), embedding)
 
         # Cache should not exceed max size
-        assert len(mock_rag_service._embedding_cache) <= mock_rag_service._embedding_cache_max_size
+        assert cache.size() <= max_size
 
 
 class TestDeterministicEmbedding:
