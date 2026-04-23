@@ -9,19 +9,23 @@ from pydantic import BaseModel, Field
 class TagResult(BaseModel):
     """Single tag result with confidence and reasoning."""
 
-    tag: str = Field(..., description="Tag name", example="catgirl")
+    tag: str = Field(..., description="Tag name", json_schema_extra={"example": "catgirl"})
     confidence: float = Field(
-        ..., description="Confidence score (0-1)", example=0.92, ge=0.0, le=1.0
+        ...,
+        description="Confidence score (0-1)",
+        ge=0.0,
+        le=1.0,
+        json_schema_extra={"example": 0.92},
     )
     source: str = Field(
         ...,
         description="Source of the tag (vlm, rag, llm, vlm+rag)",
-        example="vlm+rag",
+        json_schema_extra={"example": "vlm+rag"},
     )
     reason: str | None = Field(
         None,
         description="Explanation for why this tag was assigned",
-        example="Matched by visual features and supporting RAG results",
+        json_schema_extra={"example": "Matched by visual features and supporting RAG results"},
     )
 
 
@@ -66,38 +70,52 @@ class RAGAddRequest(BaseModel):
     """Request model for adding image to RAG dataset."""
 
     tags: list[str] = Field(
-        ..., description="List of tags for this image", example=["catgirl", "school_uniform"]
+        ...,
+        description="List of tags for this image",
+        json_schema_extra={"example": ["catgirl", "school_uniform"]},
     )
     metadata: dict | None = Field(
-        None, description="Optional metadata", example={"source": "manual"}
+        None,
+        description="Optional metadata",
+        json_schema_extra={"example": {"source": "manual"}},
     )
 
 
 class RAGAddResponse(BaseModel):
     """Response model for RAG add endpoint."""
 
-    success: bool = Field(..., description="Whether the operation succeeded", example=True)
-    id: str = Field(..., description="ID of the added document", example="img_abc123")
+    success: bool = Field(
+        ..., description="Whether the operation succeeded", json_schema_extra={"example": True}
+    )
+    id: str = Field(
+        ..., description="ID of the added document", json_schema_extra={"example": "img_abc123"}
+    )
     message: str = Field(
-        ..., description="Status message", example="Successfully added image with 2 tags"
+        ...,
+        description="Status message",
+        json_schema_extra={"example": "Successfully added image with 2 tags"},
     )
 
 
 class TagInfo(BaseModel):
     """Tag information from tag library."""
 
-    tag_name: str = Field(..., description="Tag name", example="catgirl")
+    tag_name: str = Field(..., description="Tag name", json_schema_extra={"example": "catgirl"})
     description: str | None = Field(
-        None, description="Tag description", example="A character with cat ears and tail"
+        None,
+        description="Tag description",
+        json_schema_extra={"example": "A character with cat ears and tail"},
     )
-    category: str | None = Field(None, description="Tag category", example="character")
+    category: str | None = Field(
+        None, description="Tag category", json_schema_extra={"example": "character"}
+    )
 
 
 class TagsListResponse(BaseModel):
     """Response model for tags list endpoint."""
 
     tags: list[TagInfo] = Field(..., description="List of available tags")
-    total: int = Field(..., description="Total number of tags", example=611)
+    total: int = Field(..., description="Total number of tags", json_schema_extra={"example": 611})
 
     model_config = {
         "json_schema_extra": {
@@ -123,8 +141,10 @@ class TagsListResponse(BaseModel):
 class HealthResponse(BaseModel):
     """Health check response."""
 
-    status: str = Field(..., description="Service status", example="healthy")
-    version: str = Field(..., description="API version", example="2.0.0")
+    status: str = Field(
+        ..., description="Service status", json_schema_extra={"example": "healthy"}
+    )
+    version: str = Field(..., description="API version", json_schema_extra={"example": "2.0.0"})
     models_loaded: dict = Field(..., description="Which models are loaded")
 
     model_config = {
@@ -153,35 +173,55 @@ class VLMMetadata(BaseModel):
     description: str = Field(
         ...,
         description="Visual description of the cover",
-        example="A girl with cat ears wearing school uniform",
+        json_schema_extra={"example": "A girl with cat ears wearing school uniform"},
     )
     characters: list[str] = Field(
-        default_factory=list, description="Detected characters", example=["catgirl"]
+        default_factory=list,
+        description="Detected characters",
+        json_schema_extra={"example": ["catgirl"]},
     )
     themes: list[str] = Field(
-        default_factory=list, description="Detected themes", example=["slice_of_life"]
+        default_factory=list,
+        description="Detected themes",
+        json_schema_extra={"example": ["slice_of_life"]},
     )
     art_style: str | None = Field(
-        None, description="Art style description", example="Modern anime style"
+        None,
+        description="Art style description",
+        json_schema_extra={"example": "Modern anime style"},
     )
     genre_indicators: list[str] = Field(
         default_factory=list,
         description="Genre indicators",
-        example=["comedy", "romance"],
+        json_schema_extra={"example": ["comedy", "romance"]},
     )
     tag_definitions: dict[str, str] = Field(
         default_factory=dict,
         description="Definitions for candidate tags for semantic matching",
-        example={"catgirl": "A character with cat ears, tail, or other feline features"},
+        json_schema_extra={
+            "example": {"catgirl": "A character with cat ears, tail, or other feline features"}
+        },
     )
 
 
 class RAGMatch(BaseModel):
     """Single RAG match result."""
 
-    id: str = Field(..., description="Document ID", example="img_abc123")
-    score: float = Field(..., description="Similarity score", example=0.95, ge=0.0, le=1.0)
-    tags: list[str] = Field(..., description="Tags from matched document", example=["catgirl"])
+    id: str = Field(
+        ..., description="Document ID", json_schema_extra={"example": "img_abc123"}
+    )
+    score: float = Field(
+        ...,
+        description="Similarity score",
+        ge=0.0,
+        le=1.0,
+        json_schema_extra={"example": 0.95},
+    )
+    tags: list[str] = Field(
+        ...,
+        description="Tags from matched document",
+        json_schema_extra={"example": ["catgirl"]},
+    )
     metadata: dict | None = Field(None, description="Match metadata")
 
 
@@ -189,10 +229,14 @@ class ProcessingMetadata(BaseModel):
     """Detailed processing metadata."""
 
     processing_time: float = Field(
-        ..., description="Total processing time in seconds", example=2.34
+        ...,
+        description="Total processing time in seconds",
+        json_schema_extra={"example": 2.34},
     )
     vlm_description: str = Field(
-        ..., description="VLM-generated description", example="A girl with cat ears"
+        ...,
+        description="VLM-generated description",
+        json_schema_extra={"example": "A girl with cat ears"},
     )
     rag_matches: list[RAGMatch] = Field(default_factory=list, description="RAG matches")
     vlm_metadata: VLMMetadata | None = None
@@ -204,7 +248,13 @@ class MangaDescriptionResponse(BaseModel):
     description: str = Field(
         ...,
         description="VLM-generated description",
-        example="A young girl with blonde hair and cat ears, wearing a navy blue school uniform with a red ribbon. She has a playful expression and is holding a cat plushie.",
+        json_schema_extra={
+            "example": (
+                "A young girl with blonde hair and cat ears, wearing a navy blue school "
+                "uniform with a red ribbon. She has a playful expression and is holding "
+                "a cat plushie."
+            )
+        },
     )
     metadata: dict | None = Field(None, description="Processing metadata")
 
@@ -231,11 +281,17 @@ class MangaDescriptionResponse(BaseModel):
 class ErrorDetail(BaseModel):
     """Error detail model."""
 
-    code: str = Field(..., description="Error code", example="VALIDATION_ERROR")
-    message: str = Field(
-        ..., description="Human-readable error message", example="File must be an image"
+    code: str = Field(
+        ..., description="Error code", json_schema_extra={"example": "VALIDATION_ERROR"}
     )
-    status: int = Field(..., description="HTTP status code", example=400)
+    message: str = Field(
+        ...,
+        description="Human-readable error message",
+        json_schema_extra={"example": "File must be an image"},
+    )
+    status: int = Field(
+        ..., description="HTTP status code", json_schema_extra={"example": 400}
+    )
 
 
 class ErrorResponse(BaseModel):
