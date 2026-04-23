@@ -50,7 +50,13 @@ def metrics(actual_tags: List[str], expected: Dict[str, List[str]]) -> Dict[str,
     fp = len(actual & must_not)
     fn = len(must_have - actual)
     nice_hits = len(actual & nice)
-    sensitive_fp = len(actual & must_not & SENSITIVE_SET)
+    # Sensitive FP: substring-aware. Compound tags like "巨乳蘿莉" contain the
+    # sensitive substring "蘿莉" and count as a leak even when the literal
+    # compound isn't in must_not_have. Prevents the set-intersection escape
+    # hatch where category-leak tags slip through a word-list blocklist.
+    sensitive_fp = sum(
+        1 for tag in actual if any(s in tag for s in SENSITIVE_SET)
+    )
 
     precision = tp / max(tp + fp, 1)
     recall = tp / max(tp + fn, 1)
@@ -59,6 +65,11 @@ def metrics(actual_tags: List[str], expected: Dict[str, List[str]]) -> Dict[str,
     return {
         "tp": tp, "fp": fp, "fn": fn,
         "nice_hits": nice_hits,
+        # Flag for the summary aggregator: images with empty must_have
+        # can't contribute meaningful precision/recall (tp is always 0 by
+        # construction). Aggregation filters them out so acceptance gates
+        # reflect only images where P/R is well-defined.
+        "has_must_have": len(must_have) > 0,
         "precision": round(precision, 3),
         "recall": round(recall, 3),
         "f1": round(f1, 3),
@@ -105,16 +116,27 @@ def main():
 
     scored = [m for m in per_image if "precision" in m]
     errored = [m for m in per_image if "error" in m]
+    # Only images with a non-empty must_have can yield meaningful P/R —
+    # without required tags, tp is always 0 and the gates are unreachable
+    # by construction. Aggregate P/R over this subset only.
+    pr_scored = [m for m in scored if m.get("has_must_have")]
 
     if scored:
+        if pr_scored:
+            mean_p = round(statistics.mean(m["precision"] for m in pr_scored), 3)
+            mean_r = round(statistics.mean(m["recall"] for m in pr_scored), 3)
+            mean_f = round(statistics.mean(m["f1"] for m in pr_scored), 3)
+        else:
+            mean_p = mean_r = mean_f = None  # no must_have anywhere
         summary = {
             "n_total": len(per_image),
             "n_scored": len(scored),
+            "n_scored_with_must_have": len(pr_scored),
             "n_errored": len(errored),
             "median_latency_s": round(statistics.median(latencies), 1) if latencies else None,
-            "mean_precision": round(statistics.mean(m["precision"] for m in scored), 3),
-            "mean_recall": round(statistics.mean(m["recall"] for m in scored), 3),
-            "mean_f1": round(statistics.mean(m["f1"] for m in scored), 3),
+            "mean_precision": mean_p,
+            "mean_recall": mean_r,
+            "mean_f1": mean_f,
             "total_sensitive_fp": sum(m.get("sensitive_fp", 0) for m in scored),
             "sensitive_fp_per_scored_image": round(
                 sum(m.get("sensitive_fp", 0) for m in scored) / len(scored), 3
@@ -124,11 +146,12 @@ def main():
         summary = {
             "n_total": len(per_image),
             "n_scored": 0,
+            "n_scored_with_must_have": 0,
             "n_errored": len(errored),
             "median_latency_s": None,
-            "mean_precision": 0.0,
-            "mean_recall": 0.0,
-            "mean_f1": 0.0,
+            "mean_precision": None,
+            "mean_recall": None,
+            "mean_f1": None,
             "total_sensitive_fp": 0,
             "sensitive_fp_per_scored_image": 0.0,
         }

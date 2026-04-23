@@ -56,13 +56,15 @@ def test_sensitive_fp_only_counts_blocklist_intersection():
     assert m["sensitive_fp"] == 1  # only 蘿莉 counts
 
 
-def test_sensitive_tag_not_in_must_not_does_not_count():
-    # If implementer forgot to put 蘿莉 in must_not_have, sensitive_fp won't catch it.
-    # This documents that behavior so reviewers know to keep blocklists complete.
+def test_sensitive_fp_caught_even_if_not_in_must_not_have():
+    # sensitive_fp is now substring-checked against SENSITIVE_SET directly,
+    # so a 蘿莉 leak is flagged even when the golden file's must_not_have
+    # list is empty. This prevents the "implementer forgot to widen the
+    # blocklist" footgun from hiding category-level leaks.
     expected = {"must_have": [], "must_not_have": [], "nice_to_have": []}
     m = eval_accuracy.metrics(["蘿莉"], expected)
-    assert m["fp"] == 0
-    assert m["sensitive_fp"] == 0
+    assert m["fp"] == 0  # must_not_have is still empty, so per-image fp stays 0
+    assert m["sensitive_fp"] == 1  # but SENSITIVE_SET membership catches it
 
 
 def test_nice_to_have_hits_counted():
@@ -89,3 +91,31 @@ def test_missing_keys_default_safely():
     m = eval_accuracy.metrics(["a"], {"must_have": ["a"]})
     assert m["tp"] == 1
     assert m["fp"] == 0
+
+
+def test_sensitive_fp_substring_catches_compound_tags():
+    """巨乳蘿莉 contains 蘿莉 (in SENSITIVE_SET) — must be counted as
+    a sensitive leak even though it's not literally in must_not_have.
+    Prior behavior used strict set intersection and missed this."""
+    expected = {"must_have": [], "must_not_have": ["蘿莉"], "nice_to_have": []}
+    m = eval_accuracy.metrics(["巨乳蘿莉"], expected)
+    assert m["sensitive_fp"] == 1
+
+
+def test_sensitive_fp_substring_catches_multiple_sensitive_terms():
+    expected = {"must_have": [], "must_not_have": [], "nice_to_have": []}
+    m = eval_accuracy.metrics(["低含量蘿莉", "輪姦party", "safe_tag"], expected)
+    # 低含量蘿莉 contains 蘿莉; 輪姦party contains 輪姦; safe_tag contains neither.
+    assert m["sensitive_fp"] == 2
+
+
+def test_has_must_have_flag_true():
+    expected = {"must_have": ["a"], "must_not_have": [], "nice_to_have": []}
+    m = eval_accuracy.metrics([], expected)
+    assert m["has_must_have"] is True
+
+
+def test_has_must_have_flag_false():
+    expected = {"must_have": [], "must_not_have": ["x"], "nice_to_have": ["y"]}
+    m = eval_accuracy.metrics(["y"], expected)
+    assert m["has_must_have"] is False
