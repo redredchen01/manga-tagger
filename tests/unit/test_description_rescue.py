@@ -177,3 +177,29 @@ async def test_rescue_survives_embedding_service_failure(monkeypatch):
         vlm_analysis=vlm_analysis, rag_matches=[], top_k=5, confidence_threshold=0.3
     )
     assert any(r.tag == "雙馬尾" for r in recs)
+
+
+@pytest.mark.asyncio
+async def test_rescue_disabled_via_config_flag(monkeypatch):
+    """Kill-switch: when DESC_RESCUE_ENABLED=False, rescue path must not run,
+    even when all other preconditions are met (good description, embedding up)."""
+    service = _build_service({"雙馬尾"})
+    fake_embed = _patch_embedding(monkeypatch, [
+        {"tag": "雙馬尾", "similarity": 0.90},
+    ])
+    monkeypatch.setattr("app.core.config.settings.DESC_RESCUE_ENABLED", False)
+
+    service._search_semantic = AsyncMock(side_effect=lambda kws, recs, k: recs)
+    service._refine_with_llm = AsyncMock(side_effect=lambda recs, *a, **kw: recs)
+    service._verify_and_calibrate = AsyncMock(side_effect=lambda recs, *a, **kw: recs)
+
+    vlm_analysis = {
+        "description": "一個綁雙馬尾的少女",
+        "tags": [{"tag": "雙馬尾", "category": "body", "confidence": 0.9, "evidence": "x"}],
+        "source": "vlm_json",
+    }
+    await service.recommend_tags(
+        vlm_analysis=vlm_analysis, rag_matches=[], top_k=5, confidence_threshold=0.3
+    )
+    # When rescue is disabled the embedding search must not even be called
+    fake_embed.search_cached_tags.assert_not_called()

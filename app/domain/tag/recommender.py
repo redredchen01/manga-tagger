@@ -161,7 +161,7 @@ class TagRecommenderService:
                             desc_candidates.append(
                                 TagRecommendation(
                                     tag=name,
-                                    confidence=safe_confidence(sim * 0.7),
+                                    confidence=safe_confidence(sim * settings.DESC_RESCUE_PENALTY),
                                     source="description_rescue",
                                     reason=f"desc embed match (sim={sim:.2f})",
                                 )
@@ -175,7 +175,7 @@ class TagRecommenderService:
             vlm_tag_set = {r.tag for r in recommendations}
             desc_tag_set = {dc.tag for dc in desc_candidates}
 
-            if len(recommendations) < 3:
+            if len(recommendations) < settings.DESC_RESCUE_UNDERDELIVER_THRESHOLD:
                 # VLM under-delivered -> rescue becomes main source
                 for dc in desc_candidates:
                     if dc.tag not in vlm_tag_set:
@@ -185,7 +185,7 @@ class TagRecommenderService:
                 # VLM delivered -> rescue adds at most 2 non-duplicates
                 added = 0
                 for dc in desc_candidates:
-                    if added >= 2:
+                    if added >= settings.DESC_RESCUE_MAX_ADDITIONS:
                         break
                     if dc.tag not in vlm_tag_set:
                         recommendations.append(dc)
@@ -195,6 +195,7 @@ class TagRecommenderService:
             # Dual-source agreement boost for VLM tags also seen in embedding
             for r in recommendations:
                 if r.source == "vlm_json" and r.tag in desc_tag_set:
+                    # +0.10 matches the dual-source boost pattern used elsewhere (e.g. _merge_rag_tags)
                     r.confidence = safe_confidence(min(r.confidence + 0.10, 1.0))
                     r.reason = (r.reason or "") + " (+desc agreement)"
 

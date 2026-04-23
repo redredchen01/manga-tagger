@@ -123,6 +123,9 @@ class Settings(BaseSettings):
     DESC_RESCUE_ENABLED: bool = True
     DESC_RESCUE_TOP_K: int = 8
     DESC_RESCUE_THRESHOLD: float = 0.60  # looser than semantic_fallback 0.75
+    DESC_RESCUE_PENALTY: float = 0.7  # confidence multiplier for description-only candidates
+    DESC_RESCUE_UNDERDELIVER_THRESHOLD: int = 3  # if VLM delivered fewer than this, rescue fills freely
+    DESC_RESCUE_MAX_ADDITIONS: int = 2  # cap rescue additions when VLM delivered >= threshold
 
     HYBRID_SEARCH_IMAGE_WEIGHT: float = 0.7
     HYBRID_SEARCH_TEXT_WEIGHT: float = 0.3
