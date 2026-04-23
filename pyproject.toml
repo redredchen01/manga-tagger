@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "manga-tagger"
 version = "2.0.0"
@@ -39,6 +43,9 @@ dependencies = [
     "structlog>=25.0.0",
     "prometheus-client>=0.20.0",
 ]
+
+[tool.setuptools]
+packages = ["app"]
 
 [project.optional-dependencies]
 dev = [
