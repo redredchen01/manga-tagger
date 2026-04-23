@@ -153,10 +153,10 @@ class LMStudioVLMService:
 
         # Try VLM but with very short timeout
         try:
-            from app.domain.tag.allowed_list import build_prompt_fragment
+            from app.domain.tag.allowed_list import build_compact_prompt_fragment
             from app.domain.tag.library import get_tag_library_service
             tag_lib = get_tag_library_service()
-            allowed_fragment = build_prompt_fragment(tag_lib.tags)
+            allowed_fragment = build_compact_prompt_fragment(tag_lib.tags)
             prompt = get_structured_prompt(allowed_fragment)
             messages = [
                 {
