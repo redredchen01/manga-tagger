@@ -50,15 +50,15 @@ class Settings(BaseSettings):
     # Note: LM_STUDIO_API_KEY must be set via environment variable - no hardcoded default for security
     LM_STUDIO_API_KEY: str | None = None
     LM_STUDIO_BASE_URL: str = "http://127.0.0.1:1234/v1"
-    LM_STUDIO_VISION_MODEL: str = "zai-org/glm-4.7-flash"
-    LM_STUDIO_TEXT_MODEL: str = "qwen/qwen3-coder-next"
+    LM_STUDIO_VISION_MODEL: str = "qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive"
+    LM_STUDIO_TEXT_MODEL: str = "qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive"
     LM_STUDIO_EMBEDDING_MODEL: str = "Qwen/Qwen3-Embedding-8B-GGUF"
     LM_STUDIO_EMBEDDING_DIM: int = 4096
     USE_LM_STUDIO: bool = True
 
     # Ollama Configuration (Alternative to LM Studio)
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_VISION_MODEL: str = "llava"
+    OLLAMA_VISION_MODEL: str = "qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive"
     USE_OLLAMA: bool = False
 
     VLM_MAX_TOKENS: int = 2048
@@ -132,7 +132,7 @@ class Settings(BaseSettings):
 
     # Performance tuning for Python 3.12+
     MAX_IMAGE_SIZE_MB: int = 10
-    VLM_TIMEOUT_SECONDS: int = 300  # Phase 1: glm-4.6v + 2048-token prompt; tighten in Tasks 5/6
+    VLM_TIMEOUT_SECONDS: int = 300  # qwen3.6-35b-a3b on consumer GPU + 2048-token prompt
     RAG_TIMEOUT_SECONDS: int = 60
     TAG_RECOMMENDATION_TIMEOUT_SECONDS: int = 20
     MAX_CONCURRENT_VLM_CALLS: int = 1  # Reduce concurrency to ensure stability on consumer GPUs

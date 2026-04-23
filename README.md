@@ -52,8 +52,8 @@ LM Studio mode:
 USE_MOCK_SERVICES=false
 USE_LM_STUDIO=true
 LM_STUDIO_BASE_URL=http://127.0.0.1:1234/v1
-LM_STUDIO_VISION_MODEL=glm-4.6v-flash
-LM_STUDIO_TEXT_MODEL=llama-3.2-8b-instruct
+LM_STUDIO_VISION_MODEL=qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive
+LM_STUDIO_TEXT_MODEL=qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive
 LM_STUDIO_EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B-GGUF
 ```
 
@@ -155,8 +155,8 @@ USE_MOCK_SERVICES=false
 
 LM_STUDIO_BASE_URL=http://127.0.0.1:1234/v1
 LM_STUDIO_API_KEY=lm-studio
-LM_STUDIO_VISION_MODEL=glm-4.6v-flash
-LM_STUDIO_TEXT_MODEL=llama-3.2-8b-instruct
+LM_STUDIO_VISION_MODEL=qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive
+LM_STUDIO_TEXT_MODEL=qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive
 LM_STUDIO_EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B-GGUF
 LM_STUDIO_EMBEDDING_DIM=4096
 

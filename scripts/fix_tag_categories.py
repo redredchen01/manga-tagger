@@ -28,7 +28,7 @@ import httpx
 
 LIBRARY = Path("51標籤庫.json")
 LM_STUDIO_BASE = os.environ.get("LM_STUDIO_BASE_URL", "http://127.0.0.1:1234/v1").rstrip("/")
-LM_TEXT_MODEL = os.environ.get("LM_STUDIO_TEXT_MODEL", "zai-org/glm-4.7-flash")
+LM_TEXT_MODEL = os.environ.get("LM_STUDIO_TEXT_MODEL", "qwen3.6-35b-a3b-uncensored-hauhaucs-aggressive")
 LLM_TIMEOUT_S = 15.0
 BATCH_SAVE_EVERY = 50
 

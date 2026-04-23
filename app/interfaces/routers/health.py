@@ -140,9 +140,9 @@ It is used by startup scripts, Kubernetes probes, and monitoring systems.
                         "status": "healthy",
                         "version": "2.0.0",
                         "models_loaded": {
-                            "vlm": "glm-4.6v-flash",
+                            "vlm": "qwen3.6-35b-a3b-uncensored",
                             "vlm_initialized": True,
-                            "llm": "llama-3.2-8b-instruct",
+                            "llm": "qwen3.6-35b-a3b-uncensored",
                             "llm_initialized": True,
                             "rag": "ChromaDB (Local)",
                             "rag_initialized": True,
