@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, AsyncMock
 
 import pytest
 
@@ -142,6 +142,82 @@ class TestTagRecommenderService:
         keywords = recommender._extract_vlm_keywords(vlm_analysis)
         assert isinstance(keywords, list)
         assert len(keywords) > 0
+
+    @pytest.mark.asyncio
+    async def test_sensitive_tags_with_string_format(self):
+        """Test _verify_and_calibrate with SENSITIVE_TAGS as production string format.
+
+        This test catches the str-vs-set asymmetry bug that normal mocking hides.
+        In production, SENSITIVE_TAGS is a comma-separated string; settings.sensitive_tags
+        is a @computed_field set derived from it. Line 581 should use the set, not the string.
+        """
+        with patch("app.services.tag_recommender_service.settings") as mock:
+            mock.USE_MOCK_SERVICES = True
+            mock.USE_LM_STUDIO = False
+            # Production format: SENSITIVE_TAGS as comma-separated string
+            mock.SENSITIVE_TAGS = "蘿莉,正太,嬰兒,強制,強姦,亂倫,獵奇,肛交,觸手,綁縛"
+            # Corresponding set (what @computed_field produces)
+            mock.sensitive_tags = {"蘿莉", "正太", "嬰兒", "強制", "強姦", "亂倫", "獵奇", "肛交", "觸手", "綁縛"}
+            mock.SENSITIVE_SUBSTRING_FILTER_ENABLED = True
+            mock.EXACT_MATCH_BOOST = 1.1
+            mock.PARTIAL_MATCH_BOOST = 1.0
+            mock.SEMANTIC_MATCH_PENALTY = 0.95
+            mock.MIN_ACCEPTABLE_CONFIDENCE = 0.35
+            mock.TAG_FREQUENCY_CALIBRATION = {}
+            mock.SEMANTIC_SIBLINGS = {}
+            mock.EXACT_MATCH_PENALTY = {}
+            mock.VISUAL_FEATURE_BOOST = {}
+            mock.RAG_SUPPORT_BOOST = 1.0
+            mock.RAG_SUPPORT_DECAY = 1.0
+            mock.MUTUAL_EXCLUSIVITY = {}
+            mock.TAG_HIERARCHY = {}
+
+            # Reset singleton and create fresh recommender
+            tag_recommender_service._recommender_service = None
+            recommender = tag_recommender_service.get_tag_recommender_service()
+
+            # Test case 1: exact match should be detected correctly
+            rec_exact = tag_recommender_service.TagRecommendation(
+                tag="蘿莉",
+                confidence=0.9,
+                source="vlm",
+                reason="from VLM"
+            )
+
+            # Test case 2: substring but not exact should NOT be flagged as exact_sensitive
+            rec_substring = tag_recommender_service.TagRecommendation(
+                tag="蘿莉蘿莉",  # contains "蘿莉" but is not exact match
+                confidence=0.85,
+                source="vlm",
+                reason="from VLM"
+            )
+
+            # Verify the logic with mock VLM (async)
+            mock_vlm = MagicMock()
+            mock_vlm.verify_sensitive_tag = AsyncMock(return_value=True)
+
+            recommendations = [rec_exact, rec_substring]
+
+            # Call _verify_and_calibrate (will be async)
+            result = await recommender._verify_and_calibrate(
+                recommendations=recommendations,
+                vlm_service=mock_vlm,
+                image_bytes=b"fake_image_bytes",
+                rag_matches=[],
+                vlm_analysis=None
+            )
+
+            # Verify:
+            # - rec_exact should have "Verified" in reason (exact match, verified by VLM)
+            # - rec_substring should have "substring-verified" if verification passed
+            assert any(r.tag == "蘿莉" and "Verified" in r.reason for r in result), \
+                "Exact-match sensitive tag should be verified"
+
+            # Check substring handling - should be in result with verification marker
+            substring_recs = [r for r in result if r.tag == "蘿莉蘿莉"]
+            assert len(substring_recs) > 0, "Substring-sensitive tag should be present after verification"
+            assert any("substring-verified" in r.reason for r in substring_recs), \
+                "Substring-sensitive tag should have substring-verified marker"
 
 
 class TestTagRecommendation:
