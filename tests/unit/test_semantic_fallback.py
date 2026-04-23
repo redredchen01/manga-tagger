@@ -1,4 +1,8 @@
-"""Semantic search must only kick in when VLM under-delivered."""
+"""Semantic search is a second-tier fallback. In the full pipeline,
+Stage 1b's description_rescue already runs first and may top up
+`current_recs` before `_search_semantic` is called. These tests
+exercise `_search_semantic` in isolation, so the unit-level trigger
+(current_recs count vs SEMANTIC_FALLBACK_TRIGGER_COUNT) is unchanged."""
 from __future__ import annotations
 
 import sys
