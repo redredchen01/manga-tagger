@@ -65,8 +65,9 @@ async def test_compound_with_image_and_verify_true_is_kept(patched_settings):
         vlm_analysis={},
     )
 
-    assert any(r.tag == "巨乳蘿莉" for r in out)
-    kept = next(r for r in out if r.tag == "巨乳蘿莉")
+    matches = [r for r in out if r.tag == "巨乳蘿莉"]
+    assert len(matches) == 1
+    kept = matches[0]
     assert "substring-verified" in kept.reason
     vlm_service.verify_sensitive_tag.assert_awaited_once_with(
         b"fake-image-bytes", "巨乳蘿莉"
@@ -81,7 +82,7 @@ async def test_compound_with_image_and_verify_false_is_dropped(patched_settings)
     vlm_service.verify_sensitive_tag = AsyncMock(return_value=False)
 
     out = await svc._verify_and_calibrate(
-        recommendations=[_make_rec("巨乳蘿莉")],
+        recommendations=[_make_rec("巨乳蘿莉"), _make_rec("風景")],
         vlm_service=vlm_service,
         image_bytes=b"fake-image-bytes",
         rag_matches=[],
@@ -89,6 +90,7 @@ async def test_compound_with_image_and_verify_false_is_dropped(patched_settings)
     )
 
     assert all(r.tag != "巨乳蘿莉" for r in out)
+    assert any(r.tag == "風景" for r in out), "control tag was dropped — bug elsewhere"
 
 
 @pytest.mark.asyncio
@@ -97,7 +99,7 @@ async def test_compound_without_image_bytes_is_dropped(patched_settings):
     svc = TagRecommenderService()
 
     out = await svc._verify_and_calibrate(
-        recommendations=[_make_rec("巨乳蘿莉")],
+        recommendations=[_make_rec("巨乳蘿莉"), _make_rec("風景")],
         vlm_service=None,
         image_bytes=None,
         rag_matches=[],
@@ -105,6 +107,7 @@ async def test_compound_without_image_bytes_is_dropped(patched_settings):
     )
 
     assert all(r.tag != "巨乳蘿莉" for r in out)
+    assert any(r.tag == "風景" for r in out), "control tag was dropped — bug elsewhere"
 
 
 @pytest.mark.asyncio
@@ -124,8 +127,8 @@ async def test_exact_singleton_without_image_bytes_is_kept_with_penalty(
 
     kept = next((r for r in out if r.tag == "蘿莉"), None)
     assert kept is not None
-    # 0.8 * 0.7 = 0.56; safe_confidence rounds, so allow tolerance
-    assert 0.55 <= kept.confidence <= 0.57
+    # 0.8 * 0.7 = 0.56 (safe_confidence rounding tolerance)
+    assert kept.confidence == pytest.approx(0.56, abs=0.01)
     assert "Unverified" in kept.reason
 
 
@@ -143,4 +146,4 @@ async def test_compound_with_flag_disabled_is_kept(patched_settings):
         vlm_analysis={},
     )
 
-    assert any(r.tag == "巨乳蘿莉" for r in out)
+    assert sum(1 for r in out if r.tag == "巨乳蘿莉") == 1
