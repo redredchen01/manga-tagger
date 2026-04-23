@@ -578,18 +578,45 @@ class TagRecommenderService:
         verified = []
 
         for rec in recommendations:
-            is_sensitive = rec.tag in settings.SENSITIVE_TAGS
+            exact_sensitive = rec.tag in settings.SENSITIVE_TAGS
+            substring_sensitive = (
+                not exact_sensitive
+                and settings.SENSITIVE_SUBSTRING_FILTER_ENABLED
+                and any(s in rec.tag for s in settings.sensitive_tags)
+            )
 
-            if is_sensitive and vlm_service and image_bytes:
+            if exact_sensitive and vlm_service and image_bytes:
                 is_verified = await vlm_service.verify_sensitive_tag(image_bytes, rec.tag)
                 if not is_verified:
                     logger.warning(f"Sensitive tag '{rec.tag}' failed verification, removing")
                     continue
                 rec.reason += " | Verified"
 
-            elif is_sensitive and not (vlm_service and image_bytes):
+            elif exact_sensitive and not (vlm_service and image_bytes):
                 rec.confidence = safe_confidence(rec.confidence * 0.7)
                 rec.reason += " | Unverified (penalized)"
+
+            elif substring_sensitive:
+                if not (vlm_service and image_bytes):
+                    logger.warning(
+                        "substring-sensitive drop (no verifier): %s", rec.tag
+                    )
+                    continue
+                try:
+                    ok = await vlm_service.verify_sensitive_tag(image_bytes, rec.tag)
+                except Exception as e:
+                    logger.warning(
+                        "substring-sensitive drop (verify error %s): %s",
+                        type(e).__name__,
+                        rec.tag,
+                    )
+                    continue
+                if not ok:
+                    logger.warning(
+                        "substring-sensitive drop (verify failed): %s", rec.tag
+                    )
+                    continue
+                rec.reason += " | substring-verified"
 
             verified.append(rec)
 
