@@ -163,7 +163,7 @@ def get_structured_prompt(allowed_list_fragment: str) -> str:
   "tags": [
     {{
       "tag": "<必須在上方允許列表中>",
-      "category": "<character|clothing|body|action|theme|style>",
+      "category": "<character|clothing|body|action|theme|style> — optional self-check",
       "confidence": 0.0-1.0,
       "evidence": "<簡短視覺證據，10 字以內>"
     }}
@@ -176,12 +176,13 @@ def get_structured_prompt(allowed_list_fragment: str) -> str:
 1. 視覺證據不足的標籤一律不要列（confidence < 0.6 的標籤直接拿掉，不要列出）
 2. 不確定就不標。**Do not hedge**——不要寫「需要更多視覺證據」、「可能是」、「似乎」之類字串
 3. tag 欄位必須**完全等於**允許列表中的某個標籤名稱（包含中英文與標點）
-4. 同一標籤不要重複列出
-5. 角色年齡標記極嚴格：
+4. category 欄位為 optional self-check——寫不出或不確定時可省略，library 匹配只看 tag 欄位
+5. 同一標籤不要重複列出
+6. 角色年齡標記極嚴格：
    - 「蘿莉」：僅當角色有明顯兒童特徵（身形嬌小、兒童面容、無胸部發育）
    - 「正太」：僅當角色有明顯青少年男孩特徵
    - 大眼睛是藝術風格、非年齡指標
-6. 性感內容嚴格證據：
+7. 性感內容嚴格證據：
    - 「肛交」「強姦」「觸手」等：僅當有明確視覺證據
 
 ## 重要
