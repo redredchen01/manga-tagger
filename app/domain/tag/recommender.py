@@ -80,23 +80,45 @@ class TagRecommenderService:
         try:
             recommendations: List[TagRecommendation] = []
 
-            # Stage 1: Extract and validate keywords
-            vlm_keywords = self._extract_vlm_keywords(vlm_analysis)
-            vlm_is_valid = self._is_vlm_analysis_valid(vlm_analysis)
+            # Stage 1: VLM JSON tags are now authoritative; do NOT fall back to
+            # description-keyword extraction (that path was the source of hedge
+            # contamination like '需要更多視覺證據' -> '卡在牆上').
+            vlm_json_tags = vlm_analysis.get("tags", []) if isinstance(vlm_analysis, dict) else []
+            mapped_keywords: List[str] = []
+            vlm_is_valid = True
 
-            if vlm_is_valid:
-                logger.info(f"VLM valid. Extracted {len(vlm_keywords)} keywords")
+            if vlm_json_tags and isinstance(vlm_json_tags, list) and any(
+                isinstance(t, dict) and t.get("tag") for t in vlm_json_tags
+            ):
+                # New path: use the tag names from the JSON contract directly
+                logger.info(f"VLM JSON path: {len(vlm_json_tags)} tags from contract")
+                for t in vlm_json_tags:
+                    if not isinstance(t, dict):
+                        continue
+                    name = t.get("tag", "").strip() if isinstance(t.get("tag"), str) else ""
+                    if not name or name not in self.tag_library.tag_names:
+                        continue
+                    confidence = float(t.get("confidence", 0.6)) if isinstance(t.get("confidence"), (int, float)) else 0.6
+                    if confidence < 0.6:
+                        continue
+                    recommendations.append(
+                        TagRecommendation(
+                            tag=name,
+                            confidence=safe_confidence(confidence),
+                            source="vlm_json",
+                            reason=t.get("evidence", "VLM JSON tag") or "VLM JSON tag",
+                        )
+                    )
+                    mapped_keywords.append(name)  # used by semantic fallback only
             else:
-                logger.warning("VLM invalid. Using RAG-only mode")
-                description = vlm_analysis.get("description", "")
-                if description and "failed" not in description.lower():
-                    vlm_keywords = self._extract_keywords_from_text(description)
-
-            # Stage 2: Map English keywords to Chinese
-            mapped_keywords = self._map_keywords_to_chinese(vlm_keywords)
-
-            # Stage 3: Match with tag library
-            recommendations = self._match_with_library(mapped_keywords, confidence_threshold)
+                # Backward compat: legacy free-form analysis (mock services / old VLM)
+                logger.warning("No VLM JSON tags; falling back to legacy keyword extraction")
+                vlm_keywords = self._extract_vlm_keywords(vlm_analysis)
+                vlm_is_valid = self._is_vlm_analysis_valid(vlm_analysis)
+                if not vlm_is_valid:
+                    logger.warning("VLM invalid. Using RAG-only mode")
+                mapped_keywords = self._map_keywords_to_chinese(vlm_keywords)
+                recommendations = self._match_with_library(mapped_keywords, confidence_threshold)
 
             # Stage 4: Semantic search (if available and needed)
             recommendations = await self._search_semantic(mapped_keywords, recommendations, top_k)
