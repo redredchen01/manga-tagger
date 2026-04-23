@@ -232,8 +232,17 @@ class TagRecommenderService:
         current_recs: List[TagRecommendation],
         top_k: int,
     ) -> List[TagRecommendation]:
-        """Perform semantic search for additional tags."""
-        if settings.USE_MOCK_SERVICES or len(current_recs) >= top_k:
+        """Perform semantic search ONLY as a fallback when VLM under-delivered.
+
+        Triggers when len(current_recs) < SEMANTIC_FALLBACK_TRIGGER_COUNT.
+        Cap additions at SEMANTIC_FALLBACK_MAX_ADDITIONS.
+        Filter results by CHINESE_EMBEDDING_THRESHOLD (0.75).
+        """
+        if settings.USE_MOCK_SERVICES:
+            return current_recs
+        if len(current_recs) >= settings.SEMANTIC_FALLBACK_TRIGGER_COUNT:
+            return current_recs
+        if len(current_recs) >= top_k:
             return current_recs
 
         try:
@@ -246,7 +255,7 @@ class TagRecommenderService:
         if not embedding_service or not embedding_service.is_available():
             return current_recs
 
-        logger.info("Performing semantic search")
+        logger.info("Performing semantic fallback (VLM under-delivered)")
         # ENCAPSULATION FIX: Use hasattr instead of direct private attribute access
         if (
             not hasattr(embedding_service, "_tag_matrix_cache")
@@ -255,23 +264,30 @@ class TagRecommenderService:
             all_tags = self.tag_library.get_all_tags()
             await embedding_service.cache_tag_embeddings(all_tags)
 
+        added_count = 0
         for keyword in keywords:
+            if added_count >= settings.SEMANTIC_FALLBACK_MAX_ADDITIONS:
+                break
             semantic_matches = await embedding_service.search_cached_tags(
                 keyword, top_k=2, threshold=settings.CHINESE_EMBEDDING_THRESHOLD
             )
             for s_match in semantic_matches:
+                if added_count >= settings.SEMANTIC_FALLBACK_MAX_ADDITIONS:
+                    break
                 tag_name = s_match["tag"]
-                if not any(r.tag == tag_name for r in current_recs):
-                    current_recs.append(
-                        TagRecommendation(
-                            tag=tag_name,
-                            confidence=safe_confidence(
-                                s_match["similarity"] * settings.SEMANTIC_MATCH_PENALTY
-                            ),
-                            source="semantic_match",
-                            reason=f"Semantic match for '{keyword}' ({s_match['similarity']:.2f})",
-                        )
+                if any(r.tag == tag_name for r in current_recs):
+                    continue
+                current_recs.append(
+                    TagRecommendation(
+                        tag=tag_name,
+                        confidence=safe_confidence(
+                            s_match["similarity"] * settings.SEMANTIC_MATCH_PENALTY
+                        ),
+                        source="semantic_fallback",
+                        reason=f"Semantic fallback for '{keyword}' (sim={s_match['similarity']:.2f})",
                     )
+                )
+                added_count += 1
         return current_recs
 
     def _extract_rag_tags(
