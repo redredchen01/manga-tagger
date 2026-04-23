@@ -9,8 +9,8 @@
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 安裝依賴
-pip install -r requirements.txt
+# 安裝依賴(含 dev extras)
+pip install -e ".[dev]"
 
 # 設置環境變數
 cp .env.example .env
@@ -94,7 +94,7 @@ manga-tagger/
 ├── scripts/                  # 腳本工具
 ├── start_server.py          # 啟動腳本
 ├── test_api.py              # API 測試
-└── requirements.txt         # Python 依賴
+└── pyproject.toml          # Python 依賴與工具配置
 ```
 
 ## 配置選項
@@ -169,7 +169,7 @@ python -c "from app.config import settings; print(settings.dict())"
 
 ```bash
 # 重新安裝依賴
-pip install -r requirements.txt --force-reinstall
+pip install -e . --force-reinstall
 
 # 檢查 PyTorch 安裝
 python -c "import torch; print(torch.cuda.is_available())"

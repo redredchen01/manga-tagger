@@ -1,8 +1,53 @@
 [project]
 name = "manga-tagger"
 version = "2.0.0"
-description = "Manga cover auto-tagger using Local VLM and RAG"
+description = "Manga cover auto-tagger using local VLM (LM Studio qwen3.6-35b) and RAG"
 requires-python = ">=3.11"
+dependencies = [
+    # Web framework
+    "fastapi>=0.135.0",
+    "uvicorn[standard]>=0.34.0",
+    "python-multipart>=0.0.22",
+    "pydantic>=2.10.0",
+    "pydantic-settings>=2.7.0",
+
+    # Local UI
+    "streamlit>=1.49.0",
+
+    # HTTP clients
+    "httpx>=0.28.0",
+    "requests>=2.32.0",
+
+    # Numerics & embeddings
+    "numpy>=2.2.0",
+    "sentence-transformers>=3.3.0",
+
+    # RAG store
+    "chromadb>=0.5.0",
+
+    # Image processing
+    "Pillow>=12.1.1",
+
+    # Task queue & caching
+    "redis>=5.0.0",
+    "rq>=1.16.0",
+
+    # Process / system utils
+    "psutil>=6.1.0",
+
+    # Observability
+    "structlog>=25.0.0",
+    "prometheus-client>=0.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "black>=24.10.0",
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+]
 
 [tool.semantic_release]
 version_variable = "pyproject.toml:version"
