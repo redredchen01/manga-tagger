@@ -168,7 +168,9 @@ class TagRecommenderService:
             return recommendations[:top_k]
 
         except Exception as e:
-            logger.error(f"Tag recommendation failed: {e}")
+            # Top-level safety net: API callers get [] on pipeline failure instead of
+            # a 500. Log with full traceback so we can still see the root cause.
+            logger.exception("Tag recommendation failed: %s: %s", type(e).__name__, e)
             status = "error"
             return []
         finally:
@@ -259,7 +261,8 @@ class TagRecommenderService:
             from app.services.chinese_embedding_service import get_chinese_embedding_service
 
             embedding_service = get_chinese_embedding_service()
-        except Exception:
+        except (ImportError, AttributeError, RuntimeError) as e:
+            logger.warning("Semantic fallback unavailable: %s: %s", type(e).__name__, e)
             return current_recs
 
         if not embedding_service or not embedding_service.is_available():
@@ -452,7 +455,9 @@ class TagRecommenderService:
                     for r in refined
                 ]
         except Exception as e:
-            logger.error(f"LLM refinement failed: {e}")
+            # LLM synthesis is a best-effort refinement; on any failure fall back
+            # to the candidates we already have rather than poisoning the request.
+            logger.exception("LLM refinement failed: %s: %s", type(e).__name__, e)
         return current_recs
 
     def _add_related_tags(
