@@ -14,7 +14,7 @@ class TagLibraryService:
     """Service for loading and matching tags from the tag library."""
 
     def __init__(self, tag_library_path: Optional[str] = None):
-        self.tag_library_path = tag_library_path or "./data/tags.json"
+        self.tag_library_path = tag_library_path or "./51標籤庫.json"
         self.tags: List[Dict[str, Any]] = []
         self.tag_names: List[str] = []
         self.tag_categories: Dict[str, List[str]] = {}

@@ -79,7 +79,7 @@ class Settings(BaseSettings):
     RAG_SIMILARITY_THRESHOLD: float = RAG_SIMILARITY_THRESHOLD
     LEXICAL_MATCH_THRESHOLD: float = 0.6
 
-    TAG_LIBRARY_PATH: str = "./data/tags.json"
+    TAG_LIBRARY_PATH: str = "./51標籤庫.json"
 
     BATCH_SIZE: int = 1
     MAX_CONCURRENT_REQUESTS: int = 10
