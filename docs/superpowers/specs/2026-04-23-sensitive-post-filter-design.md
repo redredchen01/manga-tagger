@@ -187,3 +187,11 @@ No data migration, no schema change.
 - Two-stage VLM spec (Workstream W) — orthogonal latency/quality work.
 - Tightening exact-match singletons to drop-without-image — possible follow-up
   if eval shows leakage there too.
+
+## 12. Manual Verification (2026-04-23)
+
+- **Pre-fix** `sensitive_fp_per_scored_image`: 0.333 (memory: `sensitive_substring_leak`, commit `e7b8490`)
+- **Post-fix** `sensitive_fp_per_scored_image`: 0.0
+- **Verdict:** Leak vector closed (strictly below pre-fix value).
+- **Caveats:** This run used the same starter golden set (3 scored images). Acceptance gate `≤ 0.3` per spec §6.2 still requires golden-set expansion (Workstream V). This task only certifies the substring leak vector is no longer the source of false positives.
+- All three scored images (`test_anime.jpg`, `test_anime_detailed.jpg`, `test_real_image.jpg`) returned `sens_fp=0`; the previously leaking `巨乳蘿莉` compound did not appear in any output. `test_image.jpg` errored with HTTP 400 (pipeline rejected the solid-red image upstream) and was excluded from scoring.
