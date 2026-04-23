@@ -122,6 +122,82 @@ class TagRecommenderService:
                 mapped_keywords = self._map_keywords_to_chinese(vlm_keywords)
                 recommendations = self._match_with_library(mapped_keywords, confidence_threshold)
 
+            # Stage 1b: Description-embedding rescue path.
+            # Always compute; merge is conditional on VLM's delivery.
+            desc_candidates: List[TagRecommendation] = []
+            description = (
+                vlm_analysis.get("description", "") if isinstance(vlm_analysis, dict) else ""
+            )
+            if (
+                settings.DESC_RESCUE_ENABLED
+                and not settings.USE_MOCK_SERVICES
+                and isinstance(description, str)
+                and len(description) >= 4
+            ):
+                try:
+                    from app.services.chinese_embedding_service import (
+                        get_chinese_embedding_service,
+                    )
+
+                    embed_service = get_chinese_embedding_service()
+                    if embed_service and embed_service.is_available():
+                        if (
+                            not hasattr(embed_service, "_tag_matrix_cache")
+                            or embed_service._tag_matrix_cache is None
+                        ):
+                            await embed_service.cache_tag_embeddings(
+                                self.tag_library.get_all_tags()
+                            )
+                        matches = await embed_service.search_cached_tags(
+                            description,
+                            top_k=settings.DESC_RESCUE_TOP_K,
+                            threshold=settings.DESC_RESCUE_THRESHOLD,
+                        )
+                        for m in matches:
+                            name = m.get("tag", "")
+                            if not name or name not in self.tag_library.tag_names:
+                                continue
+                            sim = float(m.get("similarity", 0.0))
+                            desc_candidates.append(
+                                TagRecommendation(
+                                    tag=name,
+                                    confidence=safe_confidence(sim * 0.7),
+                                    source="description_rescue",
+                                    reason=f"desc embed match (sim={sim:.2f})",
+                                )
+                            )
+                except (ImportError, AttributeError, RuntimeError) as e:
+                    logger.warning(
+                        "Description rescue unavailable: %s: %s", type(e).__name__, e
+                    )
+
+            # Merge rescue into primary recommendations
+            vlm_tag_set = {r.tag for r in recommendations}
+            desc_tag_set = {dc.tag for dc in desc_candidates}
+
+            if len(recommendations) < 3:
+                # VLM under-delivered -> rescue becomes main source
+                for dc in desc_candidates:
+                    if dc.tag not in vlm_tag_set:
+                        recommendations.append(dc)
+                        vlm_tag_set.add(dc.tag)
+            else:
+                # VLM delivered -> rescue adds at most 2 non-duplicates
+                added = 0
+                for dc in desc_candidates:
+                    if added >= 2:
+                        break
+                    if dc.tag not in vlm_tag_set:
+                        recommendations.append(dc)
+                        vlm_tag_set.add(dc.tag)
+                        added += 1
+
+            # Dual-source agreement boost for VLM tags also seen in embedding
+            for r in recommendations:
+                if r.source == "vlm_json" and r.tag in desc_tag_set:
+                    r.confidence = safe_confidence(min(r.confidence + 0.10, 1.0))
+                    r.reason = (r.reason or "") + " (+desc agreement)"
+
             # Stage 4: Semantic search (if available and needed)
             recommendations = await self._search_semantic(mapped_keywords, recommendations, top_k)
 
