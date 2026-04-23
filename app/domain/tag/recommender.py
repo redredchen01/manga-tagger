@@ -86,10 +86,12 @@ class TagRecommenderService:
             vlm_json_tags = vlm_analysis.get("tags", []) if isinstance(vlm_analysis, dict) else []
             mapped_keywords: List[str] = []
             vlm_is_valid = True
+            used_vlm_json_path = False
 
             if vlm_json_tags and isinstance(vlm_json_tags, list) and any(
                 isinstance(t, dict) and t.get("tag") for t in vlm_json_tags
             ):
+                used_vlm_json_path = True
                 # New path: use the tag names from the JSON contract directly
                 logger.info(f"VLM JSON path: {len(vlm_json_tags)} tags from contract")
                 for t in vlm_json_tags:
@@ -140,8 +142,16 @@ class TagRecommenderService:
                 recommendations, top_k, confidence_threshold
             )
 
-            # Stage 8: LLM refinement (if enabled)
-            if settings.USE_LM_STUDIO and not settings.USE_MOCK_SERVICES:
+            # Stage 8: LLM refinement — Phase 1: skipped when VLM JSON path
+            # was authoritative. Spec §3.4 + §3.7 treat VLM JSON as the truth;
+            # re-synthesizing through an LLM was (a) the root of hedge-style
+            # contamination re-entering results and (b) a 400-error vector
+            # for qwen3.6 on the legacy synthesis prompt.
+            if (
+                not used_vlm_json_path
+                and settings.USE_LM_STUDIO
+                and not settings.USE_MOCK_SERVICES
+            ):
                 recommendations = await self._refine_with_llm(
                     recommendations, vlm_analysis, rag_matches, top_k
                 )
