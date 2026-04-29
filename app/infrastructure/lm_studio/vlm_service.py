@@ -14,7 +14,7 @@ from app.core.cache import cache_manager
 from app.core.config import settings
 from app.core.metrics import CACHE_HITS, CACHE_MISSES, VLM_LATENCY, VLM_REQUEST_COUNT
 from app.core.http_client import get_http_client
-from app.domain.prompts import get_structured_prompt
+from app.domain.prompts import get_stage1_description_prompt, get_structured_prompt
 from app.domain.tag.parser import (
     get_fallback_metadata,
     get_mock_metadata,
@@ -186,7 +186,6 @@ class LMStudioVLMService:
             prepared = self._prepare_image(image_bytes)
             b64 = self._encode_image_to_base64(prepared)
 
-            from app.domain.prompts import get_stage1_description_prompt
             prompt = get_stage1_description_prompt()
 
             payload = {
@@ -200,7 +199,7 @@ class LMStudioVLMService:
                         ],
                     }
                 ],
-                "max_tokens": 1024,
+                "max_tokens": self.max_tokens,
                 "temperature": self.temperature,
                 "stream": False,
             }
