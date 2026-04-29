@@ -67,11 +67,10 @@ class TagRecommenderService:
         This is the main entry point that orchestrates the multi-stage pipeline:
         1. Extract and validate VLM keywords
         2. Match keywords to tag library
-        3. Search semantic similarity
-        4. Extract RAG tags
-        5. Add VLM categorized tags
-        6. Verify sensitive tags and calibrate
-        7. Optionally refine with LLM
+        3. Extract RAG tags
+        4. Add VLM categorized tags
+        5. Verify sensitive tags and calibrate
+        6. Optionally refine with LLM
         """
         start_time = time.time()
         status = "success"
