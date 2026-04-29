@@ -194,3 +194,48 @@ def get_structured_prompt(allowed_list_fragment: str) -> str:
 /no_think
 
 Response:"""
+
+
+def get_stage1_description_prompt() -> str:
+    """Stage 1: image → rich Chinese description. No tag list included."""
+    return """你是漫畫圖像分析師。仔細觀察圖像，用中文寫出詳細描述。
+
+請涵蓋以下六個面向（若有）：
+1. 角色：外觀年齡、性別、物種/類型（例如：蘿莉、貓娘、人妻）
+2. 服裝：具體衣物（例如：女生制服、比基尼、女僕裝）
+3. 身體特徵：髮型、髮色、胸部大小、特殊特徵（例如：獸耳、翅膀）
+4. 動作與互動：姿勢、動作、是否有性行為（如有請如實描述）
+5. 藝術風格：黑白/彩色、草圖/完稿
+6. 主題與氛圍：例如純愛、NTR、恐怖、奇幻
+
+只描述你明確看到的。不要猜測。3–6 句話。
+
+/no_think"""
+
+
+def get_stage2_tag_selection_prompt(description: str, allowed_fragment: str) -> str:
+    """Stage 2: description + allowed list → strict JSON tag selection.
+
+    Args:
+        description: plain text output from Stage 1
+        allowed_fragment: compact tag list from build_compact_prompt_fragment()
+    """
+    return f"""根據以下圖像描述，從允許標籤列表中選出所有適用標籤。
+
+圖像描述：
+{description}
+
+允許的標籤：
+{allowed_fragment}
+
+規則：
+1. 只能選允許列表中存在的標籤，不可創造新標籤
+2. confidence < 0.6 的標籤不要列出
+3. 同一標籤不要重複列出
+4. 只輸出 JSON 物件，不要任何其他文字
+
+/no_think
+
+{{"tags": [
+  {{"tag": "<允許列表中的標籤名>", "confidence": 0.0-1.0, "evidence": "<簡短視覺證據>"}}
+]}}"""
