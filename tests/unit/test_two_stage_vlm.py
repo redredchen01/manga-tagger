@@ -89,3 +89,59 @@ async def test_extract_description_returns_empty_when_choices_empty(monkeypatch)
 
     result = await service._extract_description(b"fake-image-bytes")
     assert result == ""
+
+
+@pytest.mark.asyncio
+async def test_select_tags_parses_valid_json(monkeypatch):
+    """_select_tags_from_description returns parsed tags list."""
+    service = LMStudioVLMService()
+
+    json_body = '{"tags": [{"tag": "貓娘", "confidence": 0.9, "evidence": "貓耳"}]}'
+    mock_client = AsyncMock()
+    mock_client.post = AsyncMock(return_value=_http_response(json_body))
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.get_http_client",
+        AsyncMock(return_value=mock_client),
+    )
+
+    tags = await service._select_tags_from_description(
+        "一個有貓耳的少女。", "### 角色\n貓娘, 蘿莉"
+    )
+    assert len(tags) == 1
+    assert tags[0]["tag"] == "貓娘"
+    assert tags[0]["confidence"] == 0.9
+
+
+@pytest.mark.asyncio
+async def test_select_tags_returns_empty_on_http_error(monkeypatch):
+    """_select_tags_from_description returns [] when HTTP raises."""
+    service = LMStudioVLMService()
+
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.get_http_client",
+        AsyncMock(side_effect=Exception("network error")),
+    )
+
+    tags = await service._select_tags_from_description("desc", "fragment")
+    assert tags == []
+
+
+@pytest.mark.asyncio
+async def test_select_tags_retries_once_on_parse_failure(monkeypatch):
+    """_select_tags_from_description retries once when first response is not valid JSON."""
+    service = LMStudioVLMService()
+
+    valid_json = '{"tags": [{"tag": "雙馬尾", "confidence": 0.85, "evidence": "clearly visible"}]}'
+    mock_client = AsyncMock()
+    mock_client.post = AsyncMock(side_effect=[
+        _http_response("Sorry I cannot answer that."),  # first call: garbage
+        _http_response(valid_json),                      # retry: valid JSON
+    ])
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.get_http_client",
+        AsyncMock(return_value=mock_client),
+    )
+
+    tags = await service._select_tags_from_description("雙馬尾少女", "### 身體特徵\n雙馬尾")
+    assert any(t["tag"] == "雙馬尾" for t in tags)
+    assert mock_client.post.call_count == 2

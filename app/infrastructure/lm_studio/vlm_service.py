@@ -14,7 +14,11 @@ from app.core.cache import cache_manager
 from app.core.config import settings
 from app.core.metrics import CACHE_HITS, CACHE_MISSES, VLM_LATENCY, VLM_REQUEST_COUNT
 from app.core.http_client import get_http_client
-from app.domain.prompts import get_stage1_description_prompt, get_structured_prompt
+from app.domain.prompts import (
+    get_stage1_description_prompt,
+    get_stage2_tag_selection_prompt,
+    get_structured_prompt,
+)
 from app.domain.tag.parser import (
     get_fallback_metadata,
     get_mock_metadata,
@@ -225,6 +229,69 @@ class LMStudioVLMService:
         except Exception as e:
             logger.warning("Stage 1 description extraction failed: %s: %s", type(e).__name__, e)
             return ""
+
+    async def _select_tags_from_description(
+        self, description: str, allowed_fragment: str
+    ) -> list[dict]:
+        """Stage 2: text-only description → tags list. Returns [] on failure.
+
+        Uses temperature=0 for deterministic selection. Retries once if the
+        first response cannot be parsed as JSON.
+        """
+        try:
+            prompt = get_stage2_tag_selection_prompt(description, allowed_fragment)
+
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            }
+            payload = {
+                "model": self.model,
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 1024,
+                "temperature": 0.0,
+                "stream": False,
+            }
+
+            client = await get_http_client()
+            resp = await client.post(
+                f"{self.base_url}/chat/completions", headers=headers, json=payload
+            )
+            resp.raise_for_status()
+            data = resp.json()
+
+            if not data.get("choices"):
+                return []
+
+            msg = data["choices"][0]["message"]
+            content = msg.get("content", "") or msg.get("reasoning_content", "")
+            parsed = parse_vlm_json(content)
+            if parsed is not None:
+                return parsed.get("tags", [])
+
+            # Retry once with stricter reminder
+            logger.warning("Stage 2 JSON parse failed; retrying with stricter prompt")
+            payload["messages"][0]["content"] += (
+                "\n\nIMPORTANT: Output ONLY the JSON object. Start with { and end with }. No prose."
+            )
+            resp2 = await client.post(
+                f"{self.base_url}/chat/completions", headers=headers, json=payload
+            )
+            resp2.raise_for_status()
+            data2 = resp2.json()
+            if data2.get("choices"):
+                msg2 = data2["choices"][0]["message"]
+                content2 = msg2.get("content", "") or msg2.get("reasoning_content", "")
+                parsed2 = parse_vlm_json(content2)
+                if parsed2 is not None:
+                    return parsed2.get("tags", [])
+
+            logger.error("Stage 2 tag selection failed after retry; returning []")
+            return []
+
+        except Exception as e:
+            logger.warning("Stage 2 tag selection failed: %s: %s", type(e).__name__, e)
+            return []
 
     async def extract_metadata(self, image_bytes: bytes) -> Dict[str, Any]:
         """
