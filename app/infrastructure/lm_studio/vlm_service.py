@@ -248,7 +248,7 @@ class LMStudioVLMService:
             payload = {
                 "model": self.model,
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 1024,
+                "max_tokens": self.max_tokens,
                 "temperature": 0.0,
                 "stream": False,
             }

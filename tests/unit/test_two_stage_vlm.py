@@ -145,3 +145,22 @@ async def test_select_tags_retries_once_on_parse_failure(monkeypatch):
     tags = await service._select_tags_from_description("雙馬尾少女", "### 身體特徵\n雙馬尾")
     assert any(t["tag"] == "雙馬尾" for t in tags)
     assert mock_client.post.call_count == 2
+
+
+@pytest.mark.asyncio
+async def test_select_tags_returns_empty_when_choices_empty(monkeypatch):
+    """_select_tags_from_description returns [] when model returns empty choices."""
+    service = LMStudioVLMService()
+
+    resp = MagicMock()
+    resp.raise_for_status = MagicMock()
+    resp.json = MagicMock(return_value={"choices": []})
+    mock_client = AsyncMock()
+    mock_client.post = AsyncMock(return_value=resp)
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.get_http_client",
+        AsyncMock(return_value=mock_client),
+    )
+
+    tags = await service._select_tags_from_description("desc", "fragment")
+    assert tags == []
