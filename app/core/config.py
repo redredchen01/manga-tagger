@@ -113,19 +113,7 @@ class Settings(BaseSettings):
     USE_CHINESE_EMBEDDINGS: bool = True
     CHINESE_EMBEDDING_THRESHOLD: float = 0.75
     CHINESE_EMBEDDING_TOP_K: int = 10
-    SEMANTIC_FALLBACK_TRIGGER_COUNT: int = 3  # only run semantic if VLM gave fewer than this
-    SEMANTIC_FALLBACK_MAX_ADDITIONS: int = 2  # cap how many semantic tags to add
     RAG_INFLUENCE_ENABLED: bool = False  # Phase 1: RAG library too small to trust for scoring
-
-    # Phase 1 v2: description-embedding rescue path. When VLM returns empty
-    # or under-delivered tags, rescue candidates from cosine-matching the
-    # VLM's description against the cached 611-tag matrix.
-    DESC_RESCUE_ENABLED: bool = True
-    DESC_RESCUE_TOP_K: int = 8
-    DESC_RESCUE_THRESHOLD: float = 0.60  # looser than semantic_fallback 0.75
-    DESC_RESCUE_PENALTY: float = 0.7  # confidence multiplier for description-only candidates
-    DESC_RESCUE_UNDERDELIVER_THRESHOLD: int = 3  # if VLM delivered fewer than this, rescue fills freely
-    DESC_RESCUE_MAX_ADDITIONS: int = 2  # cap rescue additions when VLM delivered >= threshold
 
     HYBRID_SEARCH_IMAGE_WEIGHT: float = 0.7
     HYBRID_SEARCH_TEXT_WEIGHT: float = 0.3
