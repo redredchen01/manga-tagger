@@ -6,11 +6,10 @@ to recommend the best tags from the 611-tag library.
 Architecture:
 1. _extract_keywords: Extract keywords from VLM analysis
 2. _match_with_library: Match keywords to tag library
-3. _search_semantic: Perform semantic search for additional tags
-4. _extract_rag_tags: Extract tags from RAG matches
-5. _add_vlm_categorized_tags: Add character/clothing tags from VLM
-6. _verify_and_calibrate: Verify sensitive tags and apply frequency calibration
-7. _refine_with_llm: Optionally refine with LLM synthesis
+3. _extract_rag_tags: Extract tags from RAG matches
+4. _add_vlm_categorized_tags: Add character/clothing tags from VLM
+5. _verify_and_calibrate: Verify sensitive tags and apply frequency calibration
+6. _refine_with_llm: Optionally refine with LLM synthesis
 """
 
 import logging
@@ -111,7 +110,7 @@ class TagRecommenderService:
                             reason=t.get("evidence", "VLM JSON tag") or "VLM JSON tag",
                         )
                     )
-                    mapped_keywords.append(name)  # used by semantic fallback only
+                    mapped_keywords.append(name)
             else:
                 # Backward compat: legacy free-form analysis (mock services / old VLM)
                 logger.warning("No VLM JSON tags; falling back to legacy keyword extraction")
@@ -122,27 +121,24 @@ class TagRecommenderService:
                 mapped_keywords = self._map_keywords_to_chinese(vlm_keywords)
                 recommendations = self._match_with_library(mapped_keywords, confidence_threshold)
 
-            # Stage 4: Semantic search (if available and needed)
-            recommendations = await self._search_semantic(mapped_keywords, recommendations, top_k)
-
-            # Stage 5: Extract tags from RAG matches
+            # Stage 4: Extract tags from RAG matches
             rag_tags = self._extract_rag_tags(rag_matches, confidence_threshold)
             if not vlm_is_valid and rag_matches:
                 confidence_threshold = max(0.3, confidence_threshold - 0.2)
 
             recommendations = self._merge_rag_tags(recommendations, rag_tags, confidence_threshold)
 
-            # Stage 6: Add VLM categorized tags
+            # Stage 5: Add VLM categorized tags
             recommendations = self._add_vlm_categorized_tags(
                 recommendations, vlm_analysis, confidence_threshold
             )
 
-            # Stage 7: Deduplicate and apply threshold
+            # Stage 6: Deduplicate and apply threshold
             recommendations = self._deduplicate_and_filter(
                 recommendations, top_k, confidence_threshold
             )
 
-            # Stage 8: LLM refinement — Phase 1: skipped when VLM JSON path
+            # Stage 7: LLM refinement — Phase 1: skipped when VLM JSON path
             # was authoritative. Spec §3.4 + §3.7 treat VLM JSON as the truth;
             # re-synthesizing through an LLM was (a) the root of hedge-style
             # contamination re-entering results and (b) a 400-error vector
@@ -156,10 +152,10 @@ class TagRecommenderService:
                     recommendations, vlm_analysis, rag_matches, top_k
                 )
 
-            # Stage 9: Add related tags if needed
+            # Stage 8: Add related tags if needed
             recommendations = self._add_related_tags(recommendations, top_k, confidence_threshold)
 
-            # Stage 10: Verify sensitive tags and apply calibration
+            # Stage 9: Verify sensitive tags and apply calibration
             recommendations = await self._verify_and_calibrate(
                 recommendations, vlm_service, image_bytes, rag_matches, vlm_analysis
             )
@@ -237,71 +233,6 @@ class TagRecommenderService:
                     )
                 )
         return recommendations
-
-    async def _search_semantic(
-        self,
-        keywords: List[str],
-        current_recs: List[TagRecommendation],
-        top_k: int,
-    ) -> List[TagRecommendation]:
-        """Perform semantic search ONLY as a fallback when VLM under-delivered.
-
-        Triggers when len(current_recs) < SEMANTIC_FALLBACK_TRIGGER_COUNT.
-        Cap additions at SEMANTIC_FALLBACK_MAX_ADDITIONS.
-        Filter results by CHINESE_EMBEDDING_THRESHOLD (0.75).
-        """
-        if settings.USE_MOCK_SERVICES:
-            return current_recs
-        if len(current_recs) >= settings.SEMANTIC_FALLBACK_TRIGGER_COUNT:
-            return current_recs
-        if len(current_recs) >= top_k:
-            return current_recs
-
-        try:
-            from app.services.chinese_embedding_service import get_chinese_embedding_service
-
-            embedding_service = get_chinese_embedding_service()
-        except (ImportError, AttributeError, RuntimeError) as e:
-            logger.warning("Semantic fallback unavailable: %s: %s", type(e).__name__, e)
-            return current_recs
-
-        if not embedding_service or not embedding_service.is_available():
-            return current_recs
-
-        logger.info("Performing semantic fallback (VLM under-delivered)")
-        # ENCAPSULATION FIX: Use hasattr instead of direct private attribute access
-        if (
-            not hasattr(embedding_service, "_tag_matrix_cache")
-            or embedding_service._tag_matrix_cache is None
-        ):
-            all_tags = self.tag_library.get_all_tags()
-            await embedding_service.cache_tag_embeddings(all_tags)
-
-        added_count = 0
-        for keyword in keywords:
-            if added_count >= settings.SEMANTIC_FALLBACK_MAX_ADDITIONS:
-                break
-            semantic_matches = await embedding_service.search_cached_tags(
-                keyword, top_k=2, threshold=settings.CHINESE_EMBEDDING_THRESHOLD
-            )
-            for s_match in semantic_matches:
-                if added_count >= settings.SEMANTIC_FALLBACK_MAX_ADDITIONS:
-                    break
-                tag_name = s_match["tag"]
-                if any(r.tag == tag_name for r in current_recs):
-                    continue
-                current_recs.append(
-                    TagRecommendation(
-                        tag=tag_name,
-                        confidence=safe_confidence(
-                            s_match["similarity"] * settings.SEMANTIC_MATCH_PENALTY
-                        ),
-                        source="semantic_fallback",
-                        reason=f"Semantic fallback for '{keyword}' (sim={s_match['similarity']:.2f})",
-                    )
-                )
-                added_count += 1
-        return current_recs
 
     def _extract_rag_tags(
         self, rag_matches: List[Dict[str, Any]], min_confidence: float
