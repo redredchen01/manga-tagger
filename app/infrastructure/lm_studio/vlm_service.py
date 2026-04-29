@@ -17,7 +17,6 @@ from app.core.http_client import get_http_client
 from app.domain.prompts import (
     get_stage1_description_prompt,
     get_stage2_tag_selection_prompt,
-    get_structured_prompt,
 )
 from app.domain.tag.parser import (
     get_fallback_metadata,
