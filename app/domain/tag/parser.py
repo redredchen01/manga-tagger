@@ -1154,6 +1154,7 @@ def get_fallback_metadata(error_message: str) -> Dict[str, Any]:
     """Return fallback metadata when analysis fails."""
     return {
         "description": f"Analysis failed: {error_message}",
+        "tags": [],
         "character_types": [],
         "clothing": [],
         "body_features": [],

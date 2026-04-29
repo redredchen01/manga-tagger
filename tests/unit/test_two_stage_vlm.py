@@ -164,3 +164,64 @@ async def test_select_tags_returns_empty_when_choices_empty(monkeypatch):
 
     tags = await service._select_tags_from_description("desc", "fragment")
     assert tags == []
+
+
+@pytest.mark.asyncio
+async def test_extract_metadata_returns_two_stage_result(monkeypatch):
+    """extract_metadata combines Stage 1 description and Stage 2 tags."""
+    service = LMStudioVLMService()
+
+    stage1_desc = "一個藍髮貓娘穿著女生制服。"
+    stage2_tags = [{"tag": "貓娘", "confidence": 0.9, "evidence": "貓耳"}]
+
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.LMStudioVLMService._extract_description",
+        AsyncMock(return_value=stage1_desc),
+    )
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.LMStudioVLMService._select_tags_from_description",
+        AsyncMock(return_value=stage2_tags),
+    )
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.cache_manager.get",
+        AsyncMock(return_value=None),
+    )
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.cache_manager.set",
+        AsyncMock(),
+    )
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.cache_manager._make_key",
+        MagicMock(return_value="test-key"),
+    )
+    monkeypatch.setattr("app.core.config.settings.USE_MOCK_SERVICES", False)
+
+    result = await service.extract_metadata(b"fake-image-bytes")
+
+    assert result["description"] == stage1_desc
+    assert result["tags"] == stage2_tags
+    assert result["source"] == "two_stage"
+
+
+@pytest.mark.asyncio
+async def test_extract_metadata_falls_back_when_stage1_empty(monkeypatch):
+    """extract_metadata returns fallback (not crash) when Stage 1 returns ''."""
+    service = LMStudioVLMService()
+
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.LMStudioVLMService._extract_description",
+        AsyncMock(return_value=""),
+    )
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.cache_manager.get",
+        AsyncMock(return_value=None),
+    )
+    monkeypatch.setattr(
+        "app.infrastructure.lm_studio.vlm_service.cache_manager._make_key",
+        MagicMock(return_value="test-key"),
+    )
+    monkeypatch.setattr("app.core.config.settings.USE_MOCK_SERVICES", False)
+
+    result = await service.extract_metadata(b"fake-image-bytes")
+    assert "description" in result
+    assert "tags" in result

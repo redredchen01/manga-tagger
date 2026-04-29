@@ -301,12 +301,10 @@ class LMStudioVLMService:
         start_time = time.time()
         status = "success"
 
-        # Check if mock mode is enabled for testing
         if settings.USE_MOCK_SERVICES:
             logger.info("Using mock VLM service for testing")
             return get_mock_metadata()
 
-        # Check cache first
         cache_key = cache_manager._make_key("vlm", image_bytes.hex())
         cached = await cache_manager.get(cache_key)
         if cached:
@@ -315,119 +313,39 @@ class LMStudioVLMService:
             return cached
         CACHE_MISSES.labels(cache_type="vlm").inc()
 
-        # Image preparation
         try:
-            prepared_image = self._prepare_image(image_bytes)
-            base64_image = self._encode_image_to_base64(prepared_image)
-        except Exception as e:
-            logger.error(f"Failed to prepare image for VLM: {e}")
-            return get_fallback_metadata(f"Image preparation failed: {e}")
+            # Stage 1: image → description
+            description = await self._extract_description(image_bytes)
+            if not description:
+                logger.warning("Stage 1 returned empty description; returning fallback")
+                return get_fallback_metadata("Stage 1: no description returned")
 
-        # Try VLM but with very short timeout
-        try:
+            # Stage 2: description → tags (text only, no image)
             from app.domain.tag.allowed_list import build_compact_prompt_fragment
             from app.domain.tag.library import get_tag_library_service
             tag_lib = get_tag_library_service()
             allowed_fragment = build_compact_prompt_fragment(tag_lib.tags)
-            prompt = get_structured_prompt(allowed_fragment)
-            messages = [
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {
-                            "type": "image_url",
-                            "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"},
-                        },
-                    ],
-                }
-            ]
+            tags = await self._select_tags_from_description(description, allowed_fragment)
 
-            headers = {
-                "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json",
+            logger.info("Two-stage VLM: Stage 2 selected %d tags", len(tags))
+
+            result = {
+                "description": description,
+                "tags": tags,
+                "source": "two_stage",
             }
-
-            payload = {
-                "model": self.model,
-                "messages": messages,
-                "max_tokens": self.max_tokens,
-                "temperature": self.temperature,
-                "stream": False,
-            }
-
-            # Short timeout - don't block server
-            client = await get_http_client()
-            response = await client.post(
-                f"{self.base_url}/chat/completions",
-                headers=headers,
-                json=payload,
-            )
-            response.raise_for_status()
-            result = response.json()
-
-            if "choices" in result and len(result["choices"]) > 0:
-                message = result["choices"][0]["message"]
-                content = message.get("content", "")
-                reasoning = message.get("reasoning_content", "")
-                # GLM-class models put analysis in reasoning_content if content is empty
-                effective_content = content if content else reasoning
-
-                parsed = parse_vlm_json(effective_content) if effective_content else None
-                if parsed is not None:
-                    logger.info(f"VLM succeeded: {len(parsed['tags'])} tags from JSON")
-                    parsed["source"] = "vlm_json"
-                    await cache_manager.set(cache_key, parsed)
-                    return parsed
-
-                # Parse failed — retry once with temperature=0.0 and a stricter system reminder
-                logger.warning("VLM JSON parse failed; retrying once with temperature=0.0")
-                payload["temperature"] = 0.0
-                payload["messages"][0]["content"][0]["text"] += (
-                    "\n\nIMPORTANT: previous attempt did not return valid JSON. "
-                    "Output ONLY the JSON object, starting with { and ending with }. "
-                    "No prose, no markdown."
-                )
-                response2 = await client.post(
-                    f"{self.base_url}/chat/completions",
-                    headers=headers,
-                    json=payload,
-                )
-                response2.raise_for_status()
-                result2 = response2.json()
-                if "choices" in result2 and result2["choices"]:
-                    msg2 = result2["choices"][0]["message"]
-                    content2 = msg2.get("content", "") or msg2.get("reasoning_content", "")
-                    parsed2 = parse_vlm_json(content2)
-                    if parsed2 is not None:
-                        logger.info(f"VLM retry succeeded: {len(parsed2['tags'])} tags")
-                        parsed2["source"] = "vlm_json_retry"
-                        await cache_manager.set(cache_key, parsed2)
-                        return parsed2
-
-                logger.error("VLM JSON parse failed after retry; returning empty result")
-                return {
-                    "description": "",
-                    "tags": [],
-                    "source": "vlm_parse_fail",
-                    "error": "VLM_PARSE_FAIL",
-                }
+            await cache_manager.set(cache_key, result)
+            return result
 
         except Exception as e:
-            logger.warning(f"VLM call failed ({type(e).__name__}): {e}")
+            logger.warning("Two-stage VLM pipeline failed: %s: %s", type(e).__name__, e)
             status = "error"
-            # Return fallback - RAG will handle tagging
-            logger.info("VLM unavailable, returning fallback. RAG will provide tags.")
-            return get_fallback_metadata("VLM unavailable - using RAG fallback")
+            return get_fallback_metadata(f"VLM pipeline failed: {e}")
 
         finally:
-            # Record metrics
             duration = time.time() - start_time
             VLM_REQUEST_COUNT.labels(status=status).inc()
             VLM_LATENCY.observe(duration)
-
-        # This should not be reached but satisfies type checker
-        return get_fallback_metadata("VLM returned empty response")
 
     def _normalize_sensitive_tag(self, tag: str) -> str:
         """Normalize localized tags to canonical English identifiers."""
