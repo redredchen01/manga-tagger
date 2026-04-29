@@ -49,7 +49,6 @@ async def test_llm_refine_skipped_when_vlm_json_path(monkeypatch):
     monkeypatch.setattr("app.core.config.settings.USE_LM_STUDIO", True)
     monkeypatch.setattr("app.core.config.settings.USE_MOCK_SERVICES", False)
 
-    service._search_semantic = AsyncMock(side_effect=lambda kws, recs, k: recs)
     service._refine_with_llm = AsyncMock(side_effect=lambda recs, *a, **kw: [])
     service._verify_and_calibrate = AsyncMock(side_effect=lambda recs, *a, **kw: recs)
 
@@ -82,7 +81,6 @@ async def test_llm_refine_still_runs_on_legacy_path(monkeypatch):
     monkeypatch.setattr("app.core.config.settings.USE_LM_STUDIO", True)
     monkeypatch.setattr("app.core.config.settings.USE_MOCK_SERVICES", False)
 
-    service._search_semantic = AsyncMock(side_effect=lambda kws, recs, k: recs)
     service._refine_with_llm = AsyncMock(side_effect=lambda recs, *a, **kw: recs)
     service._verify_and_calibrate = AsyncMock(side_effect=lambda recs, *a, **kw: recs)
 

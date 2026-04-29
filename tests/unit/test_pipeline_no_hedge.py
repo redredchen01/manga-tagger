@@ -55,7 +55,6 @@ async def test_hedge_strings_never_become_tags():
         service = TagRecommenderService()
 
     # Patch private methods that hit external services so this is a unit test
-    service._search_semantic = AsyncMock(side_effect=lambda kws, recs, k: recs)
     service._refine_with_llm = AsyncMock(side_effect=lambda recs, *a, **kw: recs)
     service._verify_and_calibrate = AsyncMock(side_effect=lambda recs, *a, **kw: recs)
 
